@@ -1,5 +1,5 @@
 export default class Game {
-  public word: any;
+  public currentWord: any;
 
   private indexesArray: number[];
 
@@ -12,6 +12,7 @@ export default class Game {
       const randomIndex = Math.floor(Math.random() * this.indexesArray.length);
       const wordIndex = this.indexesArray[randomIndex];
       const gamingWord = this.wordsList[wordIndex];
+      this.currentWord = gamingWord;
       this.indexesArray.splice(randomIndex, 1);
       return gamingWord;
     }

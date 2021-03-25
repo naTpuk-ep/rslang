@@ -4,7 +4,7 @@ import Game from "../../Game";
 
 const Knoword: FC = () => {
   const url = "https://rnovikov-rs-lang-back.herokuapp.com";
-  const [game, setGame] = useState<Game | undefined>(); // any will be word interface
+  const [game, setGame] = useState<Game | undefined>(); // "any" will be the word interface
   const [gamingWord, setGamingWord] = useState<any | undefined>();
 
   useEffect(() => {
