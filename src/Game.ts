@@ -14,7 +14,6 @@ export default class Game {
       const gamingWord = this.wordsList[wordIndex];
       this.currentWord = gamingWord;
       this.indexesArray.splice(randomIndex, 1);
-      console.log(this.indexesArray);
 
       return gamingWord;
     }

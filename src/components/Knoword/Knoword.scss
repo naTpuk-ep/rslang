@@ -1,7 +1,9 @@
-.wrong {
-  color: red;
-}
+.knoword {
+  & .wrong {
+    color: red;
+  }
 
-.correct {
-  color: green;
+  & .correct {
+    color: green;
+  }
 }
