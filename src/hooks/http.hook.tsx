@@ -5,7 +5,7 @@ import { useState, useCallback } from "react";
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const useHttp = () => {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState([]);
+  const [errors, setErrors] = useState<string>("");
 
   const request = useCallback(
     async (url: string, method = "GET", body = null, headers = {}) => {
@@ -22,18 +22,18 @@ const useHttp = () => {
 
         setLoading(false);
         return data;
-      } catch (e) {
+      } catch (error) {
         setLoading(false);
-        setError(e.message);
-        throw e;
+        if (error.response.data) setErrors(JSON.stringify(error.response.data));
+        throw error;
       }
     },
     []
   );
 
-  const clearError = useCallback(() => setError([]), []);
+  const clearError = useCallback(() => setErrors(""), []);
 
-  return { loading, error, request, clearError };
+  return { loading, errors, request, clearError };
 };
 
 export default useHttp;

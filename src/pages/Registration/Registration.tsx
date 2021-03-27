@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -8,6 +8,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import useAuthentication from "../../hooks/authentication.hook";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -21,16 +22,25 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: "100%", // Fix IE 11 issue.
+    width: "100%",
     marginTop: theme.spacing(3),
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  errorText: {
+    color: "#f44336",
+  },
 }));
 
 const Registration: React.FunctionComponent = () => {
   const classes = useStyles();
+  const {
+    signUpHandler,
+    changeHandler,
+    getError,
+    // loading,
+  } = useAuthentication();
 
   return (
     <Container component="main" maxWidth="xs">
@@ -42,29 +52,20 @@ const Registration: React.FunctionComponent = () => {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate onSubmit={signUpHandler}>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                autoComplete="fname"
-                name="firstName"
-                variant="outlined"
-                required
-                fullWidth
-                id="firstName"
-                label="First Name"
-                autoFocus
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12}>
               <TextField
                 variant="outlined"
                 required
                 fullWidth
-                id="lastName"
-                label="Last Name"
-                name="lastName"
-                autoComplete="lname"
+                id="name"
+                label="Name"
+                name="name"
+                autoComplete="name"
+                onChange={changeHandler}
+                error={!!getError("name") || !!getError()}
+                helperText={getError("name")}
               />
             </Grid>
             <Grid item xs={12}>
@@ -76,6 +77,9 @@ const Registration: React.FunctionComponent = () => {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
+                onChange={changeHandler}
+                error={!!getError("email") || !!getError()}
+                helperText={getError("email")}
               />
             </Grid>
             <Grid item xs={12}>
@@ -88,7 +92,19 @@ const Registration: React.FunctionComponent = () => {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                onChange={changeHandler}
+                error={!!getError("password") || !!getError()}
+                helperText={getError("password")}
               />
+            </Grid>
+            <Grid item xs={12}>
+              <Typography
+                variant="body2"
+                gutterBottom
+                className={classes.errorText}
+              >
+                {getError()}
+              </Typography>
             </Grid>
           </Grid>
           <Button
@@ -98,7 +114,7 @@ const Registration: React.FunctionComponent = () => {
             color="primary"
             className={classes.submit}
           >
-            Sign Up
+            Sign up
           </Button>
           <Grid container justify="flex-end">
             <Grid item>{/* TODO:LINK TO LOGIN */}</Grid>
@@ -108,4 +124,5 @@ const Registration: React.FunctionComponent = () => {
     </Container>
   );
 };
+
 export default Registration;
