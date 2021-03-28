@@ -1,0 +1,55 @@
+body {
+  margin: 0;
+}
+.animation {
+  animation: moveword 3s infinite;
+  animation-timing-function: linear;
+}
+
+@keyframes moveword {
+  0% {
+    top: 2%;
+  }
+  100% {
+    top: 40%;
+  }
+}
+.game-field {
+  width: 100vw;
+  height: 100vh;
+  background: url("../../assets/savannah-background.jpg") no-repeat center
+    center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+
+  &--guess-word {
+    padding: 10px 25px;
+    font-size: 26px;
+    background: rgb(255, 115, 0);
+    position: absolute;
+    top: 2%;
+  }
+
+  &--buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    column-gap: 10px;
+    row-gap: 10px;
+
+    &-button {
+      font-size: 24px;
+      padding: 10px 25px;
+      background-color: blanchedalmond;
+      border-radius: 5px;
+      border: solid 1px black;
+    }
+  }
+}
