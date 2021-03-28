@@ -1,8 +1,13 @@
 import React from "react";
+import GameSavannah from "../pages/GameSavannah";
 import "./App.scss";
 
 const App: React.FunctionComponent = () => {
-  return <></>;
+  return (
+    <>
+      <GameSavannah />
+    </>
+  );
 };
 
 export default App;
