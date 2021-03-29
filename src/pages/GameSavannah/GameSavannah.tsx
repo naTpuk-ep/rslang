@@ -7,6 +7,10 @@ const GameSavannah: React.FunctionComponent = () => {
   const [guessWord, setGuessWord] = useState(words[0]);
   const [animated, setAnimated] = useState(nanoid());
 
+  useEffect(() => {
+
+  }, []);
+
   return (
     <div className="game-field">
       <div className="game-field--buttons">
