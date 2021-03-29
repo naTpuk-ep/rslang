@@ -11,6 +11,7 @@ interface IWordData {
   transcription: string;
   textExampleTranslate: string;
   textMeaningTranslate: string;
+  wordTranslate: string;
   id: string;
 }
 
