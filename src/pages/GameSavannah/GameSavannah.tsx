@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Countdown from "react-countdown";
 import { nanoid } from "nanoid";
 import "./GameSavannah.scss";
+import { GlobalHotKeys, HotKeys } from "react-hotkeys";
 import IWordData from "../../models/word-model";
 import crystal from "../../assets/savannah-crystal.png";
 import heart from "../../assets/heart.png";
@@ -60,6 +61,7 @@ const GameSavannah: React.FunctionComponent<IGameSavannahParams> = (
       setIndex(index + 1);
     } else {
       setAttempts(attempts - 1);
+      setIndex(index + 1);
     }
   };
   const countdownCompleteHandler = () => {
@@ -109,17 +111,28 @@ const GameSavannah: React.FunctionComponent<IGameSavannahParams> = (
               <div className="game-container--buttons">
                 {options.map((option, id) => {
                   return (
-                    <button
+                    <GlobalHotKeys
                       key={nanoid()}
-                      type="button"
-                      className="game-container--buttons-button"
-                      onClick={(e) => {
-                        guessClickHandler(option);
-                        e.currentTarget.blur();
+                      keyMap={{
+                        GUESS: ["1", "2", "3", "4"],
+                      }}
+                      handlers={{
+                        GUESS: (e) => {
+                          guessClickHandler(options[Number(e?.key) - 1]);
+                        },
                       }}
                     >
-                      {`${id + 1} ${option.wordTranslate}`}
-                    </button>
+                      <button
+                        type="button"
+                        className="game-container--buttons-button"
+                        onClick={(e) => {
+                          guessClickHandler(option);
+                          e.currentTarget.blur();
+                        }}
+                      >
+                        {`${id + 1} ${option.wordTranslate}`}
+                      </button>
+                    </GlobalHotKeys>
                   );
                 })}
               </div>
