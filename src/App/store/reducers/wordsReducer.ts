@@ -1,7 +1,7 @@
 import { PayloadAction } from "@reduxjs/toolkit";
 import IWordData from "../../../models/word-model";
 
-const SET_REPOS = "SET_WORDS";
+const SET_WORDS = "SET_WORDS";
 
 interface WordsState {
   words: IWordData[];
@@ -18,7 +18,7 @@ const wordsReducer = (
   action: PayloadAction<IWordData[]>
 ): WordsState => {
   switch (action.type) {
-    case SET_REPOS:
+    case SET_WORDS:
       return {
         ...state,
         words: action.payload,
@@ -28,6 +28,11 @@ const wordsReducer = (
   }
 };
 
-const setRepos = (repos: any) => ({ type: SET_REPOS, payload: repos });
+const setWords = (
+  words: IWordData[]
+): {
+  type: string;
+  payload: IWordData[];
+} => ({ type: SET_WORDS, payload: words });
 
-export { wordsReducer, setRepos };
+export { wordsReducer, setWords };
