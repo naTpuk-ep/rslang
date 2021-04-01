@@ -22,21 +22,20 @@ const Knoword: FC = () => {
     (string: string) => string.trim().toLowerCase(),
     []
   );
-  console.log(currentWord.word);
+  const getWordsList = useCallback(async () => {
+    const { data } = await axios.get(`${url}/words/group/1?count=20`);
+    setGame(new Game(data));
+  }, []);
+
+  useEffect(() => {
+    getWordsList();
+  }, [getWordsList]);
 
   useEffect(() => {
     if (game) {
       setCurrentWord(game.nextWord());
     }
   }, [game]);
-
-  useEffect(() => {
-    const getWordsList = async () => {
-      const { data } = await axios.get(`${url}/words/group/1`);
-      setGame(new Game(data));
-    };
-    getWordsList();
-  }, []);
 
   const changeHandler = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {

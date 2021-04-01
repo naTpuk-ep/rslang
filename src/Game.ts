@@ -1,22 +1,15 @@
 export default class Game {
   public currentWord: any;
 
-  private indexesArray: number[];
+  private index: number;
 
   constructor(public wordsList: any[]) {
-    this.indexesArray = this.wordsList.map((_w, i) => i);
+    this.index = 0;
   }
 
   nextWord(): any {
-    if (this.indexesArray.length) {
-      const randomIndex = Math.floor(Math.random() * this.indexesArray.length);
-      const wordIndex = this.indexesArray[randomIndex];
-      const gamingWord = this.wordsList[wordIndex];
-      this.currentWord = gamingWord;
-      this.indexesArray.splice(randomIndex, 1);
-
-      return gamingWord;
-    }
-    return undefined;
+    const nextWord = this.wordsList[this.index];
+    this.index += 1;
+    return nextWord;
   }
 }
