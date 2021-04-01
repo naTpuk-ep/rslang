@@ -32,6 +32,7 @@ const WordsCategories: React.FunctionComponent<IWordsCategoriesProps> = (
 ) => {
   const classes = useStyles();
   const { count } = props;
+
   return (
     <div className={classes.root}>
       <Grid container spacing={3}>
@@ -56,7 +57,7 @@ const WordsCategories: React.FunctionComponent<IWordsCategoriesProps> = (
           );
         })}
       </Grid>
-      <WordsList groupId={1} />
+      <WordsList groupId={0} />
     </div>
   );
 };
