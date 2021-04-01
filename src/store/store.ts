@@ -1,11 +1,7 @@
-import { combineReducers, createStore, applyMiddleware } from "redux";
+import { createStore, applyMiddleware } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from "redux-thunk";
-import { wordsReducer } from "./reducers/wordsReducer";
-
-const rootReducer = combineReducers({
-  repos: wordsReducer,
-});
+import { rootReducer } from "./reducers";
 
 const store = createStore(
   rootReducer,
