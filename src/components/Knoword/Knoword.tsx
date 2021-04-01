@@ -6,7 +6,6 @@ import React, {
   useCallback,
   useEffect,
   useMemo,
-  useRef,
   useState,
 } from "react";
 import Game from "../../Game";
@@ -17,39 +16,51 @@ const Knoword: FC = () => {
   const [game, setGame] = useState<Game | undefined>();
   const [currentWord, setCurrentWord] = useState<any | undefined>(); // "any" will be the word interface
   const [inputValue, setInputValue] = useState("");
-  const isCorrect = useRef(false);
-  const summarize = useCallback(
-    (string: string) => string.trim().toLowerCase(),
-    []
-  );
+  const [timer, setTimer] = useState<number | undefined>();
+  const numberOfSeconds = useMemo(() => 15, []);
+
   const getWordsList = useCallback(async () => {
     const { data } = await axios.get(`${url}/words/group/1?count=20`);
     setGame(new Game(data));
   }, []);
+
+  const setNext = useCallback(() => {
+    setCurrentWord(game?.nextWord());
+    setInputValue("");
+    setTimer(numberOfSeconds);
+  }, [game, numberOfSeconds]);
 
   useEffect(() => {
     getWordsList();
   }, [getWordsList]);
 
   useEffect(() => {
-    if (game) {
-      setCurrentWord(game.nextWord());
+    setNext();
+  }, [setNext]);
+
+  useEffect(() => {
+    let timeOut: NodeJS.Timeout;
+    if (timer) {
+      timeOut = setTimeout(() => {
+        if (timer === 1) {
+          setNext();
+        } else {
+          setTimer(timer - 1);
+        }
+      }, 1000);
     }
-  }, [game]);
+    return () => clearTimeout(timeOut);
+  }, [timer, setNext]);
 
   const changeHandler = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       const { value } = e.target;
       setInputValue(value);
-      isCorrect.current = summarize(currentWord.word).startsWith(
-        summarize(value)
-      );
-      if (summarize(value) === summarize(currentWord.word)) {
-        setCurrentWord(game?.nextWord());
-        setInputValue("");
+      if (game?.isCorrect(value)) {
+        setNext();
       }
     },
-    [currentWord, game, summarize]
+    [game, setNext]
   );
 
   const separateText = useMemo(
@@ -59,17 +70,29 @@ const Knoword: FC = () => {
 
   return currentWord ? (
     <div className="knoword">
+      <h2>{timer}</h2>
       <h3>
         {separateText[0]}{" "}
         <input
-          className={!inputValue ? "" : isCorrect.current ? "correct" : "wrong"}
+          className={
+            !inputValue
+              ? ""
+              : game?.startsWith(inputValue)
+              ? "correct"
+              : "wrong"
+          }
           type="text"
           onChange={changeHandler}
           value={inputValue}
         />
         {separateText[1]}
       </h3>
+      <button type="button" onClick={() => setNext()}>
+        next
+      </button>
     </div>
+  ) : game?.isFinish ? (
+    <h3>FINISH</h3>
   ) : (
     <h3>Loading...</h3>
   );
