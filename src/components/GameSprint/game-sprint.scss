@@ -1,0 +1,19 @@
+.game-sprint {
+  width: 1000px;
+  height: 600px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background: no-repeat center url("../../assets/images/sprint-background.jpg");
+  background-size: cover;
+  margin: 0 auto;
+  border: 1px solid black;
+  position: relative;
+}
+
+.game-sprint-time {
+  position: absolute;
+  right: 25%;
+  top: 30%;
+}
