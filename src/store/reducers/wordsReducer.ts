@@ -6,6 +6,7 @@ import {
 
 const defaultState: WordsState = {
   words: [],
+  page: 0,
   error: null,
   isFetching: true,
 };
@@ -16,11 +17,18 @@ const wordsReducer = (
 ): WordsState => {
   switch (action.type) {
     case WordsActionTypes.FETCH_WORDS:
-      return { isFetching: true, error: null, words: [] };
+      return { ...state, isFetching: true, error: null, words: [] };
     case WordsActionTypes.FETCH_WORDS_SUCCESS:
-      return { isFetching: false, error: null, words: action.payload };
+      return {
+        ...state,
+        isFetching: false,
+        error: null,
+        words: action.payload,
+      };
     case WordsActionTypes.FETCH_WORDS_ERROR:
-      return { isFetching: false, error: action.payload, words: [] };
+      return { ...state, isFetching: false, error: action.payload, words: [] };
+    case WordsActionTypes.SET_WORDS_PAGE:
+      return { ...state, isFetching: false, page: action.payload };
     default:
       return state;
   }
