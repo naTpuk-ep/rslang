@@ -9,10 +9,10 @@ import {
   CardContent,
   Typography,
 } from "@material-ui/core";
-import React from "react";
 import "./WordsCategories.scss";
 import { nanoid } from "nanoid";
 import { connect } from "react-redux";
+import React, { useState } from "react";
 import WordsList from "../WordsList";
 
 const useStyles = makeStyles(() =>
@@ -33,6 +33,8 @@ const WordsCategories: React.FunctionComponent<IWordsCategoriesProps> = (
   const classes = useStyles();
   const { count } = props;
 
+  const [unit, setUnit] = useState(0);
+
   return (
     <div className={classes.root}>
       <Grid container spacing={3}>
@@ -48,8 +50,14 @@ const WordsCategories: React.FunctionComponent<IWordsCategoriesProps> = (
                   </CardContent>
                 </CardActionArea>
                 <CardActions>
-                  <Button size="small" color="primary">
-                    Изучать
+                  <Button
+                    size="small"
+                    color="primary"
+                    onClick={() => {
+                      setUnit(i);
+                    }}
+                  >
+                    К разделу
                   </Button>
                 </CardActions>
               </Card>
@@ -57,7 +65,7 @@ const WordsCategories: React.FunctionComponent<IWordsCategoriesProps> = (
           );
         })}
       </Grid>
-      <WordsList groupId={0} />
+      <WordsList groupId={unit} />
     </div>
   );
 };
