@@ -6,6 +6,9 @@ import {
   UserWordsActionTypes,
 } from "../../types/userWords-types";
 
+const token =
+  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwNWQ4MjY5NDYwNTEyMjk5NDdlNGViMyIsImlhdCI6MTYxNzM1NDE2NSwiZXhwIjoxNjE3MzY4NTY1fQ.5HZLqNm5e8MA9zNy7qqs002o-e1bVcEE2b3WsuJ7980";
+
 const agregateUserWords = (
   group = 0,
   page = 0,
@@ -19,8 +22,7 @@ const agregateUserWords = (
         `http://localhost:3000/users/605d826946051229947e4eb3/aggregatedWords`,
         {
           headers: {
-            authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwNWQ4MjY5NDYwNTEyMjk5NDdlNGViMyIsImlhdCI6MTYxNzMzOTU4OCwiZXhwIjoxNjE3MzUzOTg4fQ.1zos23SecIYzwdlEPAzgAS8F5Et-034bFkvvlrXdYUo",
+            authorization: token,
           },
           params: { group, page, wordsPerPage: 20, filter, book },
         }
@@ -49,8 +51,7 @@ const fetchPages = (group = 0) => {
         `http://localhost:3000/users/605d826946051229947e4eb3/aggregatedWords/group`,
         {
           headers: {
-            authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwNWQ4MjY5NDYwNTEyMjk5NDdlNGViMyIsImlhdCI6MTYxNzMzOTU4OCwiZXhwIjoxNjE3MzUzOTg4fQ.1zos23SecIYzwdlEPAzgAS8F5Et-034bFkvvlrXdYUo",
+            authorization: token,
           },
           params: { group },
         }
@@ -82,8 +83,7 @@ const createUserWord = (
         data,
         {
           headers: {
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwNWQ4MjY5NDYwNTEyMjk5NDdlNGViMyIsImlhdCI6MTYxNzMzOTU4OCwiZXhwIjoxNjE3MzUzOTg4fQ.1zos23SecIYzwdlEPAzgAS8F5Et-034bFkvvlrXdYUo",
+            authorization: token,
           },
         }
       );
