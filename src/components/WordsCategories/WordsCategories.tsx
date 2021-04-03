@@ -14,7 +14,6 @@ import { nanoid } from "nanoid";
 import { connect } from "react-redux";
 import React from "react";
 import { Link } from "react-router-dom";
-import { BOOK } from "../../constants/routes";
 
 const useStyles = makeStyles(() =>
   createStyles({
