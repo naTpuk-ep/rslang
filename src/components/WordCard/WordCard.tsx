@@ -95,7 +95,7 @@ const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
 
   return (
     <Card
-      className={`word-card level-${word.group + 1}${
+      className={`word-card group-${word.group + 1}${
         word.userWord?.status ? " hard" : ""
       }`}
     >

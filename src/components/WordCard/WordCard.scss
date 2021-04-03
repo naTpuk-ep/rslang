@@ -7,23 +7,23 @@
   justify-content: center;
   background-color: #ececec;
 
-  &.level-1 {
-    background: $level-1-color !important;
+  &.group-1 {
+    background: $group-1-color !important;
   }
-  &.level-2 {
-    background: $level-2-color !important;
+  &.group-2 {
+    background: $group-2-color !important;
   }
-  &.level-3 {
-    background: $level-3-color !important;
+  &.group-3 {
+    background: $group-3-color !important;
   }
-  &.level-4 {
-    background: $level-4-color !important;
+  &.group-4 {
+    background: $group-4-color !important;
   }
-  &.level-5 {
-    background: $level-5-color !important;
+  &.group-5 {
+    background: $group-5-color !important;
   }
-  &.level-6 {
-    background: $level-6-color !important;
+  &.group-6 {
+    background: $group-6-color !important;
   }
 
   &.hard {
