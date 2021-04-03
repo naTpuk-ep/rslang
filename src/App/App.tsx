@@ -26,14 +26,17 @@ const Main: React.FunctionComponent = () => {
 
 interface IBookParams {
   group: string;
+  page: string;
 }
 
 const Book: React.FunctionComponent = () => {
-  const { group } = useParams<IBookParams>();
+  const { group, page } = useParams<IBookParams>();
 
   return (
     <>
-      <h1>Book Group: {group}</h1>
+      <h1>
+        Book Group: {group} Page: {page}
+      </h1>
     </>
   );
 };
@@ -114,22 +117,22 @@ const App: React.FunctionComponent = () => {
           <Link to={MAIN}>Main</Link>
         </li>
         <li>
-          <Link to={`${BOOK}/0`}>Book Group 0</Link>
+          <Link to={`${BOOK}/0/0`}>Book Group 0</Link>
         </li>
         <li>
-          <Link to={`${BOOK}/1`}>Book Group 1</Link>
+          <Link to={`${BOOK}/1/0`}>Book Group 1</Link>
         </li>
         <li>
-          <Link to={`${BOOK}/2`}>Book Group 2</Link>
+          <Link to={`${BOOK}/2/0`}>Book Group 2</Link>
         </li>
         <li>
-          <Link to={`${BOOK}/3`}>Book Group 3</Link>
+          <Link to={`${BOOK}/3/0`}>Book Group 3</Link>
         </li>
         <li>
-          <Link to={`${BOOK}/4`}>Book Group 4</Link>
+          <Link to={`${BOOK}/4/0`}>Book Group 4</Link>
         </li>
         <li>
-          <Link to={`${BOOK}/5`}>Book Group 5</Link>
+          <Link to={`${BOOK}/5/0`}>Book Group 5</Link>
         </li>
         <li>
           <Link to={STUDIED_WORDS}>Studied Words</Link>
@@ -166,7 +169,7 @@ const App: React.FunctionComponent = () => {
             <Route exact path={MAIN}>
               <Main />
             </Route>
-            <Route path={`${BOOK}/:group`}>
+            <Route path={`${BOOK}/:group/:page`}>
               <Book />
             </Route>
             <Route path={STUDIED_WORDS}>
