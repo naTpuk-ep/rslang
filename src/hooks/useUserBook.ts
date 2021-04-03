@@ -3,46 +3,46 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
 import React, { useEffect } from "react";
+import { useHistory } from "react-router-dom";
+import { GET_USER_BOOK_PAGE_FILTER } from "../constants/requestParams";
+import { BOOK } from "../constants/routes";
 import useActions from "./useActions";
 import useTypedSelector from "./useTypeSelector";
 
 interface IUseUserBookProps {
-  groupId: number;
+  group: number;
+  page: number;
 }
 
 const useUserBook = (props: IUseUserBookProps) => {
-  const { groupId } = props;
+  const { group, page: currentPage } = props;
   const {
     aggregatedWords,
     pages,
-    error,
     isFetching,
     isPagesFetching,
-    page: userPage,
   } = useTypedSelector((state) => state.userWords);
+  const history = useHistory();
   const { aggregateUserWords, setUserWordsPage, fetchPages } = useActions();
 
   useEffect(() => {
-    fetchPages(groupId);
-  }, [groupId]);
+    fetchPages(group);
+  }, [group]);
 
   useEffect(() => {
     if (pages.length) {
-      const filter = {
-        $or: [{ "userWord.status": { $ne: "deleted" } }, { userWord: null }],
-      };
-      if (!pages[userPage]) {
-        setUserWordsPage(0);
+      if (!pages[currentPage]) {
+        history.push(`${BOOK}/${group}/0`);
         return;
       }
       aggregateUserWords(
-        groupId,
-        pages[userPage]._id,
-        JSON.stringify(filter),
+        group,
+        pages[currentPage]._id,
+        JSON.stringify(GET_USER_BOOK_PAGE_FILTER),
         1
       );
     }
-  }, [pages.length, userPage]);
+  }, [pages.length, currentPage]);
 
   const onPageChangeHandler = (
     event: React.ChangeEvent<unknown>,
@@ -57,7 +57,6 @@ const useUserBook = (props: IUseUserBookProps) => {
     isPagesFetching,
     onPageChangeHandler,
     pagesCount: pages.length,
-    currentPage: userPage,
   };
 };
 
