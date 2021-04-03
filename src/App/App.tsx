@@ -112,12 +112,7 @@ const App: React.FunctionComponent = () => {
 
   return (
     <>
-      {/* For tests */}
       <Header />
-
-      <hr />
-      {/* For tests */}
-
       <Container className="main">
         {isAuthorization ? (
           <Switch>
