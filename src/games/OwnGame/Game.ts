@@ -1,11 +1,13 @@
+import IWordData from "../../types/words-types";
+
 /* eslint-disable @typescript-eslint/lines-between-class-members */
 export default class Game {
-  currentWord: any;
+  currentWord: IWordData | undefined;
   isFinish: boolean;
 
   private index: number;
 
-  constructor(public wordsList: any[]) {
+  constructor(public wordsList: IWordData[]) {
     this.index = 0;
     this.isFinish = false;
   }
@@ -14,7 +16,7 @@ export default class Game {
     return string.trim().toLowerCase();
   }
 
-  nextWord(): any {
+  nextWord(): IWordData {
     this.currentWord = this.wordsList[(this.index += 1)];
     if (!this.currentWord) {
       this.isFinish = true;
@@ -23,12 +25,12 @@ export default class Game {
   }
 
   startsWith(value: string): boolean {
-    return Game.summarize(this.currentWord.word).startsWith(
+    return Game.summarize(this.currentWord!.word).startsWith(
       Game.summarize(value)
     );
   }
 
   isCorrect(value: string): boolean {
-    return Game.summarize(value) === Game.summarize(this.currentWord.word);
+    return Game.summarize(value) === Game.summarize(this.currentWord!.word);
   }
 }

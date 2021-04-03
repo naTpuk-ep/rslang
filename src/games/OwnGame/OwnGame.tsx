@@ -8,19 +8,20 @@ import React, {
   useMemo,
   useState,
 } from "react";
+import IWordData from "../../types/words-types";
 import Game from "./Game";
-import "./Knoword.scss";
+import "./OwnGame.scss";
 
-const Knoword: FC = () => {
+const OwnGame: FC = () => {
   const url = "https://rnovikov-rs-lang-back.herokuapp.com";
   const [game, setGame] = useState<Game | undefined>();
-  const [currentWord, setCurrentWord] = useState<any | undefined>(); // "any" will be the word interface
+  const [currentWord, setCurrentWord] = useState<IWordData | undefined>(); // "any" will be the word interface
   const [inputValue, setInputValue] = useState("");
   const [timer, setTimer] = useState<number | undefined>();
   const numberOfSeconds = useMemo(() => 15, []);
 
   const getWordsList = useCallback(async () => {
-    const { data } = await axios.get(`${url}/words/group/1?count=20`);
+    const { data } = await axios.get(`${url}/words/group/1`);
     setGame(new Game(data));
   }, []);
 
@@ -69,10 +70,10 @@ const Knoword: FC = () => {
   );
 
   return currentWord ? (
-    <div className="knoword">
+    <div className="own-game">
       <h2>{timer}</h2>
       <h3>
-        {separateText[0]}{" "}
+        {separateText![0]}{" "}
         <input
           className={
             !inputValue
@@ -85,7 +86,7 @@ const Knoword: FC = () => {
           onChange={changeHandler}
           value={inputValue}
         />
-        {separateText[1]}
+        {separateText![1]}
       </h3>
       <button type="button" onClick={() => setNext()}>
         next
@@ -97,4 +98,4 @@ const Knoword: FC = () => {
     <h3>Loading...</h3>
   );
 };
-export default Knoword;
+export default OwnGame;

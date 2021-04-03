@@ -16,6 +16,7 @@ import {
   STATISTICS,
 } from "../constants/routes";
 import "./App.scss";
+import OwnGame from "../games/OwnGame";
 
 // Temporary page templates!
 const Main: React.FunctionComponent = () => {
@@ -99,13 +100,6 @@ const Sprint: React.FunctionComponent = () => {
   );
 };
 
-const OwnGame: React.FunctionComponent = () => {
-  return (
-    <>
-      <h1>Own Game</h1>
-    </>
-  );
-};
 // Temporary page templates!
 
 const App: React.FunctionComponent = () => {
