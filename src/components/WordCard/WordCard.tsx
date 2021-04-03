@@ -89,7 +89,7 @@ const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
   const deleteClickHandler = () => {
     createUserWord("605d826946051229947e4eb3", word._id, word.page, {
       status: "deleted",
-      isLearn: true,
+      isLearn: false,
     });
   };
 

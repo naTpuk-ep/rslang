@@ -7,9 +7,9 @@ import {
 } from "../../types/userWords-types";
 
 const token =
-  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwNWQ4MjY5NDYwNTEyMjk5NDdlNGViMyIsImlhdCI6MTYxNzM1NDE2NSwiZXhwIjoxNjE3MzY4NTY1fQ.5HZLqNm5e8MA9zNy7qqs002o-e1bVcEE2b3WsuJ7980";
+  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwNWQ4MjY5NDYwNTEyMjk5NDdlNGViMyIsImlhdCI6MTYxNzM3ODQzNCwiZXhwIjoxNjE3ODM5MjM0fQ.5T_H_lgVStikZb_z0pDSpek7sgjy2pks711zaPq85o4";
 
-const agregateUserWords = (
+const aggregateUserWords = (
   group = 0,
   page = 0,
   filter: string,
@@ -19,7 +19,7 @@ const agregateUserWords = (
     try {
       dispatch({ type: UserWordsActionTypes.FETCH_USER_WORDS });
       const response = await axios.get(
-        `http://localhost:3000/users/605d826946051229947e4eb3/aggregatedWords`,
+        `https://rnovikov-rs-lang-back.herokuapp.com/users/605d826946051229947e4eb3/aggregatedWords`,
         {
           headers: {
             authorization: token,
@@ -48,7 +48,7 @@ const fetchPages = (group = 0) => {
     try {
       dispatch({ type: UserWordsActionTypes.GET_USER_WORDS_PAGES });
       const response = await axios.get(
-        `http://localhost:3000/users/605d826946051229947e4eb3/aggregatedWords/group`,
+        `https://rnovikov-rs-lang-back.herokuapp.com/users/605d826946051229947e4eb3/aggregatedWords/group`,
         {
           headers: {
             authorization: token,
@@ -79,7 +79,7 @@ const createUserWord = (
     try {
       dispatch({ type: UserWordsActionTypes.CREATE_USER_WORD });
       const response = await axios.post(
-        `http://localhost:3000/users/${userId}/words/${wordId}`,
+        `https://rnovikov-rs-lang-back.herokuapp.com/users/${userId}/words/${wordId}`,
         data,
         {
           headers: {
@@ -104,4 +104,4 @@ const setUserWordsPage = (page: number): UserWordsAction => {
   return { type: UserWordsActionTypes.SET_USER_WORDS_PAGE, payload: page };
 };
 
-export { agregateUserWords, fetchPages, setUserWordsPage, createUserWord };
+export { aggregateUserWords, fetchPages, setUserWordsPage, createUserWord };

@@ -1,13 +1,12 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { nanoid } from "nanoid";
-import React, { useEffect, useState } from "react";
-import Pagination from "@material-ui/lab/Pagination";
-import PaginationItem from "@material-ui/lab/PaginationItem";
-import { createStyles, Grid, makeStyles, Theme } from "@material-ui/core";
-import useActions from "../../hooks/useActions";
-import useTypedSelector from "../../hooks/useTypeSelector";
+import React from "react";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import { createStyles, makeStyles, Theme } from "@material-ui/core";
 import WordCard from "../WordCard";
+import Paginator from "../Paginator";
+import useUserBook from "../../hooks/useUserBook";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -30,74 +29,33 @@ const WordsList: React.FunctionComponent<IWordsListProps> = (
   const classes = useStyles();
   const { groupId } = props;
   const {
-    aggregatedWords,
-    pages,
-    error,
+    words,
+    currentPage,
+    pagesCount,
+    onPageChangeHandler,
     isFetching,
     isPagesFetching,
-    page: userPage,
-  } = useTypedSelector((state) => state.userWords);
-  const { agregateUserWords, setUserWordsPage, fetchPages } = useActions();
-
-  useEffect(() => {
-    fetchPages(groupId);
-  }, [groupId]);
-
-  useEffect(() => {
-    if (pages.length) {
-      const filter = {
-        $or: [{ "userWord.status": { $ne: "deleted" } }, { userWord: null }],
-      };
-      if (!pages[userPage]) {
-        setUserWordsPage(0);
-        return;
-      }
-      agregateUserWords(
-        groupId,
-        pages[userPage]._id,
-        JSON.stringify(filter),
-        1
-      );
-    }
-  }, [pages.length, userPage]);
-
-  const onPageChangeHandler = (
-    event: React.ChangeEvent<unknown>,
-    page: number
-  ) => {
-    if (page !== 0 && page !== 31) {
-      setUserWordsPage(page - 1);
-    }
-  };
+  } = useUserBook({ groupId });
 
   return (
     <>
-      {isPagesFetching ? (
-        ""
-      ) : (
-        <>
-          <Pagination
-            page={userPage + 1}
-            count={pages.length}
-            onChange={onPageChangeHandler}
-            renderItem={(item) => (
-              <PaginationItem
-                // eslint-disable-next-line react/jsx-props-no-spreading
-                {...item}
-              />
-            )}
-          />
-          {isFetching ? (
-            ""
-          ) : (
-            <div className={classes.root}>
-              {aggregatedWords.words.map((word) => {
-                return <WordCard key={nanoid()} word={word} />;
-              })}
-            </div>
-          )}
-        </>
-      )}
+      <Paginator
+        currentPage={currentPage + 1}
+        pageCount={pagesCount}
+        onPageChangeHandler={onPageChangeHandler}
+        isPagesFetching={isPagesFetching}
+      />
+      <>
+        {isFetching ? (
+          <CircularProgress />
+        ) : (
+          <div className={classes.root}>
+            {words.map((word) => {
+              return <WordCard key={nanoid()} word={word} />;
+            })}
+          </div>
+        )}
+      </>
     </>
   );
 };
