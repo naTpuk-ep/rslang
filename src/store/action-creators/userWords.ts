@@ -100,8 +100,44 @@ const createUserWord = (
   };
 };
 
+const updateUserWord = (
+  userId: string,
+  wordId: string,
+  data: { status: string; isLearn: boolean }
+) => {
+  return async (dispatch: Dispatch<UserWordsAction>) => {
+    try {
+      dispatch({ type: UserWordsActionTypes.UPDATE_USER_WORD });
+      const response = await axios.put(
+        `https://rnovikov-rs-lang-back.herokuapp.com/users/${userId}/words/${wordId}`,
+        data,
+        {
+          headers: {
+            authorization: token,
+          },
+        }
+      );
+      dispatch({
+        type: UserWordsActionTypes.UPDATE_USER_WORD_SUCCESS,
+        payload: { userWord: response.data, id: wordId },
+      });
+    } catch (e) {
+      dispatch({
+        type: UserWordsActionTypes.UPDATE_USER_WORD_ERROR,
+        payload: "Произошла ошибка при изменение слова",
+      });
+    }
+  };
+};
+
 const setUserWordsPage = (page: number): UserWordsAction => {
   return { type: UserWordsActionTypes.SET_USER_WORDS_PAGE, payload: page };
 };
 
-export { aggregateUserWords, fetchPages, setUserWordsPage, createUserWord };
+export {
+  aggregateUserWords,
+  fetchPages,
+  setUserWordsPage,
+  createUserWord,
+  updateUserWord,
+};

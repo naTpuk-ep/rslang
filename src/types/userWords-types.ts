@@ -35,9 +35,9 @@ export enum UserWordsActionTypes {
   FETCH_USER_WORDS_SUCCESS = "FETCH_USER_WORDS_SUCCESS",
   FETCH_USER_WORDS_ERROR = "FETCH_USER_WORDS_ERROR",
   SET_USER_WORDS_PAGE = "SET_USER_WORDS_PAGE",
-  UPDATE_USER_WORDS = "UPDATE_USER_WORDS",
-  UPDATE_USER_WORDS_SUCCESS = "UPDATE_USER_WORDS_SUCCESS",
-  UPDATE_USER_WORDS_ERROR = "UPDATE_USER_WORDS_ERROR",
+  UPDATE_USER_WORD = "UPDATE_USER_WORD",
+  UPDATE_USER_WORD_SUCCESS = "UPDATE_USER_WORD_SUCCESS",
+  UPDATE_USER_WORD_ERROR = "UPDATE_USER_WORD_ERROR",
   CREATE_USER_WORD = "CREATE_USER_WORD",
   CREATE_USER_WORD_SUCCESS = "CREATE_USER_WORD_SUCCESS ",
   CREATE_USER_WORD_ERROR = "CREATE_USER_WORD_ERROR",
@@ -65,9 +65,18 @@ interface SeUserWordsPage {
   payload: number;
 }
 
-interface UpdateUserWords {
-  type: UserWordsActionTypes.SET_USER_WORDS_PAGE;
-  payload: number;
+interface UpdateUserWordAction {
+  type: UserWordsActionTypes.UPDATE_USER_WORD;
+}
+
+interface UpdateUserWordSuccessAction {
+  type: UserWordsActionTypes.UPDATE_USER_WORD_SUCCESS;
+  payload: { id: string; userWord: IUserWordOptions };
+}
+
+interface UpdateUserWordErrorAction {
+  type: UserWordsActionTypes.UPDATE_USER_WORD_ERROR;
+  payload: string;
 }
 
 interface CreateUserWordAction {
@@ -108,6 +117,9 @@ export type UserWordsAction =
   | CreateUserWordErrorAction
   | GetUserWordsPagesAction
   | GetUserWordsPagesSuccessAction
-  | GetUserWordsPagesErrorAction;
+  | GetUserWordsPagesErrorAction
+  | UpdateUserWordAction
+  | UpdateUserWordSuccessAction
+  | UpdateUserWordErrorAction;
 
 export default IUserWordData;
