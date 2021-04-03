@@ -12,8 +12,9 @@ import {
 import "./WordsCategories.scss";
 import { nanoid } from "nanoid";
 import { connect } from "react-redux";
-import React, { useState } from "react";
-import WordsList from "../WordsList";
+import React from "react";
+import { Link } from "react-router-dom";
+import { BOOK } from "../../constants/routes";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -33,8 +34,6 @@ const WordsCategories: React.FunctionComponent<IWordsCategoriesProps> = (
   const classes = useStyles();
   const { count } = props;
 
-  const [unit, setUnit] = useState(0);
-
   return (
     <div className={classes.root}>
       <Grid container spacing={3}>
@@ -53,9 +52,8 @@ const WordsCategories: React.FunctionComponent<IWordsCategoriesProps> = (
                   <Button
                     size="small"
                     color="primary"
-                    onClick={() => {
-                      setUnit(i);
-                    }}
+                    component={Link}
+                    to={`${BOOK}/${i}/0`}
                   >
                     К разделу
                   </Button>
@@ -65,7 +63,6 @@ const WordsCategories: React.FunctionComponent<IWordsCategoriesProps> = (
           );
         })}
       </Grid>
-      <WordsList groupId={unit} />
     </div>
   );
 };

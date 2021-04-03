@@ -6,7 +6,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import { createStyles, makeStyles, Theme } from "@material-ui/core";
 import WordCard from "../WordCard";
 import Paginator from "../Paginator";
-import useUserBook from "../../hooks/useUserBook";
+import IUserWordData from "../../types/userWords-types";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -20,29 +20,35 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 interface IWordsListProps {
-  groupId: number;
+  route: string;
+  group: number;
+  page: number;
+  words: IUserWordData[];
+  pagesCount: number;
+  isFetching: boolean;
+  isPagesFetching: boolean;
 }
 
 const WordsList: React.FunctionComponent<IWordsListProps> = (
   props: IWordsListProps
 ) => {
   const classes = useStyles();
-  const { groupId } = props;
   const {
+    route,
+    group,
+    page,
     words,
-    currentPage,
     pagesCount,
-    onPageChangeHandler,
     isFetching,
     isPagesFetching,
-  } = useUserBook({ groupId });
+  } = props;
 
   return (
     <>
       <Paginator
-        currentPage={currentPage + 1}
+        route={`${route}/${group}`}
+        currentPage={page + 1}
         pageCount={pagesCount}
-        onPageChangeHandler={onPageChangeHandler}
         isPagesFetching={isPagesFetching}
       />
       <>

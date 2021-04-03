@@ -15,10 +15,15 @@ import "./WordCard.scss";
 import DeleteIcon from "@material-ui/icons/Delete";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
-import React, { useState, useEffect } from "react";
-import { Howl, Howler } from "howler";
-import useActions from "../../hooks/useActions";
+import PresentToAllIcon from "@material-ui/icons/PresentToAll";
+import React from "react";
 import IUserWordData from "../../types/userWords-types";
+import useWordCard from "../../hooks/useWordCard";
+import {
+  NO_STATUS,
+  STATUS_DELETED,
+  STATUS_HARD,
+} from "../../constants/requestParams";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -57,40 +62,91 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   })
 );
-
-const PATH = "https://rnovikov-rs-lang-back.herokuapp.com/";
 interface IWordsCardProps {
   word: IUserWordData;
+  hardCategory?: boolean;
+  learnCategory?: boolean;
+  deletedCategory?: boolean;
 }
 
 const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
   const classes = useStyles();
-  const { word } = props;
-  const { createUserWord } = useActions();
-
-  const [wordAudio] = useState(
-    new Howl({
-      src: [
-        `${PATH}${word.audio}`,
-        `${PATH}${word.audioExample}`,
-        `${PATH}${word.audioMeaning}`,
-      ],
-      volume: 0.5,
-    })
+  const { word, hardCategory, learnCategory, deletedCategory } = props;
+  const { wordAudio, createClickHandler, updateClickHandler } = useWordCard(
+    word
   );
 
-  const createClickHandler = () => {
-    createUserWord("605d826946051229947e4eb3", word._id, word.page, {
-      status: "hard",
-      isLearn: true,
-    });
-  };
-
-  const deleteClickHandler = () => {
-    createUserWord("605d826946051229947e4eb3", word._id, word.page, {
-      status: "deleted",
-      isLearn: false,
-    });
+  const renderButtons = () => {
+    const buttons = (
+      <>
+        {word.userWord?.status === "hard" ? (
+          ""
+        ) : (
+          <Button
+            variant="contained"
+            color="primary"
+            size="small"
+            className={classes.button}
+            startIcon={<AddCircleOutlineIcon />}
+            onClick={() => {
+              createClickHandler(STATUS_HARD, true);
+            }}
+          >
+            Сложное
+          </Button>
+        )}
+        <Button
+          variant="contained"
+          color="secondary"
+          size="small"
+          className={classes.button}
+          startIcon={<DeleteIcon />}
+          onClick={() => {
+            createClickHandler(STATUS_DELETED, false);
+          }}
+        >
+          Удалить
+        </Button>
+      </>
+    );
+    switch (true) {
+      case deletedCategory === false &&
+        learnCategory === false &&
+        hardCategory === false:
+        return buttons;
+      case deletedCategory === true:
+        return (
+          <Button
+            variant="contained"
+            color="secondary"
+            size="small"
+            className={classes.button}
+            startIcon={<PresentToAllIcon />}
+            onClick={() => {
+              updateClickHandler(NO_STATUS, false);
+            }}
+          >
+            восстановить
+          </Button>
+        );
+      case hardCategory === true:
+        return (
+          <Button
+            variant="contained"
+            color="secondary"
+            size="small"
+            className={classes.button}
+            startIcon={<PresentToAllIcon />}
+            onClick={() => {
+              updateClickHandler(NO_STATUS, true);
+            }}
+          >
+            восстановить
+          </Button>
+        );
+      default:
+        return <></>;
+    }
   };
 
   return (
@@ -136,34 +192,17 @@ const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
           >
             <PlayArrowIcon className={classes.playIcon} />
           </IconButton>
-          {word.userWord?.status === "hard" ? (
-            ""
-          ) : (
-            <Button
-              variant="contained"
-              color="primary"
-              size="small"
-              className={classes.button}
-              startIcon={<AddCircleOutlineIcon />}
-              onClick={createClickHandler}
-            >
-              Сложное
-            </Button>
-          )}
-          <Button
-            variant="contained"
-            color="secondary"
-            size="small"
-            className={classes.button}
-            startIcon={<DeleteIcon />}
-            onClick={deleteClickHandler}
-          >
-            Удалить
-          </Button>
+          {renderButtons()}
         </div>
       </div>
     </Card>
   );
+};
+
+WordCard.defaultProps = {
+  hardCategory: false,
+  learnCategory: false,
+  deletedCategory: false,
 };
 
 export default WordCard;
