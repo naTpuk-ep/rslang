@@ -17,9 +17,9 @@ interface IWordData {
 
 export interface WordsState {
   words: IWordData[];
-  page: number;
   isFetching: boolean;
   error: null | string;
+  page: number;
 }
 
 export enum WordsActionTypes {

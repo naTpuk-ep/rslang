@@ -1,7 +1,7 @@
 import {
+  WordsState,
   WordsAction,
   WordsActionTypes,
-  WordsState,
 } from "../../types/words-types";
 
 const defaultState: WordsState = {
