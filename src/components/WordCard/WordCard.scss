@@ -1,22 +1,32 @@
 @import "../../color-variables.scss";
 
-.card-action {
-  &-level-1 {
+.word-card {
+  width: 450px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ececec;
+
+  &.group-1 {
     background: $group-1-color !important;
   }
-  &-level-2 {
+  &.group-2 {
     background: $group-2-color !important;
   }
-  &-level-3 {
+  &.group-3 {
     background: $group-3-color !important;
   }
-  &-level-4 {
+  &.group-4 {
     background: $group-4-color !important;
   }
-  &-level-5 {
+  &.group-5 {
     background: $group-5-color !important;
   }
-  &-level-6 {
+  &.group-6 {
     background: $group-6-color !important;
+  }
+
+  &.hard {
+    border: 3px solid #3f51b5;
   }
 }
