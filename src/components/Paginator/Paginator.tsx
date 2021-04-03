@@ -5,7 +5,6 @@ import Pagination from "@material-ui/lab/Pagination";
 import PaginationItem from "@material-ui/lab/PaginationItem";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { Link } from "react-router-dom";
-import { BOOK } from "../../constants/routes";
 
 interface PaginatorProps {
   route: string;
