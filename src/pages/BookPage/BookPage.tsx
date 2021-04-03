@@ -33,7 +33,7 @@ const BookPage: React.FunctionComponent = () => {
     <>
       <h1>
         Book Group: {group} Page: {page}
-        <WordsCategories />
+        <WordsCategories route={BOOK} />
         <WordsList {...props} />
       </h1>
     </>

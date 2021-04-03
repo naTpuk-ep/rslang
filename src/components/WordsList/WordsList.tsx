@@ -19,6 +19,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   })
 );
+
 interface IWordsListProps {
   route: string;
   group: number;

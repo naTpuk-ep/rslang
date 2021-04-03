@@ -6,15 +6,15 @@ import PaginationItem from "@material-ui/lab/PaginationItem";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { Link } from "react-router-dom";
 
-interface PaginatorProps {
+interface IPaginatorProps {
   route: string;
   currentPage: number;
   pageCount: number;
   isPagesFetching: boolean;
 }
 
-const Paginator: React.FunctionComponent<PaginatorProps> = (
-  props: PaginatorProps
+const Paginator: React.FunctionComponent<IPaginatorProps> = (
+  props: IPaginatorProps
 ) => {
   const { route, currentPage, pageCount, isPagesFetching } = props;
 

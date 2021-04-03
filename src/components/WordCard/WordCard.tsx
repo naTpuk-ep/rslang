@@ -62,16 +62,22 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   })
 );
+
 interface IWordsCardProps {
   word: IUserWordData;
-  hardCategory?: boolean;
+  difficultCategory?: boolean;
   learnCategory?: boolean;
   deletedCategory?: boolean;
 }
 
 const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
   const classes = useStyles();
-  const { word, hardCategory, learnCategory, deletedCategory } = props;
+  const {
+    word,
+    difficultCategory: hardCategory,
+    learnCategory,
+    deletedCategory,
+  } = props;
   const { wordAudio, createClickHandler, updateClickHandler } = useWordCard(
     word
   );
@@ -200,7 +206,7 @@ const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
 };
 
 WordCard.defaultProps = {
-  hardCategory: false,
+  difficultCategory: false,
   learnCategory: false,
   deletedCategory: false,
 };

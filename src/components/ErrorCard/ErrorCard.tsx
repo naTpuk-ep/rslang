@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from "react";
 
-interface ErrorCardProps {
+interface IErrorCardProps {
   message: string;
 }
 
-const ErrorCard: React.FunctionComponent<ErrorCardProps> = (
-  props: ErrorCardProps
+const ErrorCard: React.FunctionComponent<IErrorCardProps> = (
+  props: IErrorCardProps
 ) => {
   const { message } = props;
   return <div />;
