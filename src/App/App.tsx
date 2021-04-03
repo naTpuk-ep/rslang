@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from "react";
 import { Container } from "@material-ui/core";
 import { Switch, Route, Link, useParams } from "react-router-dom";
@@ -14,6 +15,9 @@ import {
   STATISTICS,
 } from "../constants/routes";
 import "./App.scss";
+import WordsCategories from "../components/WordsCategories";
+import WordsList from "../components/WordsList";
+import useUserBook from "../hooks/useUserBook";
 
 // Temporary page templates!
 const Main: React.FunctionComponent = () => {
@@ -24,7 +28,7 @@ const Main: React.FunctionComponent = () => {
   );
 };
 
-interface IBookParams {
+export interface IBookParams {
   group: string;
   page: string;
 }
@@ -32,10 +36,27 @@ interface IBookParams {
 const Book: React.FunctionComponent = () => {
   const { group, page } = useParams<IBookParams>();
 
+  const { words, pagesCount, isFetching, isPagesFetching } = useUserBook({
+    group: Number(group),
+    page: Number(page),
+  });
+
+  const props = {
+    route: BOOK,
+    group: Number(group),
+    page: Number(page),
+    words,
+    pagesCount,
+    isFetching,
+    isPagesFetching,
+  };
+
   return (
     <>
       <h1>
         Book Group: {group} Page: {page}
+        <WordsCategories />
+        <WordsList {...props} />
       </h1>
     </>
   );
