@@ -109,13 +109,13 @@ const App: React.FunctionComponent = () => {
             <Route path={STUDIED_WORDS}>
               <StudiedWords />
             </Route>
-            <Route path={DIFFICULT_WORDS}>
+            <Route path={`${DIFFICULT_WORDS}/:group/:page`}>
               <DifficultWords />
             </Route>
-            <Route path={DELETED_WORDS}>
+            <Route path={`${DELETED_WORDS}/:group/:page`}>
               <DeletedWords />
             </Route>
-            <Route path={STATISTICS}>
+            <Route path={`${STATISTICS}/:group/:page`}>
               <Statistics />
             </Route>
             <Route path={SAVANNAH}>
@@ -136,7 +136,7 @@ const App: React.FunctionComponent = () => {
             <Route exact path={MAIN}>
               <Main />
             </Route>
-            <Route path={`${BOOK}/:group`}>
+            <Route path={`${BOOK}/:group/:page`}>
               <BookPage />
             </Route>
             <Route path={SAVANNAH}>
