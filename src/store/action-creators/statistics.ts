@@ -63,7 +63,10 @@ const updateStatistics = (data: IStatisticsData) => {
       );
       dispatch({
         type: StatisticsActionTypes.UPDATE_STATISTICS_SUCCESS,
-        payload: response.data,
+        payload: {
+          learnedWords: response.data.learnedWords,
+          optional: response.data.optional,
+        },
       });
     } catch (e) {
       dispatch({

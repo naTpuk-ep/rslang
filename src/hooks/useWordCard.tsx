@@ -30,6 +30,13 @@ const useWordCard = (word: IUserWordData) => {
       updateStatistics({
         ...statistics,
         learnedWords: statistics.learnedWords + 1,
+        optional: {
+          ...statistics.optional,
+          today: {
+            ...statistics.optional.today,
+            learnedWords: statistics.optional.today.learnedWords + 1,
+          },
+        },
       });
     }
   };

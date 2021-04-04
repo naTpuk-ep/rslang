@@ -8,8 +8,8 @@ export interface IStatisticsData {
 
 interface IDayStatistics {
   date: Date;
-  todayLearn: number;
-  savannah: IGameStatisticsData;
+  learnedWords: number;
+  savanna: IGameStatisticsData;
   sprint: IGameStatisticsData;
   audioCall: IGameStatisticsData;
   knowWords: IGameStatisticsData;
