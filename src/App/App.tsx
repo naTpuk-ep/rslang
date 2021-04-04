@@ -1,5 +1,4 @@
 import React from "react";
-
 import { Container } from "@material-ui/core";
 import { Switch, Route } from "react-router-dom";
 import Header from "../components/Header";
@@ -15,6 +14,7 @@ import {
   OWN_GAME,
   STATISTICS,
 } from "../constants/routes";
+import GameSavannah from "../pages/GameSavannah";
 import "./App.scss";
 import OwnGame from "../games/OwnGame";
 import BookPage from "../pages/BookPage";
@@ -128,7 +128,7 @@ const App: React.FunctionComponent = () => {
               <BookPage />
             </Route>
             <Route path={SAVANNAH}>
-              <Savannah />
+              <GameSavannah />
             </Route>
             <Route path={AUDIO_CALL}>
               <AudioCall />
