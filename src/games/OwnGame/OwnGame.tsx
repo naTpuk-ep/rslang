@@ -18,7 +18,8 @@ const OwnGame: FC = () => {
   const [currentWord, setCurrentWord] = useState<IWordData | undefined>(); // "any" will be the word interface
   const [inputValue, setInputValue] = useState("");
   const [timer, setTimer] = useState<number | undefined>();
-  const numberOfSeconds = useMemo(() => 15, []);
+  const numberOfSeconds = useMemo(() => 90, []);
+  const [isFinish, setIsFinish] = useState(false);
 
   const getWordsList = useCallback(async () => {
     const { data } = await axios.get(`${url}/words/group/1`);
@@ -28,30 +29,33 @@ const OwnGame: FC = () => {
   const setNext = useCallback(() => {
     setCurrentWord(game?.nextWord());
     setInputValue("");
-    setTimer(numberOfSeconds);
-  }, [game, numberOfSeconds]);
+  }, [game]);
 
   useEffect(() => {
     getWordsList();
   }, [getWordsList]);
 
   useEffect(() => {
-    setNext();
-  }, [setNext]);
+    if (game) {
+      setNext();
+      setTimer(numberOfSeconds);
+    }
+  }, [game, numberOfSeconds, setNext]);
 
   useEffect(() => {
     let timeOut: NodeJS.Timeout;
     if (timer) {
       timeOut = setTimeout(() => {
         if (timer === 1) {
-          setNext();
+          setIsFinish(true);
+          console.log("setFinish");
         } else {
           setTimer(timer - 1);
         }
       }, 1000);
     }
     return () => clearTimeout(timeOut);
-  }, [timer, setNext]);
+  }, [timer]);
 
   const changeHandler = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
@@ -69,7 +73,9 @@ const OwnGame: FC = () => {
     [currentWord]
   );
 
-  return currentWord ? (
+  return isFinish ? (
+    <h3>FINISH</h3>
+  ) : currentWord ? (
     <div className="own-game">
       <h2>{timer}</h2>
       <h3>
@@ -85,15 +91,14 @@ const OwnGame: FC = () => {
           type="text"
           onChange={changeHandler}
           value={inputValue}
+          placeholder={currentWord.word[0].toUpperCase()}
         />
         {separateText![1]}
       </h3>
       <button type="button" onClick={() => setNext()}>
-        next
+        skip
       </button>
     </div>
-  ) : game?.isFinish ? (
-    <h3>FINISH</h3>
   ) : (
     <h3>Loading...</h3>
   );
