@@ -72,15 +72,8 @@ interface IWordsCardProps {
 
 const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
   const classes = useStyles();
-  const {
-    word,
-    difficultCategory: hardCategory,
-    learnCategory,
-    deletedCategory,
-  } = props;
-  const { wordAudio, createClickHandler, updateClickHandler } = useWordCard(
-    word
-  );
+  const { word, difficultCategory, learnCategory, deletedCategory } = props;
+  const { wordAudio, updateClickHandler } = useWordCard(word);
 
   const renderButtons = () => {
     const buttons = (
@@ -95,7 +88,7 @@ const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
             className={classes.button}
             startIcon={<AddCircleOutlineIcon />}
             onClick={() => {
-              createClickHandler(STATUS_HARD, true);
+              updateClickHandler(STATUS_HARD, true);
             }}
           >
             Сложное
@@ -108,7 +101,7 @@ const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
           className={classes.button}
           startIcon={<DeleteIcon />}
           onClick={() => {
-            createClickHandler(STATUS_DELETED, false);
+            updateClickHandler(STATUS_DELETED, false);
           }}
         >
           Удалить
@@ -118,7 +111,7 @@ const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
     switch (true) {
       case deletedCategory === false &&
         learnCategory === false &&
-        hardCategory === false:
+        difficultCategory === false:
         return buttons;
       case deletedCategory === true:
         return (
@@ -135,7 +128,7 @@ const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
             восстановить
           </Button>
         );
-      case hardCategory === true:
+      case difficultCategory === true:
         return (
           <Button
             variant="contained"

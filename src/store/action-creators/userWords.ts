@@ -7,7 +7,7 @@ import {
 } from "../../types/userWords-types";
 
 const token =
-  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwNWQ4MjY5NDYwNTEyMjk5NDdlNGViMyIsImlhdCI6MTYxNzM3ODQzNCwiZXhwIjoxNjE3ODM5MjM0fQ.5T_H_lgVStikZb_z0pDSpek7sgjy2pks711zaPq85o4";
+  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwNWQ4MjY5NDYwNTEyMjk5NDdlNGViMyIsImlhdCI6MTYxNzUzMjkxNiwiZXhwIjoxNjE3OTkzNzE2fQ.lHjMRJQL7HvgkLeKrJrgeUZOKccfjEuGfgCbqoPAwLk";
 
 const aggregateUserWords = (
   group = 0,
@@ -134,10 +134,18 @@ const setUserWordsPage = (page: number): UserWordsAction => {
   return { type: UserWordsActionTypes.SET_USER_WORDS_PAGE, payload: page };
 };
 
+const changeUserWordsPages = (page: number, count: number): UserWordsAction => {
+  return {
+    type: UserWordsActionTypes.CHANGE_USER_WORDS_PAGES,
+    payload: { page, count },
+  };
+};
+
 export {
   aggregateUserWords,
   fetchPages,
   setUserWordsPage,
   createUserWord,
   updateUserWord,
+  changeUserWordsPages,
 };

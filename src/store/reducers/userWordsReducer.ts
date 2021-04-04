@@ -125,6 +125,17 @@ const userWordsReducer = (
     }
     case UserWordsActionTypes.UPDATE_USER_WORD_ERROR:
       return { ...state, isUpdating: false, error: action.payload };
+    case UserWordsActionTypes.CHANGE_USER_WORDS_PAGES:
+      return {
+        ...state,
+        pages: state.pages
+          .map((page) =>
+            page._id === action.payload.page
+              ? { ...page, count: action.payload.count }
+              : page
+          )
+          .filter((page) => page.count > 0),
+      };
     default:
       return state;
   }

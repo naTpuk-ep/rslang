@@ -5,9 +5,11 @@ import { useState } from "react";
 import { BACKEND_PATH } from "../constants/requestParams";
 import IUserWordData from "../types/userWords-types";
 import useActions from "./useActions";
+import useTypedSelector from "./useTypeSelector";
 
 const useWordCard = (word: IUserWordData) => {
-  const { createUserWord, updateUserWord } = useActions();
+  const { updateStatistics, updateUserWord } = useActions();
+  const { statistics } = useTypedSelector((state) => state.statistics);
   const [wordAudio] = useState(
     new Howl({
       src: [
@@ -19,21 +21,20 @@ const useWordCard = (word: IUserWordData) => {
     })
   );
 
-  const createClickHandler = (status: string, isLearn: boolean) => {
-    createUserWord("605d826946051229947e4eb3", word._id, word.page, {
-      status,
-      isLearn,
-    });
-  };
-
   const updateClickHandler = (status: string, isLearn: boolean) => {
     updateUserWord("605d826946051229947e4eb3", word._id, {
       status,
       isLearn,
     });
+    if (isLearn) {
+      updateStatistics({
+        ...statistics,
+        learnedWords: statistics.learnedWords + 1,
+      });
+    }
   };
 
-  return { wordAudio, createClickHandler, updateClickHandler };
+  return { wordAudio, updateClickHandler, updateStatistics };
 };
 
 export default useWordCard;

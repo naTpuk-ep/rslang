@@ -44,6 +44,7 @@ export enum UserWordsActionTypes {
   GET_USER_WORDS_PAGES = "GET_USER_WORDS_PAGES",
   GET_USER_WORDS_PAGES_SUCCESS = "GET_USER_WORDS_PAGES_SUCCESS",
   GET_USER_WORDS_PAGES_ERROR = "GET_USER_WORDS_PAGES_ERROR",
+  CHANGE_USER_WORDS_PAGES = "CHANGE_USER_WORDS_PAGES",
 }
 
 interface FetchUserWordsAction {
@@ -107,6 +108,11 @@ interface GetUserWordsPagesErrorAction {
   payload: string;
 }
 
+interface ChangeUserWordsPagesAction {
+  type: UserWordsActionTypes.CHANGE_USER_WORDS_PAGES;
+  payload: { count: number; page: number };
+}
+
 export type UserWordsAction =
   | FetchUserWordsAction
   | FetchUserWordsSuccessAction
@@ -120,6 +126,7 @@ export type UserWordsAction =
   | GetUserWordsPagesErrorAction
   | UpdateUserWordAction
   | UpdateUserWordSuccessAction
-  | UpdateUserWordErrorAction;
+  | UpdateUserWordErrorAction
+  | ChangeUserWordsPagesAction;
 
 export default IUserWordData;
