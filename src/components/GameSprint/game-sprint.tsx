@@ -6,21 +6,20 @@ import Time from "./Time";
 
 import "./game-sprint.scss";
 
+// eslint-disable-next-line
 const GameSprint = ({ data }: any) => {
+  // eslint-disable-next-line
   const [isPlay, setIsPlay] = useState(true);
   const [score, setScore] = useState(0);
   const [levelBonus, setLevelBonus] = useState(1);
   const [currentChain, setCurrentChain] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [currentWord, setCurrentWord] = useState("");
-  const [currentWordT, setCurrentWordT] = useState("");
   const [currentTranslate, setCurrentTranslate] = useState("");
-  // const [isCorrectTranslate, setISCorrectTranslate] = useState(true);
 
   useEffect(() => {
     if (data !== null) {
       setCurrentWord(data[currentIndex].word);
-      setCurrentWordT(data[currentIndex].wordTranslate);
       const random = Math.floor(Math.random() * 2);
       const generateRandom = (min: number, max: number): number => {
         const num = Math.floor(Math.random() * (max - min + 1)) + min;
@@ -38,9 +37,10 @@ const GameSprint = ({ data }: any) => {
 
   const finishGame = () => {
     setIsPlay(false);
-    console.log("GAME OVER!");
+    // console.log("GAME OVER!");
   };
 
+  // eslint-disable-next-line
   const answerClick = (e: any) => {
     let level = levelBonus;
     let chain = currentChain;
@@ -72,17 +72,20 @@ const GameSprint = ({ data }: any) => {
 
   return (
     <div className="game-sprint">
-      <Score score={score} />
+      <div className="game-sprint-panel">
+        <Score score={score} />
+        <Time finishGame={finishGame} />
+      </div>
       <GameField
         currentWord={currentWord}
         currentTranslate={currentTranslate}
-        onAnswerClick={(e: any) => answerClick(e)}
+        onAnswerClick={
+          // eslint-disable-next-line
+          (e: any) => answerClick(e)
+        }
         levelBonus={levelBonus}
         currentChain={currentChain}
       />
-      <div className="game-sprint-time">
-        <Time finishGame={finishGame} />
-      </div>
     </div>
   );
 };

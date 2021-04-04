@@ -8,7 +8,7 @@ interface IScoreProps {
 
 const Score: React.FunctionComponent<IScoreProps> = (props: IScoreProps) => {
   const { score } = props;
-  return <h1>{score}</h1>;
+  return <h1 className="game-sprint-score">{`Счёт: ${score}`}</h1>;
 };
 
 export default Score;

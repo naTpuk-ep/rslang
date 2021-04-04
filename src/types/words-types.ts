@@ -1,6 +1,6 @@
 interface IWordData {
-  group: string;
-  page: string;
+  group: number;
+  page: number;
   word: string;
   image: string;
   audio: string;
@@ -12,14 +12,14 @@ interface IWordData {
   textExampleTranslate: string;
   textMeaningTranslate: string;
   wordTranslate: string;
-  id: string;
+  _id: string;
 }
 
 export interface WordsState {
   words: IWordData[];
-  page: number;
   isFetching: boolean;
   error: null | string;
+  page: number;
 }
 
 export enum WordsActionTypes {

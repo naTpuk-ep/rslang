@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
-import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import {
   LooksOne,
@@ -17,21 +16,15 @@ import Typography from "@material-ui/core/Typography";
 
 import "./game-field.scss";
 
-const useStyles = makeStyles({
-  root: {
-    width: 300,
-    textAlign: "center",
-  },
-});
-
-const GameField = ({
-  currentWord,
-  levelBonus,
-  currentTranslate,
-  onAnswerClick,
-  currentChain,
-}: any) => {
-  const classes = useStyles();
+// eslint-disable-next-line
+const GameField = (props: any) => {
+  const {
+    currentWord,
+    levelBonus,
+    currentTranslate,
+    onAnswerClick,
+    currentChain,
+  } = props;
   let level;
   let chain;
   switch (levelBonus) {
@@ -106,8 +99,9 @@ const GameField = ({
       break;
   }
 
+  // eslint-disable-next-line
   return (
-    <Card className={classes.root}>
+    <Card className="game-field">
       <CardContent>
         <div className="game-status">
           {levelBonus === 4 ? checkBox : chain}
