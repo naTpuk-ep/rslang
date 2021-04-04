@@ -28,6 +28,9 @@ interface IWordsListProps {
   pagesCount: number;
   isFetching: boolean;
   isPagesFetching: boolean;
+  difficultCategory?: boolean;
+  learnCategory?: boolean;
+  deletedCategory?: boolean;
 }
 
 const WordsList: React.FunctionComponent<IWordsListProps> = (
@@ -42,6 +45,9 @@ const WordsList: React.FunctionComponent<IWordsListProps> = (
     pagesCount,
     isFetching,
     isPagesFetching,
+    difficultCategory,
+    learnCategory,
+    deletedCategory,
   } = props;
 
   return (
@@ -58,13 +64,27 @@ const WordsList: React.FunctionComponent<IWordsListProps> = (
         ) : (
           <div className={classes.root}>
             {words.map((word) => {
-              return <WordCard key={nanoid()} word={word} />;
+              return (
+                <WordCard
+                  key={nanoid()}
+                  word={word}
+                  difficultCategory={difficultCategory}
+                  learnCategory={learnCategory}
+                  deletedCategory={deletedCategory}
+                />
+              );
             })}
           </div>
         )}
       </>
     </>
   );
+};
+
+WordsList.defaultProps = {
+  difficultCategory: false,
+  learnCategory: false,
+  deletedCategory: false,
 };
 
 export default WordsList;
