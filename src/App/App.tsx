@@ -18,6 +18,7 @@ import {
 import "./App.scss";
 import OwnGame from "../games/OwnGame";
 import BookPage from "../pages/BookPage";
+import GameSprint from "../games/GameSprint";
 
 // Temporary page templates!
 const Main: React.FunctionComponent = () => {
@@ -76,14 +77,6 @@ const AudioCall: React.FunctionComponent = () => {
   );
 };
 
-const Sprint: React.FunctionComponent = () => {
-  return (
-    <>
-      <h1>Sprint Game</h1>
-    </>
-  );
-};
-
 // Temporary page templates!
 
 const App: React.FunctionComponent = () => {
@@ -120,7 +113,7 @@ const App: React.FunctionComponent = () => {
               <AudioCall />
             </Route>
             <Route path={SPRINT}>
-              <Sprint />
+              <GameSprint />
             </Route>
             <Route path={OWN_GAME}>
               <OwnGame />
@@ -141,7 +134,7 @@ const App: React.FunctionComponent = () => {
               <AudioCall />
             </Route>
             <Route path={SPRINT}>
-              <Sprint />
+              <GameSprint />
             </Route>
             <Route path={OWN_GAME}>
               <OwnGame />

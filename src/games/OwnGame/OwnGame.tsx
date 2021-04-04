@@ -1,6 +1,5 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable no-nested-ternary */
-import { Typography } from "@material-ui/core";
 import React, {
   ChangeEvent,
   FC,
@@ -12,13 +11,10 @@ import React, {
 } from "react";
 import FinishGameModal from "../../components/FinishGameModal/FinishGameModal";
 import SectionModal from "../../components/SectionModal";
+import IGameProps from "../../types/IGameProps";
 import IWordData from "../../types/words-types";
 import Game from "./Game";
 import "./OwnGame.scss";
-
-interface IGameProps {
-  wordList?: IWordData[];
-}
 
 const OwnGame: FC<IGameProps> = (props: IGameProps) => {
   const [wordList, setWordList] = useState<IWordData[] | undefined>(
@@ -32,7 +28,6 @@ const OwnGame: FC<IGameProps> = (props: IGameProps) => {
   const [isFinish, setIsFinish] = useState(false);
   const totalWordCount = useRef(0);
   const numberOfCorrectAnswers = useRef(0);
-  const correctAnswersPercent = useRef(0);
   const series = useRef(0);
   const longestSeries = useRef(0);
 
@@ -135,13 +130,6 @@ const OwnGame: FC<IGameProps> = (props: IGameProps) => {
       <button type="button" onClick={skipHandler}>
         skip
       </button>
-      <div className="modal-content">
-        <Typography variant="h4">{`Total word count: ${totalWordCount.current}`}</Typography>
-        <Typography variant="h5">{`Number of words learned: ${numberOfCorrectAnswers.current}`}</Typography>
-        <Typography variant="h5">{`Correct answers: ${correctAnswersPercent.current} %`}</Typography>
-        <Typography variant="h5">{`Longest series: ${longestSeries.current}`}</Typography>
-        <Typography variant="h5">{`series: ${series.current}`}</Typography>
-      </div>
     </div>
   );
 };

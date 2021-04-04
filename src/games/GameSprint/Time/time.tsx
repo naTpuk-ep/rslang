@@ -1,29 +1,29 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 
 import "./time.scss";
 
 interface ITimeProps {
   // eslint-disable-next-line
-  finishGame: any;
+  finishGame: Function;
 }
 
 // eslint-disable-next-line
 const Time: React.FunctionComponent<ITimeProps> = (props: ITimeProps) => {
   const { finishGame } = props;
-  const [sec, setSec] = useState(60);
-
+  const numberOfSeconds = useMemo(() => 60, []);
+  const [sec, setSec] = useState(numberOfSeconds);
   useEffect(() => {
     const time = setTimeout(() => {
       if (sec === 0) {
         finishGame();
       } else {
-        setSec((s) => s - 1);
+        setSec(sec - 1);
       }
     }, 1000);
     return () => {
       clearTimeout(time);
     };
-  }, [sec, finishGame]);
+  }, [sec, finishGame, setSec]);
 
   return (
     <div className="time-container">
