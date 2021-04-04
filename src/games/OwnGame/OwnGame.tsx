@@ -1,5 +1,5 @@
+/* eslint-disable react/destructuring-assignment */
 /* eslint-disable no-nested-ternary */
-import axios from "axios";
 import React, {
   ChangeEvent,
   FC,
@@ -8,12 +8,20 @@ import React, {
   useMemo,
   useState,
 } from "react";
+import SectionModal from "../../components/SectionModal";
 import IWordData from "../../types/words-types";
 import Game from "./Game";
 import "./OwnGame.scss";
 
-const OwnGame: FC = () => {
-  const url = "https://rnovikov-rs-lang-back.herokuapp.com";
+interface IGameProps {
+  wordList?: IWordData[];
+}
+
+const OwnGame: FC<IGameProps> = (props: IGameProps) => {
+  const [wordList, setWordList] = useState<IWordData[] | undefined>(
+    props.wordList
+  );
+
   const [game, setGame] = useState<Game | undefined>();
   const [currentWord, setCurrentWord] = useState<IWordData | undefined>(); // "any" will be the word interface
   const [inputValue, setInputValue] = useState("");
@@ -21,26 +29,23 @@ const OwnGame: FC = () => {
   const numberOfSeconds = useMemo(() => 90, []);
   const [isFinish, setIsFinish] = useState(false);
 
-  const getWordsList = useCallback(async () => {
-    const { data } = await axios.get(`${url}/words/group/1`);
-    setGame(new Game(data));
-  }, []);
-
   const setNext = useCallback(() => {
     setCurrentWord(game?.nextWord());
     setInputValue("");
   }, [game]);
 
   useEffect(() => {
-    getWordsList();
-  }, [getWordsList]);
+    if (wordList) {
+      setGame(new Game(wordList));
+      setTimer(numberOfSeconds);
+    }
+  }, [numberOfSeconds, wordList]);
 
   useEffect(() => {
     if (game) {
       setNext();
-      setTimer(numberOfSeconds);
     }
-  }, [game, numberOfSeconds, setNext]);
+  }, [game, setNext]);
 
   useEffect(() => {
     let timeOut: NodeJS.Timeout;
@@ -72,6 +77,10 @@ const OwnGame: FC = () => {
     [currentWord]
   );
 
+  if (!wordList) {
+    return <SectionModal setWordList={setWordList} />;
+  }
+
   return isFinish ? (
     <h3>FINISH</h3>
   ) : currentWord ? (
@@ -102,4 +111,7 @@ const OwnGame: FC = () => {
     <h3>Loading...</h3>
   );
 };
+
+OwnGame.defaultProps = undefined;
+
 export default OwnGame;
