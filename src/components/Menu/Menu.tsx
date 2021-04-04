@@ -190,7 +190,7 @@ const Menu: React.FunctionComponent<IMenuProps> = ({
                       <ListItemText primary="Изучаемые слова" />
                     </ListItem>
                   </LinkContainer>
-                  <LinkContainer to={DIFFICULT_WORDS}>
+                  <LinkContainer to={`${DIFFICULT_WORDS}/0/0`}>
                     <ListItem button className={classes.nested}>
                       <ListItemIcon>
                         <BookmarkTwoTone />

@@ -16,6 +16,7 @@ import {
 } from "../constants/routes";
 import "./App.scss";
 import BookPage from "../pages/BookPage";
+import DifficultPage from "../pages/Dictionary/Difficult";
 
 // Temporary page templates!
 const Main: React.FunctionComponent = () => {
@@ -30,14 +31,6 @@ const StudiedWords: React.FunctionComponent = () => {
   return (
     <>
       <h1>Studied Words Dictionary</h1>
-    </>
-  );
-};
-
-const DifficultWords: React.FunctionComponent = () => {
-  return (
-    <>
-      <h1>Difficult Words Dictionary</h1>
     </>
   );
 };
@@ -110,7 +103,7 @@ const App: React.FunctionComponent = () => {
               <StudiedWords />
             </Route>
             <Route path={`${DIFFICULT_WORDS}/:group/:page`}>
-              <DifficultWords />
+              <DifficultPage />
             </Route>
             <Route path={`${DELETED_WORDS}/:group/:page`}>
               <DeletedWords />
