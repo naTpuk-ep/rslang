@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React from "react";
 import { Container } from "@material-ui/core";
 import { Switch, Route } from "react-router-dom";
 import Header from "../components/Header";
-import GameSprint from "../components/GameSprint";
 import {
   MAIN,
   BOOK,
@@ -77,26 +75,9 @@ const AudioCall: React.FunctionComponent = () => {
 };
 
 const Sprint: React.FunctionComponent = () => {
-  // start
-
-  const [words, setWords] = useState(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const result = await axios(
-        "https://rnovikov-rs-lang-back.herokuapp.com/words/group/1?count=50"
-      );
-      setWords(result.data);
-    };
-
-    fetchData();
-  }, []);
-
-  // end
-
   return (
     <>
-      <GameSprint data={words} />
+      <h1>Sprint Game</h1>
     </>
   );
 };
