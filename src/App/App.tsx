@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Container } from "@material-ui/core";
-import { Switch, Route, useParams } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import Header from "../components/Header";
 import {
   MAIN,
@@ -17,29 +17,13 @@ import {
 } from "../constants/routes";
 import "./App.scss";
 import OwnGame from "../games/OwnGame";
+import BookPage from "../pages/BookPage";
 
 // Temporary page templates!
 const Main: React.FunctionComponent = () => {
   return (
     <>
       <h1>Main Page</h1>
-    </>
-  );
-};
-
-interface IBookParams {
-  group: string;
-  page: string;
-}
-
-const Book: React.FunctionComponent = () => {
-  const { group, page } = useParams<IBookParams>();
-
-  return (
-    <>
-      <h1>
-        Book Group: {group} Page: {page}
-      </h1>
     </>
   );
 };
@@ -115,7 +99,7 @@ const App: React.FunctionComponent = () => {
               <Main />
             </Route>
             <Route path={`${BOOK}/:group/:page`}>
-              <Book />
+              <BookPage />
             </Route>
             <Route path={STUDIED_WORDS}>
               <StudiedWords />
@@ -148,7 +132,7 @@ const App: React.FunctionComponent = () => {
               <Main />
             </Route>
             <Route path={`${BOOK}/:group`}>
-              <Book />
+              <BookPage />
             </Route>
             <Route path={SAVANNAH}>
               <Savannah />

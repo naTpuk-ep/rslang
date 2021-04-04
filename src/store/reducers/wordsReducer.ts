@@ -6,9 +6,9 @@ import {
 
 const defaultState: WordsState = {
   words: [],
+  page: 0,
   error: null,
   isFetching: true,
-  page: 0,
 };
 
 const wordsReducer = (
@@ -27,6 +27,8 @@ const wordsReducer = (
       };
     case WordsActionTypes.FETCH_WORDS_ERROR:
       return { ...state, isFetching: false, error: action.payload, words: [] };
+    case WordsActionTypes.SET_WORDS_PAGE:
+      return { ...state, isFetching: false, page: action.payload };
     default:
       return state;
   }

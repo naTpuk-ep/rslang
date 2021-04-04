@@ -9,11 +9,11 @@ import {
   CardContent,
   Typography,
 } from "@material-ui/core";
-import React from "react";
 import "./WordsCategories.scss";
 import { nanoid } from "nanoid";
 import { connect } from "react-redux";
-import WordsList from "../WordsList";
+import React from "react";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -25,13 +25,14 @@ const useStyles = makeStyles(() =>
 
 interface IWordsCategoriesProps {
   count: number;
+  route: string;
 }
 
 const WordsCategories: React.FunctionComponent<IWordsCategoriesProps> = (
   props: IWordsCategoriesProps
 ) => {
   const classes = useStyles();
-  const { count } = props;
+  const { count, route } = props;
 
   return (
     <div className={classes.root}>
@@ -40,7 +41,11 @@ const WordsCategories: React.FunctionComponent<IWordsCategoriesProps> = (
           return (
             <Grid item xs={6} key={nanoid()}>
               <Card className={classes.root}>
-                <CardActionArea className={`card-action-level-${i + 1}`}>
+                <CardActionArea
+                  className={`card-action-level-${i + 1}`}
+                  component={Link}
+                  to={`${route}/${i}/0`}
+                >
                   <CardContent>
                     <Typography variant="h5" component="h2">
                       {`Раздел ${i + 1}`}
@@ -48,8 +53,13 @@ const WordsCategories: React.FunctionComponent<IWordsCategoriesProps> = (
                   </CardContent>
                 </CardActionArea>
                 <CardActions>
-                  <Button size="small" color="primary">
-                    Изучать
+                  <Button
+                    size="small"
+                    color="primary"
+                    component={Link}
+                    to={`${route}/${i}/0`}
+                  >
+                    К разделу
                   </Button>
                 </CardActions>
               </Card>
@@ -57,7 +67,6 @@ const WordsCategories: React.FunctionComponent<IWordsCategoriesProps> = (
           );
         })}
       </Grid>
-      <WordsList groupId={0} />
     </div>
   );
 };

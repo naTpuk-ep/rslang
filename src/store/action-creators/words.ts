@@ -3,7 +3,7 @@ import { Dispatch } from "redux";
 import axios from "axios";
 import { WordsAction, WordsActionTypes } from "../../types/words-types";
 
-const fetchWords = (group = 1, page = 1) => {
+const fetchWords = (group = 0, page = 0) => {
   return async (dispatch: Dispatch<WordsAction>) => {
     try {
       dispatch({ type: WordsActionTypes.FETCH_WORDS });
@@ -26,5 +26,8 @@ const fetchWords = (group = 1, page = 1) => {
   };
 };
 
-// eslint-disable-next-line import/prefer-default-export
-export { fetchWords };
+const setWordsPage = (page: number): WordsAction => {
+  return { type: WordsActionTypes.SET_WORDS_PAGE, payload: page };
+};
+
+export { fetchWords, setWordsPage };
