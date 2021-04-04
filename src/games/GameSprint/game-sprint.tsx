@@ -51,9 +51,9 @@ const GameSprint: FC<IGameProps> = (props: IGameProps) => {
     }
   }, [wordList, currentIndex]);
 
-  const finishGame = () => {
+  const finishGame = useCallback(() => {
     setIsPlay(false);
-  };
+  }, []);
 
   const answerClick = useCallback(
     // eslint-disable-next-line
