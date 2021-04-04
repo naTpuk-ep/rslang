@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import IWordData from "../../types/words-types";
 
 /* eslint-disable @typescript-eslint/lines-between-class-members */

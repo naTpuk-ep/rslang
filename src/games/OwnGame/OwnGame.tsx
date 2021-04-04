@@ -78,7 +78,7 @@ const OwnGame: FC = () => {
     <div className="own-game">
       <h2>{timer}</h2>
       <h3>
-        {separateText![0]}{" "}
+        {separateText?.[0]}{" "}
         <input
           className={
             !inputValue
@@ -92,7 +92,7 @@ const OwnGame: FC = () => {
           value={inputValue}
           placeholder={currentWord.word[0].toUpperCase()}
         />
-        {separateText![1]}
+        {separateText?.[1]}
       </h3>
       <button type="button" onClick={() => setNext()}>
         skip
