@@ -1,4 +1,5 @@
-import React from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect } from "react";
 import { Container } from "@material-ui/core";
 import { Switch, Route } from "react-router-dom";
 import Header from "../components/Header";
@@ -16,6 +17,7 @@ import {
 } from "../constants/routes";
 import "./App.scss";
 import BookPage from "../pages/BookPage";
+import useActions from "../hooks/useActions";
 
 // Temporary page templates!
 const Main: React.FunctionComponent = () => {
@@ -93,6 +95,12 @@ const OwnGame: React.FunctionComponent = () => {
 
 const App: React.FunctionComponent = () => {
   const isAuthorization = true;
+
+  const { getStatistics } = useActions();
+
+  useEffect(() => {
+    getStatistics();
+  }, []);
 
   return (
     <>
