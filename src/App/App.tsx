@@ -1,4 +1,5 @@
 import React from "react";
+
 import { Container } from "@material-ui/core";
 import { Switch, Route } from "react-router-dom";
 import Header from "../components/Header";
@@ -15,6 +16,7 @@ import {
   STATISTICS,
 } from "../constants/routes";
 import "./App.scss";
+import OwnGame from "../games/OwnGame";
 import BookPage from "../pages/BookPage";
 
 // Temporary page templates!
@@ -82,13 +84,6 @@ const Sprint: React.FunctionComponent = () => {
   );
 };
 
-const OwnGame: React.FunctionComponent = () => {
-  return (
-    <>
-      <h1>Own Game</h1>
-    </>
-  );
-};
 // Temporary page templates!
 
 const App: React.FunctionComponent = () => {
