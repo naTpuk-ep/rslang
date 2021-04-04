@@ -48,7 +48,6 @@ const OwnGame: FC = () => {
       timeOut = setTimeout(() => {
         if (timer === 1) {
           setIsFinish(true);
-          console.log("setFinish");
         } else {
           setTimer(timer - 1);
         }
