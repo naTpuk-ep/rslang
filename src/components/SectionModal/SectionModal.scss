@@ -30,7 +30,14 @@
   align-items: center;
 }
 
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .modal-content {
+  outline: 0;
   width: 600px;
   text-align: center;
 }

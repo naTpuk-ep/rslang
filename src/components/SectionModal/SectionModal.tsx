@@ -1,3 +1,4 @@
+import { Redirect } from "react-router-dom";
 import {
   Card,
   CardActionArea,
@@ -18,6 +19,7 @@ import { BACKEND_PATH } from "../../constants/requestParams";
 import useHttp from "../../hooks/http.hook";
 import IWordData from "../../types/words-types";
 import "./SectionModal.scss";
+import { MAIN } from "../../constants/routes";
 
 interface ISectionModalProps {
   setWordList: Dispatch<SetStateAction<IWordData[] | undefined>>;
@@ -41,39 +43,41 @@ const SectionModal: FC<ISectionModalProps> = ({
     setOpen(false);
   };
 
-  return (
+  return !open ? (
+    <Redirect to={MAIN} />
+  ) : (
     <Modal
       open={open}
+      onClose={() => setOpen(false)}
       aria-labelledby="simple-modal-title"
       aria-describedby="simple-modal-description"
+      className="modal"
     >
-      <div className="modal-wrapper">
-        <div className="modal-content">
-          {loading ? (
-            <Typography variant="h2">Loading...</Typography>
-          ) : (
-            <Grid container spacing={3}>
-              {[...Array(6)].map((card, i) => {
-                return (
-                  <Grid item xs={6} key={nanoid()}>
-                    <Card>
-                      <CardActionArea
-                        onClick={() => clickHandler(i)}
-                        className={`card-action-level-${i + 1}`}
-                      >
-                        <CardContent>
-                          <Typography variant="h5" component="h2">
-                            {`Раздел ${i + 1}`}
-                          </Typography>
-                        </CardContent>
-                      </CardActionArea>
-                    </Card>
-                  </Grid>
-                );
-              })}
-            </Grid>
-          )}
-        </div>
+      <div className="modal-content">
+        {loading ? (
+          <Typography variant="h2">Loading...</Typography>
+        ) : (
+          <Grid container spacing={3}>
+            {[...Array(6)].map((card, i) => {
+              return (
+                <Grid item xs={6} key={nanoid()}>
+                  <Card>
+                    <CardActionArea
+                      onClick={() => clickHandler(i)}
+                      className={`card-action-level-${i + 1}`}
+                    >
+                      <CardContent>
+                        <Typography variant="h5" component="h2">
+                          {`Раздел ${i + 1}`}
+                        </Typography>
+                      </CardContent>
+                    </CardActionArea>
+                  </Card>
+                </Grid>
+              );
+            })}
+          </Grid>
+        )}
       </div>
     </Modal>
   );
