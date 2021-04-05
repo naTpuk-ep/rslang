@@ -1,21 +1,26 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable react/destructuring-assignment */
 import React, { useEffect, useState } from "react";
 import Countdown from "react-countdown";
 import { nanoid } from "nanoid";
 import "./GameSavannah.scss";
-import { GlobalHotKeys, HotKeys } from "react-hotkeys";
+import { GlobalHotKeys } from "react-hotkeys";
 import crystal from "../../assets/savannah-crystal.png";
 import heart from "../../assets/heart.png";
 import emptyHeart from "../../assets/empty-heart.png";
 import IGameProps from "../../types/IGameProps";
 import IWordData from "../../types/words-types";
+import SectionModal from "../../components/SectionModal";
 
 const GameSavannah: React.FunctionComponent<IGameProps> = (
   props: IGameProps
 ) => {
-  const { wordList } = props;
+  const [wordList, setWordList] = useState<IWordData[] | undefined>(
+    props.wordList
+  );
+
   const [index, setIndex] = useState(0);
-  const [guessWord, setGuessWord] = useState(wordList[0]);
+  const [guessWord, setGuessWord] = useState<IWordData | undefined>();
   const [animated, setAnimated] = useState(nanoid());
   const [options, setOptions] = useState<IWordData[]>([]);
   const [isStarted, setIsStarted] = useState(false);
@@ -23,21 +28,32 @@ const GameSavannah: React.FunctionComponent<IGameProps> = (
   const [attempts, setAttempts] = useState(5);
 
   useEffect(() => {
-    if (isStarted && !isFinished) {
-      if (index >= wordList.length) {
-        setIsFinished(true);
-        return;
-      }
-      setGuessWord(wordList[index]);
-      setAnimated(nanoid());
-      const optionWords = [...wordList.slice(0, index), ...wordList.slice(index + 1)]
-        .sort(() => Math.random() - 0.5)
-        .slice(0, 3);
-      optionWords.push(wordList[index]);
-      optionWords.sort(() => Math.random() - 0.5);
-      setOptions(optionWords);
+    if (wordList) {
+      setGuessWord(wordList[0]);
     }
-  }, [index, isStarted, isFinished]);
+  }, [wordList]);
+
+  useEffect(() => {
+    if (wordList) {
+      if (isStarted && !isFinished) {
+        if (index >= wordList.length) {
+          setIsFinished(true);
+          return;
+        }
+        setGuessWord(wordList[index]);
+        setAnimated(nanoid());
+        const optionWords = [
+          ...wordList.slice(0, index),
+          ...wordList.slice(index + 1),
+        ]
+          .sort(() => Math.random() - 0.5)
+          .slice(0, 3);
+        optionWords.push(wordList[index]);
+        optionWords.sort(() => Math.random() - 0.5);
+        setOptions(optionWords);
+      }
+    }
+  }, [index, isStarted, isFinished, wordList]);
 
   useEffect(() => {
     if (attempts === 0) {
@@ -54,7 +70,7 @@ const GameSavannah: React.FunctionComponent<IGameProps> = (
     }
   };
   const guessClickHandler = (word: IWordData) => {
-    if (word.wordTranslate === guessWord.wordTranslate) {
+    if (word.wordTranslate === guessWord?.wordTranslate) {
       setIndex(index + 1);
     } else {
       setAttempts(attempts - 1);
@@ -64,6 +80,10 @@ const GameSavannah: React.FunctionComponent<IGameProps> = (
   const countdownCompleteHandler = () => {
     setIsStarted(true);
   };
+
+  if (!wordList) {
+    return <SectionModal setWordList={setWordList} />;
+  }
 
   return (
     <div className="game-container">
@@ -103,7 +123,7 @@ const GameSavannah: React.FunctionComponent<IGameProps> = (
                   animationIterationandler(e);
                 }}
               >
-                {guessWord.word}
+                {guessWord?.word}
               </div>
               <div className="game-container--buttons">
                 {options.map((option, id) => {

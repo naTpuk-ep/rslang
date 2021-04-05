@@ -14,7 +14,7 @@ import {
   OWN_GAME,
   STATISTICS,
 } from "../constants/routes";
-import GameSavannah from "../pages/GameSavannah";
+import GameSavannah from "../games/GameSavannah";
 import "./App.scss";
 import OwnGame from "../games/OwnGame";
 import BookPage from "../pages/BookPage";
@@ -61,14 +61,6 @@ const Statistics: React.FunctionComponent = () => {
   );
 };
 
-const Savannah: React.FunctionComponent = () => {
-  return (
-    <>
-      <h1>Savannah</h1>
-    </>
-  );
-};
-
 const AudioCall: React.FunctionComponent = () => {
   return (
     <>
@@ -107,7 +99,7 @@ const App: React.FunctionComponent = () => {
               <Statistics />
             </Route>
             <Route path={SAVANNAH}>
-              <Savannah />
+              <GameSavannah />
             </Route>
             <Route path={AUDIO_CALL}>
               <AudioCall />
