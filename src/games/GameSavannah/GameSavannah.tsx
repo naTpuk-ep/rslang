@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable react/destructuring-assignment */
 import React, { useEffect, useRef, useState } from "react";
@@ -22,6 +23,9 @@ const GameSavannah: React.FunctionComponent<IGameProps> = (
   const numberOfCorrectAnswers = useRef(0);
   const series = useRef(0);
   const longestSeries = useRef(0);
+  const correctWords = useRef<IWordData[]>([]);
+  const mistakes = useRef<IWordData[]>([]);
+  const totalWordCount = useRef(0);
 
   const [index, setIndex] = useState(0);
   const [guessWord, setGuessWord] = useState<IWordData | undefined>();
@@ -71,6 +75,8 @@ const GameSavannah: React.FunctionComponent<IGameProps> = (
     if (e.animationName === "moveword") {
       setIndex(index + 1);
       setAttempts(attempts - 1);
+      totalWordCount.current += 1;
+      mistakes.current.push(guessWord!);
       series.current = 0;
     }
   };
@@ -79,14 +85,17 @@ const GameSavannah: React.FunctionComponent<IGameProps> = (
       setIndex(index + 1);
       numberOfCorrectAnswers.current += 1;
       series.current += 1;
+      correctWords.current.push(guessWord);
       if (longestSeries.current < series.current) {
         longestSeries.current = series.current;
       }
     } else {
+      mistakes.current.push(guessWord!);
       setAttempts(attempts - 1);
       setIndex(index + 1);
       series.current = 0;
     }
+    totalWordCount.current += 1;
   };
   const countdownCompleteHandler = () => {
     setIsStarted(true);
@@ -100,9 +109,11 @@ const GameSavannah: React.FunctionComponent<IGameProps> = (
     <div className="game-container">
       {isFinished ? (
         <FinishGameModal
-          totalWordCount={wordList.length}
+          totalWordCount={totalWordCount.current}
           numberOfCorrectAnswers={numberOfCorrectAnswers.current}
           longestSeries={longestSeries.current}
+          correctWords={correctWords.current}
+          mistakes={mistakes.current}
         />
       ) : (
         <>

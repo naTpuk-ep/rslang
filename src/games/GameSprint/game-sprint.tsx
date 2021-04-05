@@ -30,6 +30,8 @@ const GameSprint: FC<IGameProps> = (props: IGameProps) => {
   const numberOfCorrectAnswers = useRef(0);
   const series = useRef(0);
   const longestSeries = useRef(0);
+  const correctWords = useRef<IWordData[]>([]);
+  const mistakes = useRef<IWordData[]>([]);
 
   useEffect(() => {
     if (wordList !== undefined) {
@@ -77,6 +79,7 @@ const GameSprint: FC<IGameProps> = (props: IGameProps) => {
         }
         newScore = score + 2 ** (levelBonus - 1) * 10;
         numberOfCorrectAnswers.current += 1;
+        correctWords.current.push(wordList![currentIndex]);
         series.current += 1;
         if (longestSeries.current < series.current) {
           longestSeries.current = series.current;
@@ -85,6 +88,7 @@ const GameSprint: FC<IGameProps> = (props: IGameProps) => {
         level = 1;
         chain = 0;
         series.current = 0;
+        mistakes.current.push(wordList![currentIndex]);
       }
       totalWordCount.current += 1;
       setCurrentChain(chain);
@@ -105,6 +109,8 @@ const GameSprint: FC<IGameProps> = (props: IGameProps) => {
         totalWordCount={totalWordCount.current}
         numberOfCorrectAnswers={numberOfCorrectAnswers.current}
         longestSeries={longestSeries.current}
+        correctWords={correctWords.current}
+        mistakes={mistakes.current}
       />
     );
   }

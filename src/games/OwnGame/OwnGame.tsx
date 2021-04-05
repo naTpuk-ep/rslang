@@ -30,6 +30,8 @@ const OwnGame: FC<IGameProps> = (props: IGameProps) => {
   const numberOfCorrectAnswers = useRef(0);
   const series = useRef(0);
   const longestSeries = useRef(0);
+  const correctWords = useRef<IWordData[]>([]);
+  const mistakes = useRef<IWordData[]>([]);
 
   const setNext = useCallback(() => {
     setCurrentWord(game?.nextWord());
@@ -66,27 +68,33 @@ const OwnGame: FC<IGameProps> = (props: IGameProps) => {
 
   const changeHandler = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
-      const { value } = e.target;
-      setInputValue(value);
-      if (game?.isCorrect(value)) {
-        numberOfCorrectAnswers.current += 1;
-        series.current += 1;
-        if (longestSeries.current < series.current) {
-          longestSeries.current = series.current;
+      if (currentWord) {
+        const { value } = e.target;
+        setInputValue(value);
+        if (game?.isCorrect(value)) {
+          numberOfCorrectAnswers.current += 1;
+          series.current += 1;
+          if (longestSeries.current < series.current) {
+            longestSeries.current = series.current;
+          }
+          correctWords.current.push(currentWord);
+          setNext();
         }
-        setNext();
       }
     },
-    [game, setNext]
+    [currentWord, game, setNext]
   );
 
   const skipHandler = useCallback(() => {
-    if (longestSeries.current < series.current) {
-      longestSeries.current = series.current;
+    if (currentWord) {
+      if (longestSeries.current < series.current) {
+        longestSeries.current = series.current;
+      }
+      series.current = 0;
+      mistakes.current.push(currentWord);
+      setNext();
     }
-    series.current = 0;
-    setNext();
-  }, [setNext]);
+  }, [currentWord, setNext]);
 
   const separateText = useMemo(
     () => currentWord?.textMeaning.split(/<i>.*<\/i>/),
@@ -100,9 +108,11 @@ const OwnGame: FC<IGameProps> = (props: IGameProps) => {
   if (isFinish) {
     return (
       <FinishGameModal
-        totalWordCount={totalWordCount.current}
+        totalWordCount={totalWordCount.current - 1}
         numberOfCorrectAnswers={numberOfCorrectAnswers.current}
         longestSeries={longestSeries.current}
+        correctWords={correctWords.current}
+        mistakes={mistakes.current}
       />
     );
   }
