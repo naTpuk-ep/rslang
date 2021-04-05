@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable react/destructuring-assignment */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Countdown from "react-countdown";
 import { nanoid } from "nanoid";
 import "./GameSavannah.scss";
@@ -11,6 +11,7 @@ import emptyHeart from "../../assets/empty-heart.png";
 import IGameProps from "../../types/IGameProps";
 import IWordData from "../../types/words-types";
 import SectionModal from "../../components/SectionModal";
+import FinishGameModal from "../../components/FinishGameModal/FinishGameModal";
 
 const GameSavannah: React.FunctionComponent<IGameProps> = (
   props: IGameProps
@@ -18,6 +19,9 @@ const GameSavannah: React.FunctionComponent<IGameProps> = (
   const [wordList, setWordList] = useState<IWordData[] | undefined>(
     props.wordList
   );
+  const numberOfCorrectAnswers = useRef(0);
+  const series = useRef(0);
+  const longestSeries = useRef(0);
 
   const [index, setIndex] = useState(0);
   const [guessWord, setGuessWord] = useState<IWordData | undefined>();
@@ -67,14 +71,21 @@ const GameSavannah: React.FunctionComponent<IGameProps> = (
     if (e.animationName === "moveword") {
       setIndex(index + 1);
       setAttempts(attempts - 1);
+      series.current = 0;
     }
   };
   const guessClickHandler = (word: IWordData) => {
     if (word.wordTranslate === guessWord?.wordTranslate) {
       setIndex(index + 1);
+      numberOfCorrectAnswers.current += 1;
+      series.current += 1;
+      if (longestSeries.current < series.current) {
+        longestSeries.current = series.current;
+      }
     } else {
       setAttempts(attempts - 1);
       setIndex(index + 1);
+      series.current = 0;
     }
   };
   const countdownCompleteHandler = () => {
@@ -88,7 +99,11 @@ const GameSavannah: React.FunctionComponent<IGameProps> = (
   return (
     <div className="game-container">
       {isFinished ? (
-        ""
+        <FinishGameModal
+          totalWordCount={wordList.length}
+          numberOfCorrectAnswers={numberOfCorrectAnswers.current}
+          longestSeries={longestSeries.current}
+        />
       ) : (
         <>
           {isStarted ? (
