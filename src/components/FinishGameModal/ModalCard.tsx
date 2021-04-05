@@ -22,8 +22,10 @@ const ModalCard: FC<IModalCardProps> = ({ word }: IModalCardProps) => {
         >
           <PlayArrowIcon />
         </IconButton>
-        <Typography component="h5">{word.word}</Typography>-
-        <Typography component="h5">{word.wordTranslate}</Typography>
+        <Typography component="h5" className="word">
+          {`${word.word} - `}
+          <span>{`${word.wordTranslate}`}</span>
+        </Typography>
       </CardContent>
     </Card>
   );

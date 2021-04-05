@@ -7,7 +7,7 @@
   &__title {
     margin-top: 5px !important;
     margin-bottom: 5px !important;
-  } 
+  }
 }
 
 .finish-modal-words {
@@ -28,6 +28,13 @@
     align-items: center;
     justify-content: center;
     border-radius: 50%;
+  }
+  & h5 {
+    text-align: left;
+    text-transform: capitalize;
+    & span {
+      color: #818181;
+    }
   }
 }
 
