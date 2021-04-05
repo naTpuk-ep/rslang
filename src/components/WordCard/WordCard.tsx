@@ -157,8 +157,8 @@ const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
 
   return (
     <Card
-      className={`word-card group-${word.group + 1}${
-        word.userWord?.status ? " hard" : ""
+      className={`word-card group-${word.group + 1} ${
+        word.userWord ? word.userWord.status : ""
       }`}
     >
       <CardMedia
