@@ -29,9 +29,9 @@ const FinishGameModal: FC<IFinishGameModalProps> = ({
       className="modal"
     >
       <div className="modal-content">
-        <Typography variant="h4">{`Total word count: ${totalWordCount}`}</Typography>
-        <Typography variant="h5">{`Correct answers: ${correctAnswersPercent} %`}</Typography>
-        <Typography variant="h5">{`Longest series: ${longestSeries}`}</Typography>
+        <Typography variant="h4">{`Общее колличество слов: ${totalWordCount}`}</Typography>
+        <Typography variant="h5">{`Правильные ответы: ${correctAnswersPercent} %`}</Typography>
+        <Typography variant="h5">{`Самая длинная серия: ${longestSeries}`}</Typography>
       </div>
     </Modal>
   );
