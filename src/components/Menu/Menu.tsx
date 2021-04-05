@@ -182,7 +182,7 @@ const Menu: React.FunctionComponent<IMenuProps> = ({
               </ListItem>
               <Collapse in={openDictionary} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding onClick={closeMenu(false)}>
-                  <LinkContainer to={STUDIED_WORDS}>
+                  <LinkContainer to={`${STUDIED_WORDS}/0/0`}>
                     <ListItem button className={classes.nested}>
                       <ListItemIcon>
                         <BookmarkTwoTone />
@@ -198,7 +198,7 @@ const Menu: React.FunctionComponent<IMenuProps> = ({
                       <ListItemText primary="Сложные слова" />
                     </ListItem>
                   </LinkContainer>
-                  <LinkContainer to={DELETED_WORDS}>
+                  <LinkContainer to={`${DELETED_WORDS}/0/0`}>
                     <ListItem button className={classes.nested}>
                       <ListItemIcon>
                         <BookmarkTwoTone />
