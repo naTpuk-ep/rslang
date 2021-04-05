@@ -22,7 +22,7 @@ const useUserDictionary = (
   useEffect(() => {
     aggregateUserWords(Number(group), Number(page), filter);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [group, page]);
+  }, [group, page, filter]);
 
   return {
     words: aggregatedWords.words,

@@ -16,29 +16,18 @@ import {
 } from "../constants/routes";
 import "./App.scss";
 import BookPage from "../pages/BookPage";
-import DifficultPage from "../pages/Dictionary/Difficult";
+import DictionaryPage from "../pages/DictionaryPage";
+import {
+  GET_USER_DELETED_WORDS_FILTER,
+  GET_USER_HARD_WORDS_FILTER,
+  GET_USER_LEARN_WORDS_FILTER,
+} from "../constants/requestParams";
 
 // Temporary page templates!
 const Main: React.FunctionComponent = () => {
   return (
     <>
       <h1>Main Page</h1>
-    </>
-  );
-};
-
-const StudiedWords: React.FunctionComponent = () => {
-  return (
-    <>
-      <h1>Studied Words Dictionary</h1>
-    </>
-  );
-};
-
-const DeletedWords: React.FunctionComponent = () => {
-  return (
-    <>
-      <h1>Deleted Words Dictionary</h1>
     </>
   );
 };
@@ -99,16 +88,31 @@ const App: React.FunctionComponent = () => {
             <Route path={`${BOOK}/:group/:page`}>
               <BookPage />
             </Route>
-            <Route path={STUDIED_WORDS}>
-              <StudiedWords />
+            <Route path={`${STUDIED_WORDS}/:group/:page`}>
+              <DictionaryPage
+                header="Изучаемые слова"
+                route={STUDIED_WORDS}
+                filter={JSON.stringify(GET_USER_LEARN_WORDS_FILTER)}
+                learnCategory
+              />
             </Route>
             <Route path={`${DIFFICULT_WORDS}/:group/:page`}>
-              <DifficultPage />
+              <DictionaryPage
+                header="Сложные слова"
+                route={DIFFICULT_WORDS}
+                filter={JSON.stringify(GET_USER_HARD_WORDS_FILTER)}
+                difficultCategory
+              />
             </Route>
             <Route path={`${DELETED_WORDS}/:group/:page`}>
-              <DeletedWords />
+              <DictionaryPage
+                header="Удаленные слова"
+                route={DELETED_WORDS}
+                filter={JSON.stringify(GET_USER_DELETED_WORDS_FILTER)}
+                deletedCategory
+              />
             </Route>
-            <Route path={`${STATISTICS}/:group/:page`}>
+            <Route path={`${STATISTICS}`}>
               <Statistics />
             </Route>
             <Route path={SAVANNAH}>
