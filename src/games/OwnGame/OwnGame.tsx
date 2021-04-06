@@ -1,5 +1,7 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable no-nested-ternary */
+import { Button, Typography } from "@material-ui/core";
+import { Check, Close } from "@material-ui/icons";
 import React, {
   ChangeEvent,
   FC,
@@ -16,6 +18,11 @@ import IWordData from "../../types/words-types";
 import Game from "./Game";
 import "./OwnGame.scss";
 
+type PrevWord = {
+  word: string;
+  isCorrect: boolean;
+};
+
 const OwnGame: FC<IGameProps> = (props: IGameProps) => {
   const [wordList, setWordList] = useState<IWordData[] | undefined>(
     props.wordList
@@ -23,8 +30,8 @@ const OwnGame: FC<IGameProps> = (props: IGameProps) => {
   const [game, setGame] = useState<Game | undefined>();
   const [currentWord, setCurrentWord] = useState<IWordData | undefined>(); // "any" will be the word interface
   const [inputValue, setInputValue] = useState("");
-  const [timer, setTimer] = useState<number | undefined>();
   const numberOfSeconds = useMemo(() => 90, []);
+  const [timer, setTimer] = useState<number>(numberOfSeconds);
   const [isFinish, setIsFinish] = useState(false);
   const totalWordCount = useRef(0);
   const numberOfCorrectAnswers = useRef(0);
@@ -32,6 +39,7 @@ const OwnGame: FC<IGameProps> = (props: IGameProps) => {
   const longestSeries = useRef(0);
   const correctWords = useRef<IWordData[]>([]);
   const mistakes = useRef<IWordData[]>([]);
+  const [prevWords, setPrevWords] = useState<PrevWord[]>([]);
 
   const setNext = useCallback(() => {
     setCurrentWord(game?.nextWord());
@@ -78,6 +86,13 @@ const OwnGame: FC<IGameProps> = (props: IGameProps) => {
             longestSeries.current = series.current;
           }
           correctWords.current.push(currentWord);
+          setPrevWords((prev) => [
+            ...prev,
+            {
+              word: currentWord.word,
+              isCorrect: true,
+            },
+          ]);
           setNext();
         }
       }
@@ -92,6 +107,13 @@ const OwnGame: FC<IGameProps> = (props: IGameProps) => {
       }
       series.current = 0;
       mistakes.current.push(currentWord);
+      setPrevWords((prev) => [
+        ...prev,
+        {
+          word: currentWord.word,
+          isCorrect: false,
+        },
+      ]);
       setNext();
     }
   }, [currentWord, setNext]);
@@ -119,27 +141,66 @@ const OwnGame: FC<IGameProps> = (props: IGameProps) => {
 
   return (
     <div className="own-game">
-      <h2>{timer}</h2>
-      <h3>
-        {separateText?.[0]}{" "}
-        <input
-          className={
-            !inputValue
-              ? ""
-              : game?.startsWith(inputValue)
-              ? "correct"
-              : "wrong"
-          }
-          type="text"
-          onChange={changeHandler}
-          value={inputValue}
-          placeholder={`Starts with ${currentWord?.word[0].toUpperCase()}`}
-        />
-        {separateText?.[1]}
-      </h3>
-      <button type="button" onClick={skipHandler}>
-        skip
-      </button>
+      <div className="own-game__background" />
+      <div className="own-game__content">
+        <div className="own-game__timer-container">
+          <div
+            className="own-game__timer"
+            style={{
+              boxShadow: `inset 0px 0px ${
+                (numberOfSeconds - timer) / 4
+              }px 0px rgb(233, 0, 0, 0.7)`,
+              border: `2px solid rgb(150, ${timer * 1.67}, ${timer * 1.67})`,
+            }}
+          >
+            {(timer ?? numberOfSeconds) <= 6 ? (
+              <div className="own-game__timer-animate" />
+            ) : null}
+            <Typography component="h4" variant="h4">
+              {timer < 10 ? `0${timer}` : timer}
+            </Typography>
+          </div>
+        </div>
+        <Typography component="h5" variant="h5">
+          {separateText?.[0]}{" "}
+          <input
+            className={
+              !inputValue
+                ? ""
+                : game?.startsWith(inputValue)
+                ? "correct"
+                : "wrong"
+            }
+            type="text"
+            onChange={changeHandler}
+            value={inputValue}
+            placeholder={`Starts with ${currentWord?.word[0].toUpperCase()}`}
+          />
+          {separateText?.[1]}
+        </Typography>
+        <Button
+          variant="contained"
+          color="primary"
+          type="button"
+          onClick={skipHandler}
+        >
+          Skip
+        </Button>
+      </div>
+      <div className="own-game__words">
+        {prevWords.map((word) => (
+          <div className="own-game__words_item">
+            {word.isCorrect ? (
+              <Check className="correct" />
+            ) : (
+              <Close className="wrong" />
+            )}
+            <Typography component="h6" variant="h6">
+              {word.word}
+            </Typography>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

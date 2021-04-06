@@ -37,7 +37,9 @@ const FinishGameModal: FC<IFinishGameModalProps> = ({
     >
       <div className="modal-content finish-modal-content">
         <Typography variant="h5">{`Общее колличество слов: ${totalWordCount}`}</Typography>
-        <Typography variant="h5">{`Правильные ответы: ${correctAnswersPercent} %`}</Typography>
+        <Typography variant="h5">{`Правильные ответы: ${
+          Number.isNaN(correctAnswersPercent) ? 0 : correctAnswersPercent
+        } %`}</Typography>
         <Typography variant="h5">{`Самая длинная серия: ${longestSeries}`}</Typography>
         <Grid className="finish-modal-content__title" container spacing={3}>
           <Grid item xs={6}>
