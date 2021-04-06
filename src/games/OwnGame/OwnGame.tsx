@@ -13,6 +13,7 @@ import React, {
 } from "react";
 import FinishGameModal from "../../components/FinishGameModal/FinishGameModal";
 import SectionModal from "../../components/SectionModal";
+import useKeyDown from "../../hooks/useKeyDown";
 import IGameProps from "../../types/IGameProps";
 import IWordData from "../../types/words-types";
 import Game from "./Game";
@@ -117,6 +118,8 @@ const OwnGame: FC<IGameProps> = (props: IGameProps) => {
       setNext();
     }
   }, [currentWord, setNext]);
+
+  useKeyDown("Space", skipHandler);
 
   const separateText = useMemo(
     () => currentWord?.textMeaning.split(/<i>.*<\/i>/),
