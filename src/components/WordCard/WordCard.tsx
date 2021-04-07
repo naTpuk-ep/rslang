@@ -17,13 +17,8 @@ import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import PresentToAllIcon from "@material-ui/icons/PresentToAll";
 import React from "react";
-import IUserWordData from "../../types/userWords-types";
 import useWordCard from "../../hooks/useWordCard";
-import {
-  NO_STATUS,
-  STATUS_DELETED,
-  STATUS_HARD,
-} from "../../constants/requestParams";
+import IUserWordData from "../../types/userWords-types";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -73,7 +68,12 @@ interface IWordsCardProps {
 const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
   const classes = useStyles();
   const { word, difficultCategory, learnCategory, deletedCategory } = props;
-  const { wordAudio, updateClickHandler } = useWordCard(word);
+  const {
+    wordAudio,
+    changeHardStatusHandler,
+    changeDeletedStatusHandler,
+    changeNoStatusHandler,
+  } = useWordCard(word);
 
   const renderButtons = () => {
     const buttons = (
@@ -87,9 +87,7 @@ const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
             size="small"
             className={classes.button}
             startIcon={<AddCircleOutlineIcon />}
-            onClick={() => {
-              updateClickHandler(STATUS_HARD, true);
-            }}
+            onClick={changeHardStatusHandler}
           >
             Сложное
           </Button>
@@ -100,9 +98,7 @@ const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
           size="small"
           className={classes.button}
           startIcon={<DeleteIcon />}
-          onClick={() => {
-            updateClickHandler(STATUS_DELETED, false);
-          }}
+          onClick={changeDeletedStatusHandler}
         >
           Удалить
         </Button>
@@ -121,9 +117,7 @@ const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
             size="small"
             className={classes.button}
             startIcon={<PresentToAllIcon />}
-            onClick={() => {
-              updateClickHandler(NO_STATUS, false);
-            }}
+            onClick={changeNoStatusHandler}
           >
             восстановить
           </Button>
@@ -136,9 +130,7 @@ const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
             size="small"
             className={classes.button}
             startIcon={<PresentToAllIcon />}
-            onClick={() => {
-              updateClickHandler(NO_STATUS, true);
-            }}
+            onClick={changeNoStatusHandler}
           >
             восстановить
           </Button>
