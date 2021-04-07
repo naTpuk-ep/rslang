@@ -28,6 +28,7 @@ import {
   OWN_GAME,
   STATISTICS,
 } from "../../constants/routes";
+import Locations from "../../constants/locations";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -136,7 +137,9 @@ const Menu: React.FunctionComponent<IMenuProps> = ({
           </ListItem>
           <Collapse in={openGame} timeout="auto" unmountOnExit>
             <List component="div" disablePadding onClick={closeMenu(false)}>
-              <LinkContainer to={SAVANNAH}>
+              <LinkContainer
+                to={{ pathname: SAVANNAH, state: { from: Locations.Menu } }}
+              >
                 <ListItem button className={classes.nested}>
                   <ListItemIcon>
                     <GamesTwoTone />
@@ -144,7 +147,9 @@ const Menu: React.FunctionComponent<IMenuProps> = ({
                   <ListItemText primary="Саванна" />
                 </ListItem>
               </LinkContainer>
-              <LinkContainer to={AUDIO_CALL}>
+              <LinkContainer
+                to={{ pathname: AUDIO_CALL, state: { from: Locations.Menu } }}
+              >
                 <ListItem button className={classes.nested}>
                   <ListItemIcon>
                     <GamesTwoTone />
@@ -152,7 +157,9 @@ const Menu: React.FunctionComponent<IMenuProps> = ({
                   <ListItemText primary="Аудио вызов" />
                 </ListItem>
               </LinkContainer>
-              <LinkContainer to={SPRINT}>
+              <LinkContainer
+                to={{ pathname: SPRINT, state: { from: Locations.Menu } }}
+              >
                 <ListItem button className={classes.nested}>
                   <ListItemIcon>
                     <GamesTwoTone />
@@ -160,7 +167,9 @@ const Menu: React.FunctionComponent<IMenuProps> = ({
                   <ListItemText primary="Спринт" />
                 </ListItem>
               </LinkContainer>
-              <LinkContainer to={OWN_GAME}>
+              <LinkContainer
+                to={{ pathname: OWN_GAME, state: { from: Locations.Menu } }}
+              >
                 <ListItem button className={classes.nested}>
                   <ListItemIcon>
                     <GamesTwoTone />
