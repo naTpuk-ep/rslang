@@ -17,12 +17,12 @@ import React, {
 } from "react";
 import { BACKEND_PATH } from "../../constants/requestParams";
 import useHttp from "../../hooks/http.hook";
-import IWordData from "../../types/words-types";
 import "./SectionModal.scss";
 import { MAIN } from "../../constants/routes";
+import IUserWordData from "../../types/userWords-types";
 
 interface ISectionModalProps {
-  setWordList: Dispatch<SetStateAction<IWordData[] | undefined>>;
+  setWordList: Dispatch<SetStateAction<IUserWordData[] | undefined>>;
 }
 
 const SectionModal: FC<ISectionModalProps> = ({

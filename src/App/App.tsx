@@ -14,11 +14,9 @@ import {
   OWN_GAME,
   STATISTICS,
 } from "../constants/routes";
-import GameSavannah from "../games/GameSavannah";
 import "./App.scss";
 import OwnGame from "../games/OwnGame";
 import BookPage from "../pages/BookPage";
-import GameSprint from "../games/GameSprint";
 
 // Temporary page templates!
 const Main: React.FunctionComponent = () => {
@@ -65,6 +63,22 @@ const AudioCall: React.FunctionComponent = () => {
   return (
     <>
       <h1>Audio Call</h1>
+    </>
+  );
+};
+
+const GameSavannah: React.FunctionComponent = () => {
+  return (
+    <>
+      <h1>GameSavannah</h1>
+    </>
+  );
+};
+
+const GameSprint: React.FunctionComponent = () => {
+  return (
+    <>
+      <h1>GameSprint</h1>
     </>
   );
 };

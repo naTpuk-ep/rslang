@@ -14,22 +14,25 @@ import React, {
 import FinishGameModal from "../../components/FinishGameModal/FinishGameModal";
 import SectionModal from "../../components/SectionModal";
 import useKeyDown from "../../hooks/useKeyDown";
-import IGameProps from "../../types/IGameProps";
-import IWordData from "../../types/words-types";
+import IUserWordData from "../../types/userWords-types";
 import Game from "./Game";
 import "./OwnGame.scss";
+
+interface IOwnGameProps {
+  words?: IUserWordData[];
+}
 
 type PrevWord = {
   word: string;
   isCorrect: boolean;
 };
 
-const OwnGame: FC<IGameProps> = (props: IGameProps) => {
-  const [wordList, setWordList] = useState<IWordData[] | undefined>(
-    props.wordList
+const OwnGame: FC<IOwnGameProps> = (props: IOwnGameProps) => {
+  const [wordList, setWordList] = useState<IUserWordData[] | undefined>(
+    props.words
   );
   const [game, setGame] = useState<Game | undefined>();
-  const [currentWord, setCurrentWord] = useState<IWordData | undefined>(); // "any" will be the word interface
+  const [currentWord, setCurrentWord] = useState<IUserWordData | undefined>(); // "any" will be the word interface
   const [inputValue, setInputValue] = useState("");
   const numberOfSeconds = useMemo(() => 90, []);
   const [timer, setTimer] = useState<number>(numberOfSeconds);
@@ -38,8 +41,8 @@ const OwnGame: FC<IGameProps> = (props: IGameProps) => {
   const numberOfCorrectAnswers = useRef(0);
   const series = useRef(0);
   const longestSeries = useRef(0);
-  const correctWords = useRef<IWordData[]>([]);
-  const mistakes = useRef<IWordData[]>([]);
+  const correctWords = useRef<IUserWordData[]>([]);
+  const mistakes = useRef<IUserWordData[]>([]);
   const [prevWords, setPrevWords] = useState<PrevWord[]>([]);
 
   const setNext = useCallback(() => {

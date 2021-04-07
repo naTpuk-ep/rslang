@@ -1,13 +1,14 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import IWordData from "../../types/words-types";
+
+import IUserWordData from "../../types/userWords-types";
 
 /* eslint-disable @typescript-eslint/lines-between-class-members */
 export default class Game {
-  currentWord: IWordData | undefined;
+  currentWord: IUserWordData | undefined;
 
   private index: number;
 
-  constructor(public wordsList: IWordData[]) {
+  constructor(public wordsList: IUserWordData[]) {
     this.index = 0;
   }
 
@@ -15,7 +16,7 @@ export default class Game {
     return string.trim().toLowerCase();
   }
 
-  nextWord(): IWordData {
+  nextWord(): IUserWordData {
     this.currentWord = this.wordsList[(this.index += 1)];
     return this.currentWord;
   }
