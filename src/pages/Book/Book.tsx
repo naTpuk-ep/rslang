@@ -1,9 +1,10 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import WordsCategories from "../../components/WordsCategories";
 import WordsList from "../../components/WordsList";
-import { BOOK } from "../../constants/routes";
+import Locations from "../../constants/locations";
+import { BOOK, SAVANNAH } from "../../constants/routes";
 import useUserBook from "../../hooks/useUserBook";
 
 export interface IBookParams {
@@ -34,6 +35,9 @@ const Book: React.FunctionComponent = () => {
       <h1>
         Book Group: {group} Page: {page}
         <WordsCategories route={BOOK} />
+        <Link to={{ pathname: SAVANNAH, state: { from: Locations.Book } }}>
+          GAME
+        </Link>
         <WordsList {...props} />
       </h1>
     </>
