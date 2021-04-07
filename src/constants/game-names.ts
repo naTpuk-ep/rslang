@@ -1,8 +1,8 @@
 enum GameNames {
   Savannah = "Savannah",
-  AudioCall = "AudioCall",
+  AudioCall = "Audio Call",
   Sprint = "Sprint",
-  OwnGame = "OwnGame",
+  OwnGame = "Own Game",
 }
 
 export default GameNames;
