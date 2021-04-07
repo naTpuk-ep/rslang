@@ -53,6 +53,7 @@ const useUserBook = (props: IUseUserBookProps) => {
       changeUserWordsPages(pages[currentPage]._id, length);
     }
   }, [aggregatedWords]);
+
   return {
     words: aggregatedWords.words.filter((word) => {
       if (word.userWord?.status !== "deleted") return true;

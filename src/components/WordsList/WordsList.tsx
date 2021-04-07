@@ -1,6 +1,6 @@
+/* eslint-disable react/no-array-index-key */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { nanoid } from "nanoid";
 import React from "react";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { createStyles, makeStyles, Theme } from "@material-ui/core";
@@ -58,7 +58,7 @@ const WordsList: React.FunctionComponent<IWordsListProps> = (
         ) : (
           <div className={classes.root}>
             {words.map((word) => {
-              return <WordCard key={nanoid()} word={word} />;
+              return <WordCard key={word._id} word={word} />;
             })}
           </div>
         )}
