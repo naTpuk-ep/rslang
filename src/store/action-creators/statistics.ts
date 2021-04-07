@@ -10,7 +10,7 @@ import {
 const token =
   "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwNWQ4MjY5NDYwNTEyMjk5NDdlNGViMyIsImlhdCI6MTYxNzUzMjkxNiwiZXhwIjoxNjE3OTkzNzE2fQ.lHjMRJQL7HvgkLeKrJrgeUZOKccfjEuGfgCbqoPAwLk";
 
-const getStatistics = () => {
+const getStatisticsAction = () => {
   return async (dispatch: Dispatch<StatisticsAction>) => {
     try {
       dispatch({ type: StatisticsActionTypes.GET_STATISTICS });
@@ -22,20 +22,11 @@ const getStatistics = () => {
           },
         }
       );
-      const stat = response.data;
-      console.log(stat.optional.today);
-      console.log(stat.optional.allTime);
-
-      if (stat.optional.today) {
-        console.log("Yes");
-      } else {
-        console.log("No");
-      }
-
       dispatch({
         type: StatisticsActionTypes.GET_STATISTICS_SUCCESS,
         payload: {
           learnedWords: response.data.learnedWords,
+          learnedWordsToday: response.data.learnedWordsToday,
           optional: response.data.optional,
         },
       });
@@ -48,7 +39,7 @@ const getStatistics = () => {
   };
 };
 
-const updateStatistics = (data: IStatisticsData) => {
+const updateStatisticsAction = (data: IStatisticsData) => {
   return async (dispatch: Dispatch<StatisticsAction>) => {
     try {
       dispatch({ type: StatisticsActionTypes.UPDATE_STATISTICS });
@@ -65,6 +56,7 @@ const updateStatistics = (data: IStatisticsData) => {
         type: StatisticsActionTypes.UPDATE_STATISTICS_SUCCESS,
         payload: {
           learnedWords: response.data.learnedWords,
+          learnedWordsToday: response.data.learnedWordsToday,
           optional: response.data.optional,
         },
       });
@@ -77,4 +69,4 @@ const updateStatistics = (data: IStatisticsData) => {
   };
 };
 
-export { getStatistics, updateStatistics };
+export { getStatisticsAction, updateStatisticsAction };

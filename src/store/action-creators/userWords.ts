@@ -2,9 +2,15 @@
 import { Dispatch } from "redux";
 import axios from "axios";
 import {
+  IUserWordOptions,
   UserWordsAction,
   UserWordsActionTypes,
 } from "../../types/userWords-types";
+import {
+  IStatisticsData,
+  StatisticsAction,
+  StatisticsActionTypes,
+} from "../../types/statistics-types";
 
 const token =
   "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwNWQ4MjY5NDYwNTEyMjk5NDdlNGViMyIsImlhdCI6MTYxNzUzMjkxNiwiZXhwIjoxNjE3OTkzNzE2fQ.lHjMRJQL7HvgkLeKrJrgeUZOKccfjEuGfgCbqoPAwLk";
@@ -69,46 +75,16 @@ const fetchPages = (group = 0) => {
   };
 };
 
-const createUserWord = (
-  userId: string,
-  wordId: string,
-  page: number,
-  data: { status: string; isLearn: boolean }
-) => {
-  return async (dispatch: Dispatch<UserWordsAction>) => {
-    try {
-      dispatch({ type: UserWordsActionTypes.CREATE_USER_WORD });
-      const response = await axios.post(
-        `https://rnovikov-rs-lang-back.herokuapp.com/users/${userId}/words/${wordId}`,
-        data,
-        {
-          headers: {
-            authorization: token,
-          },
-        }
-      );
-      dispatch({
-        type: UserWordsActionTypes.CREATE_USER_WORD_SUCCESS,
-        payload: { userWord: response.data, id: wordId, page },
-      });
-    } catch (e) {
-      dispatch({
-        type: UserWordsActionTypes.CREATE_USER_WORD_ERROR,
-        payload: "Произошла ошибка при добавлении слова",
-      });
-    }
-  };
-};
-
 const updateUserWord = (
   userId: string,
   wordId: string,
-  data: { status: string; isLearn: boolean }
+  data: IUserWordOptions,
+  statistics?: IStatisticsData
 ) => {
-  return async (dispatch: Dispatch<UserWordsAction>) => {
+  return async (dispatch: Dispatch<UserWordsAction | StatisticsAction>) => {
     try {
       dispatch({ type: UserWordsActionTypes.UPDATE_USER_WORD });
-      const response = await axios.put(
+      const wordResponse = await axios.put(
         `https://rnovikov-rs-lang-back.herokuapp.com/users/${userId}/words/${wordId}`,
         data,
         {
@@ -119,19 +95,48 @@ const updateUserWord = (
       );
       dispatch({
         type: UserWordsActionTypes.UPDATE_USER_WORD_SUCCESS,
-        payload: { userWord: response.data, id: wordId },
+        payload: {
+          userWord: {
+            isLearn: wordResponse.data.isLearn,
+            status: wordResponse.data.status,
+            optional: wordResponse.data.optional,
+          },
+          id: wordId,
+        },
       });
+      if (statistics) {
+        dispatch({ type: StatisticsActionTypes.UPDATE_STATISTICS });
+        const statResponse = await axios.put(
+          `https://rnovikov-rs-lang-back.herokuapp.com/users/605d826946051229947e4eb3/statistics`,
+          statistics,
+          {
+            headers: {
+              authorization: token,
+            },
+          }
+        );
+        dispatch({
+          type: StatisticsActionTypes.UPDATE_STATISTICS_SUCCESS,
+          payload: {
+            learnedWords: statResponse.data.learnedWords,
+            learnedWordsToday: statResponse.data.learnedWordsToday,
+            optional: statResponse.data.optional,
+          },
+        });
+      }
     } catch (e) {
       dispatch({
         type: UserWordsActionTypes.UPDATE_USER_WORD_ERROR,
         payload: "Произошла ошибка при изменение слова",
       });
+      if (statistics) {
+        dispatch({
+          type: StatisticsActionTypes.UPDATE_STATISTICS_ERROR,
+          payload: "Произошла ошибка при изменение статистики",
+        });
+      }
     }
   };
-};
-
-const setUserWordsPage = (page: number): UserWordsAction => {
-  return { type: UserWordsActionTypes.SET_USER_WORDS_PAGE, payload: page };
 };
 
 const changeUserWordsPages = (page: number, count: number): UserWordsAction => {
@@ -141,11 +146,4 @@ const changeUserWordsPages = (page: number, count: number): UserWordsAction => {
   };
 };
 
-export {
-  aggregateUserWords,
-  fetchPages,
-  setUserWordsPage,
-  createUserWord,
-  updateUserWord,
-  changeUserWordsPages,
-};
+export { aggregateUserWords, fetchPages, updateUserWord, changeUserWordsPages };
