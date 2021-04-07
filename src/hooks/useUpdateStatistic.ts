@@ -1,6 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { NO_STATUS } from "../constants/requestParams";
 import { GamesNames, IGameStatisticsData } from "../types/statistics-types";
 import IUserWordData from "../types/userWords-types";
 import useActions from "./useActions";
@@ -67,7 +68,7 @@ const useUpdateStatistic = () => {
       );
     } else {
       const userWord = {
-        status: "",
+        status: NO_STATUS,
         isLearn: true,
         optional: {
           lastLearn: new Date(),
@@ -75,6 +76,8 @@ const useUpdateStatistic = () => {
           correctAnswers: correct,
         },
       };
+      stat.learnedWords += 1;
+      stat.learnedWordsToday += 1;
       if (compareDates(dateNow, new Date(statistics.optional.today.date))) {
         stat.optional.today.dayLearns = 1;
         stat.optional.today.correctAnswers = correct;
