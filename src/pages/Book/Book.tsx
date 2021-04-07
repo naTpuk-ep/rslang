@@ -11,7 +11,7 @@ export interface IBookParams {
   page: string;
 }
 
-const BookPage: React.FunctionComponent = () => {
+const Book: React.FunctionComponent = () => {
   const { group, page } = useParams<IBookParams>();
 
   const { words, pagesCount, isFetching, isPagesFetching } = useUserBook({
@@ -40,4 +40,4 @@ const BookPage: React.FunctionComponent = () => {
   );
 };
 
-export default BookPage;
+export default Book;

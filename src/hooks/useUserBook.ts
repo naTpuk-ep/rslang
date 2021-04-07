@@ -4,7 +4,7 @@
 
 import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { GET_USER_BOOK_PAGE_FILTER } from "../constants/requestParams";
+import { GET_USER_BOOK_PAGE_FILTER } from "../constants/request-params";
 import { BOOK } from "../constants/routes";
 import useActions from "./useActions";
 import useTypedSelector from "./useTypeSelector";

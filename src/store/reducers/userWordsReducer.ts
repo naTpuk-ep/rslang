@@ -3,7 +3,7 @@ import {
   UserWordsAction,
   UserWordsActionTypes,
   UserWordsState,
-} from "../../types/userWords-types";
+} from "../../types/user-words-types";
 
 const defaultWords = {
   words: [],

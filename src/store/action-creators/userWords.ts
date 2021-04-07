@@ -4,7 +4,7 @@ import axios from "axios";
 import {
   UserWordsAction,
   UserWordsActionTypes,
-} from "../../types/userWords-types";
+} from "../../types/user-words-types";
 
 const token =
   "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwNWQ4MjY5NDYwNTEyMjk5NDdlNGViMyIsImlhdCI6MTYxNzM3ODQzNCwiZXhwIjoxNjE3ODM5MjM0fQ.5T_H_lgVStikZb_z0pDSpek7sgjy2pks711zaPq85o4";

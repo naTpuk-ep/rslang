@@ -17,13 +17,13 @@ import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import PresentToAllIcon from "@material-ui/icons/PresentToAll";
 import React from "react";
-import IUserWordData from "../../types/userWords-types";
+import IUserWordData from "../../types/user-words-types";
 import useWordCard from "../../hooks/useWordCard";
 import {
   NO_STATUS,
   STATUS_DELETED,
   STATUS_HARD,
-} from "../../constants/requestParams";
+} from "../../constants/request-params";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

@@ -15,7 +15,7 @@ import {
   STATISTICS,
 } from "../constants/routes";
 import "./App.scss";
-import BookPage from "../pages/BookPage";
+import Book from "../pages/Book";
 
 // Temporary page templates!
 const Main: React.FunctionComponent = () => {
@@ -104,7 +104,7 @@ const App: React.FunctionComponent = () => {
               <Main />
             </Route>
             <Route path={`${BOOK}/:group/:page`}>
-              <BookPage />
+              <Book />
             </Route>
             <Route path={STUDIED_WORDS}>
               <StudiedWords />
@@ -137,7 +137,7 @@ const App: React.FunctionComponent = () => {
               <Main />
             </Route>
             <Route path={`${BOOK}/:group`}>
-              <BookPage />
+              <Book />
             </Route>
             <Route path={SAVANNAH}>
               <Savannah />

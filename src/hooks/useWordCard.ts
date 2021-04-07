@@ -2,8 +2,8 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Howl } from "howler";
 import { useState } from "react";
-import { BACKEND_PATH } from "../constants/requestParams";
-import IUserWordData from "../types/userWords-types";
+import { BACKEND_PATH } from "../constants/request-params";
+import IUserWordData from "../types/user-words-types";
 import useActions from "./useActions";
 
 const useWordCard = (word: IUserWordData) => {
