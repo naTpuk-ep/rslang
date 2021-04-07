@@ -1,24 +1,37 @@
+export enum GamesNames {
+  Savanna = "savanna",
+  Sprint = "sprint",
+  AudioCall = "audioCall",
+  KnowWords = "knowWords",
+}
+
 export interface IStatisticsData {
   learnedWords: number;
+  learnedWordsToday: number;
   optional: {
     today: IDayStatistics;
     allTime: IDayStatistics[];
   };
 }
 
-interface IDayStatistics {
+interface IStatisticsParams {
+  dayLearns: number;
+  wrongAnswers: number;
+  correctAnswers: number;
+}
+
+interface IDayStatistics extends IStatisticsParams {
   date: Date;
-  learnedWords: number;
   savanna: IGameStatisticsData;
   sprint: IGameStatisticsData;
   audioCall: IGameStatisticsData;
   knowWords: IGameStatisticsData;
 }
 
-interface IGameStatisticsData {
+export interface IGameStatisticsData {
   streak: number;
   wrong: number;
-  answers: number;
+  correct: number;
 }
 
 export interface StatisticsState {
