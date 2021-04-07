@@ -4,7 +4,6 @@ import GameNames from "../../constants/game-names";
 import Locations from "../../constants/locations";
 import { MAIN } from "../../constants/routes";
 import useTypedSelector from "../../hooks/useTypeSelector";
-// import { IUserWordData } from "../../types/user-words-types";
 import "./Game.scss";
 
 interface IGameProps {
