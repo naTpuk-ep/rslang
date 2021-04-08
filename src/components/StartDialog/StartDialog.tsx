@@ -16,7 +16,7 @@ const groups = [
 
 export interface IStartDialogProps {
   open: boolean;
-  selectGroup: (value: string) => void;
+  selectGroup: (value: number) => void;
 }
 
 const StartDialog: React.FunctionComponent<IStartDialogProps> = (
@@ -24,7 +24,7 @@ const StartDialog: React.FunctionComponent<IStartDialogProps> = (
 ) => {
   const { selectGroup, open } = props;
 
-  const handleListItemClick = (value: string) => {
+  const handleListItemClick = (value: number) => {
     selectGroup(value);
   };
 
@@ -32,11 +32,11 @@ const StartDialog: React.FunctionComponent<IStartDialogProps> = (
     <Dialog aria-labelledby="simple-dialog-title" open={open}>
       <DialogTitle id="simple-dialog-title">Выберите раздел</DialogTitle>
       <List>
-        {groups.map((index, group) => (
+        {groups.map((group, index) => (
           <ListItem
             button
-            onClick={() => handleListItemClick(index.toString())}
-            key={index}
+            onClick={() => handleListItemClick(index)}
+            key={group}
           >
             <ListItemText primary={group} />
           </ListItem>

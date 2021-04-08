@@ -10,6 +10,8 @@ import useTypedSelector from "../../hooks/useTypeSelector";
 import IUserWordData from "../../types/user-words-types";
 import "./Game.scss";
 import StartDialog from "../../components/StartDialog";
+import useActions from "../../hooks/useActions";
+import { GET_USER_BOOK_PAGE_FILTER } from "../../constants/request-params";
 
 interface IGameProps {
   game: GameNames;
@@ -45,10 +47,11 @@ const useBackTo = () => {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const useGetWordsForGame = (location: Locations, group?: string) => {
+const useGetWordsForGame = (location: Locations, group?: number | null) => {
   const { aggregatedWords } = useTypedSelector((state) => state.userWords);
+  const { aggregateUserWords, setUserWordsPage } = useActions();
 
-  return { words: aggregatedWords.words };
+  return { words: aggregatedWords.words, aggregateUserWords, setUserWordsPage };
 };
 
 const Game: React.FunctionComponent<IGameProps> = ({ game }: IGameProps) => {
@@ -59,20 +62,43 @@ const Game: React.FunctionComponent<IGameProps> = ({ game }: IGameProps) => {
   const [openStartDialog, setOpenStartDialog] = useState(
     history.location.state?.from === Locations.Menu
   );
-  const [selectedGroup, setSelectedGroup] = useState("");
-  const { words } = useGetWordsForGame(
+  const [selectedGroup, setSelectedGroup] = useState<number | null>(null);
+  const { words, aggregateUserWords, setUserWordsPage } = useGetWordsForGame(
     history.location.state?.from,
     selectedGroup
   );
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    if (selectedGroup) {
+      aggregateUserWords(
+        selectedGroup,
+        0,
+        JSON.stringify(GET_USER_BOOK_PAGE_FILTER),
+        1
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedGroup]);
+
+  useEffect(() => {
+    if (words.length) {
+      setOpenStartDialog(false);
+    }
+  }, [words.length]);
+
+  useEffect(() => {
+    return () => {
+      setUserWordsPage(5);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleClickCloseButton = () => {
     backToPreviousPage();
   };
 
-  const handleCloseStartDialog = (value: string) => {
-    setOpenStartDialog(false);
+  const handleCloseStartDialog = (value: number) => {
+    // setOpenStartDialog(false);
     setSelectedGroup(value);
   };
 
@@ -90,10 +116,16 @@ const Game: React.FunctionComponent<IGameProps> = ({ game }: IGameProps) => {
       >
         <CloseIcon />
       </Fab>
-      {game === GameNames.Savannah && <TemplateGame words={words} />}
-      {game === GameNames.AudioCall && <TemplateGame words={words} />}
-      {game === GameNames.Sprint && <TemplateGame words={words} />}
-      {game === GameNames.OwnGame && <TemplateGame words={words} />}
+      {openStartDialog ? (
+        ""
+      ) : (
+        <>
+          {game === GameNames.Savannah && <TemplateGame words={words} />}
+          {game === GameNames.AudioCall && <TemplateGame words={words} />}
+          {game === GameNames.Sprint && <TemplateGame words={words} />}
+          {game === GameNames.OwnGame && <TemplateGame words={words} />}
+        </>
+      )}
     </div>
   );
 };

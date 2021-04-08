@@ -48,7 +48,13 @@ const userWordsReducer = (
         aggregatedWords: defaultWords,
       };
     case UserWordsActionTypes.SET_USER_WORDS_PAGE:
-      return { ...state, page: action.payload };
+      return {
+        ...state,
+        page: action.payload,
+        isFetching: true,
+        error: "error",
+        aggregatedWords: defaultWords,
+      };
     case UserWordsActionTypes.CREATE_USER_WORD:
       return { ...state, isUpdating: true, error: null };
     case UserWordsActionTypes.CREATE_USER_WORD_SUCCESS: {
