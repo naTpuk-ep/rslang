@@ -1,4 +1,5 @@
-import * as React from "react";
+/* eslint-disable no-console */
+import React, { useEffect, useState } from "react";
 import Fab from "@material-ui/core/Fab";
 import CloseIcon from "@material-ui/icons/Close";
 import { useHistory } from "react-router-dom";
@@ -8,6 +9,7 @@ import { MAIN } from "../../constants/routes";
 import useTypedSelector from "../../hooks/useTypeSelector";
 import IUserWordData from "../../types/user-words-types";
 import "./Game.scss";
+import StartDialog from "../../components/StartDialog";
 
 interface IGameProps {
   game: GameNames;
@@ -24,10 +26,8 @@ interface ITemplateGameProps {
 const TemplateGame: React.FunctionComponent<ITemplateGameProps> = ({
   words,
 }: ITemplateGameProps) => {
-  // eslint-disable-next-line no-console
   console.log(words);
-
-  return <></>;
+  return <h1>{words.toString()}</h1>;
 };
 
 const useBackTo = () => {
@@ -45,27 +45,10 @@ const useBackTo = () => {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const useGetWordsForGame = (location: Locations) => {
+const useGetWordsForGame = (location: Locations, group?: string) => {
   const { aggregatedWords } = useTypedSelector((state) => state.userWords);
-  return { words: aggregatedWords.words };
-};
 
-const useSwitchGame = (
-  game: GameNames,
-  words: IUserWordData[]
-): JSX.Element => {
-  switch (game) {
-    case GameNames.Savannah:
-      return <TemplateGame words={words} />;
-    case GameNames.AudioCall:
-      return <TemplateGame words={words} />;
-    case GameNames.Sprint:
-      return <TemplateGame words={words} />;
-    case GameNames.OwnGame:
-      return <TemplateGame words={words} />;
-    default:
-      return <div />;
-  }
+  return { words: aggregatedWords.words };
 };
 
 const Game: React.FunctionComponent<IGameProps> = ({ game }: IGameProps) => {
@@ -73,16 +56,32 @@ const Game: React.FunctionComponent<IGameProps> = ({ game }: IGameProps) => {
   backToMain();
 
   const history = useHistory<ILocationState>();
-  const { words } = useGetWordsForGame(history.location.state?.from);
-  const currentGame = useSwitchGame(game, words);
+  const [openStartDialog, setOpenStartDialog] = useState(
+    history.location.state?.from === Locations.Menu
+  );
+  const [selectedGroup, setSelectedGroup] = useState("");
+  const { words } = useGetWordsForGame(
+    history.location.state?.from,
+    selectedGroup
+  );
+
+  useEffect(() => {}, []);
 
   const handleClickCloseButton = () => {
-    backToMain();
     backToPreviousPage();
+  };
+
+  const handleCloseStartDialog = (value: string) => {
+    setOpenStartDialog(false);
+    setSelectedGroup(value);
   };
 
   return (
     <div className="game-page">
+      <StartDialog
+        open={openStartDialog}
+        selectGroup={handleCloseStartDialog}
+      />
       <Fab
         onClick={handleClickCloseButton}
         size="small"
@@ -91,7 +90,10 @@ const Game: React.FunctionComponent<IGameProps> = ({ game }: IGameProps) => {
       >
         <CloseIcon />
       </Fab>
-      {currentGame}
+      {game === GameNames.Savannah && <TemplateGame words={words} />}
+      {game === GameNames.AudioCall && <TemplateGame words={words} />}
+      {game === GameNames.Sprint && <TemplateGame words={words} />}
+      {game === GameNames.OwnGame && <TemplateGame words={words} />}
     </div>
   );
 };
