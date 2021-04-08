@@ -26,7 +26,6 @@ const getStatistics = () => {
         type: StatisticsActionTypes.GET_STATISTICS_SUCCESS,
         payload: {
           learnedWords: response.data.learnedWords,
-          learnedWordsToday: response.data.learnedWordsToday,
           optional: response.data.optional,
         },
       });
@@ -56,7 +55,6 @@ const updateStatisticsAction = (data: IStatisticsData) => {
         type: StatisticsActionTypes.UPDATE_STATISTICS_SUCCESS,
         payload: {
           learnedWords: response.data.learnedWords,
-          learnedWordsToday: response.data.learnedWordsToday,
           optional: response.data.optional,
         },
       });

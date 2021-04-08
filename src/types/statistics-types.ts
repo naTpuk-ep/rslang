@@ -1,3 +1,5 @@
+import moment from "moment";
+
 export enum GamesNames {
   Savanna = "savanna",
   Sprint = "sprint",
@@ -7,26 +9,53 @@ export enum GamesNames {
 
 export interface IStatisticsData {
   learnedWords: number;
-  learnedWordsToday: number;
   optional: {
     today: IDayStatistics;
     allTime: IDayStatistics[];
   };
 }
 
-interface IStatisticsParams {
+interface IDayStatistics {
+  date: Date;
   dayLearns: number;
+  learnedWordsToday: number;
   wrongAnswers: number;
   correctAnswers: number;
-}
-
-interface IDayStatistics extends IStatisticsParams {
-  date: Date;
   savanna: IGameStatisticsData;
   sprint: IGameStatisticsData;
   audioCall: IGameStatisticsData;
   knowWords: IGameStatisticsData;
 }
+
+const defaultGameStatistics = {
+  streak: 0,
+  wrong: 0,
+  correct: 0,
+};
+
+export const defaultTodayState = {
+  date: new Date(moment().format("YYYY-MM-DD")),
+  learnedWordsToday: 0,
+  dayLearns: 0,
+  wrongAnswers: 0,
+  correctAnswers: 0,
+  savanna: defaultGameStatistics,
+  sprint: defaultGameStatistics,
+  audioCall: defaultGameStatistics,
+  knowWords: defaultGameStatistics,
+};
+
+export const defaultState: StatisticsState = {
+  statistics: {
+    learnedWords: 0,
+    optional: {
+      today: defaultTodayState,
+      allTime: [],
+    },
+  },
+  isFetching: true,
+  error: null,
+};
 
 export interface IGameStatisticsData {
   streak: number;

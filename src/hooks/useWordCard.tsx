@@ -11,9 +11,11 @@ import {
 } from "../constants/requestParams";
 import IUserWordData from "../types/userWords-types";
 import useActions from "./useActions";
+import useUpdateStatistic from "./useUpdateStatistic";
 
 const useWordCard = (word: IUserWordData) => {
   const { updateUserWord } = useActions();
+  const { updateDayLearnsStatistic } = useUpdateStatistic();
   const [wordAudio] = useState(
     new Howl({
       src: [
@@ -29,6 +31,7 @@ const useWordCard = (word: IUserWordData) => {
     const isLearn = word.userWord?.isLearn;
     const now = moment();
     const yesterday = moment().subtract(1, "days");
+    updateDayLearnsStatistic(1, 2);
     if (!isLearn) {
       updateUserWord("605d826946051229947e4eb3", word._id, {
         status: STATUS_HARD,

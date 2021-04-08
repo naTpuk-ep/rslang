@@ -1,40 +1,9 @@
 import {
+  defaultState,
   StatisticsAction,
   StatisticsActionTypes,
   StatisticsState,
 } from "../../types/statistics-types";
-
-const defaultStatisticsParams = {
-  dayLearns: 0,
-  wrongAnswers: 0,
-  correctAnswers: 0,
-};
-
-const defaultGameStatistics = {
-  streak: 0,
-  wrong: 0,
-  correct: 0,
-};
-
-const defaultState: StatisticsState = {
-  statistics: {
-    learnedWords: 0,
-    learnedWordsToday: 0,
-    optional: {
-      today: {
-        date: new Date(),
-        ...defaultStatisticsParams,
-        savanna: defaultGameStatistics,
-        sprint: defaultGameStatistics,
-        audioCall: defaultGameStatistics,
-        knowWords: defaultGameStatistics,
-      },
-      allTime: [],
-    },
-  },
-  isFetching: true,
-  error: null,
-};
 
 const statisticsReducer = (
   state = defaultState,
