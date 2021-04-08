@@ -78,10 +78,9 @@ const fetchPages = (group = 0) => {
 const updateUserWord = (
   userId: string,
   wordId: string,
-  data: IUserWordOptions,
-  statistics?: IStatisticsData
+  data: IUserWordOptions
 ) => {
-  return async (dispatch: Dispatch<UserWordsAction | StatisticsAction>) => {
+  return async (dispatch: Dispatch<UserWordsAction>) => {
     try {
       dispatch({ type: UserWordsActionTypes.UPDATE_USER_WORD });
       const wordResponse = await axios.put(
@@ -104,37 +103,11 @@ const updateUserWord = (
           id: wordId,
         },
       });
-      if (statistics) {
-        dispatch({ type: StatisticsActionTypes.UPDATE_STATISTICS });
-        const statResponse = await axios.put(
-          `https://rnovikov-rs-lang-back.herokuapp.com/users/605d826946051229947e4eb3/statistics`,
-          statistics,
-          {
-            headers: {
-              authorization: token,
-            },
-          }
-        );
-        dispatch({
-          type: StatisticsActionTypes.UPDATE_STATISTICS_SUCCESS,
-          payload: {
-            learnedWords: statResponse.data.learnedWords,
-            learnedWordsToday: statResponse.data.learnedWordsToday,
-            optional: statResponse.data.optional,
-          },
-        });
-      }
     } catch (e) {
       dispatch({
         type: UserWordsActionTypes.UPDATE_USER_WORD_ERROR,
         payload: "Произошла ошибка при изменение слова",
       });
-      if (statistics) {
-        dispatch({
-          type: StatisticsActionTypes.UPDATE_STATISTICS_ERROR,
-          payload: "Произошла ошибка при изменение статистики",
-        });
-      }
     }
   };
 };

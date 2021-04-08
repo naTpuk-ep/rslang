@@ -7,6 +7,7 @@ export interface IUserWordOptions {
   status: string;
   isLearn: boolean;
   optional: {
+    learned: Date;
     lastLearn: Date;
     wrongAnswers: number;
     correctAnswers: number;

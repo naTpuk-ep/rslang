@@ -98,10 +98,10 @@ const OwnGame: React.FunctionComponent = () => {
 const App: React.FunctionComponent = () => {
   const isAuthorization = true;
 
-  const { getStatisticsAction } = useActions();
+  const { getStatistics } = useActions();
 
   useEffect(() => {
-    getStatisticsAction();
+    getStatistics();
   }, []);
 
   return (

@@ -1,6 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import moment from "moment";
 import { NO_STATUS } from "../constants/requestParams";
 import { GamesNames, IGameStatisticsData } from "../types/statistics-types";
 import IUserWordData from "../types/userWords-types";
@@ -29,66 +30,25 @@ const useUpdateStatistic = () => {
     correct: number
   ) => {
     const isLearn = word.userWord?.isLearn;
-    const stat = { ...statistics };
-    const dateNow = new Date();
+    const now = moment();
     if (isLearn) {
-      const optional = word.userWord?.optional || {
-        lastLearn: new Date(),
-        wrongAnswers: 0,
-        correctAnswers: 0,
-      };
-      optional.correctAnswers += correct;
-      optional.wrongAnswers += wrong;
-      const today = {
-        dayLearns: 1,
+      const userWord = { ...word.userWord };
+      userWord.optional.lastLearn = new Date(now.format("YYYY-MM-DD"));
+      userWord.optional.correctAnswers += correct;
+      userWord.optional.wrongAnswers += wrong;
+      updateUserWord("605d826946051229947e4eb3", word._id, userWord);
+      return;
+    }
+    updateUserWord("605d826946051229947e4eb3", word._id, {
+      isLearn: true,
+      status: NO_STATUS,
+      optional: {
         correctAnswers: correct,
         wrongAnswers: wrong,
-      };
-      if (!compareDates(dateNow, new Date(statistics.optional.today.date))) {
-        today.dayLearns = stat.optional.today.dayLearns + 1;
-        today.correctAnswers = stat.optional.today.correctAnswers + correct;
-        today.wrongAnswers = stat.optional.today.wrongAnswers + wrong;
-      }
-      if (compareDates(dateNow, new Date(optional.lastLearn))) {
-        stat.optional.today.dayLearns = today.dayLearns;
-        stat.optional.today.correctAnswers = today.correctAnswers;
-        stat.optional.today.wrongAnswers = today.wrongAnswers;
-      } else {
-        stat.optional.today.correctAnswers = today.correctAnswers;
-        stat.optional.today.wrongAnswers = today.wrongAnswers;
-      }
-      updateUserWord(
-        "605d826946051229947e4eb3",
-        word._id,
-        {
-          ...word.userWord,
-          optional,
-        },
-        stat
-      );
-    } else {
-      const userWord = {
-        status: NO_STATUS,
-        isLearn: true,
-        optional: {
-          lastLearn: new Date(),
-          wrongAnswers: wrong,
-          correctAnswers: correct,
-        },
-      };
-      stat.learnedWords += 1;
-      stat.learnedWordsToday += 1;
-      if (compareDates(dateNow, new Date(statistics.optional.today.date))) {
-        stat.optional.today.dayLearns = 1;
-        stat.optional.today.correctAnswers = correct;
-        stat.optional.today.wrongAnswers = wrong;
-      } else {
-        stat.optional.today.dayLearns += 1;
-        stat.optional.today.correctAnswers += correct;
-        stat.optional.today.wrongAnswers += wrong;
-      }
-      updateUserWord("605d826946051229947e4eb3", word._id, userWord, stat);
-    }
+        lastLearn: new Date(now.format("YYYY-MM-DD")),
+        learned: new Date(now.format("YYYY-MM-DD")),
+      },
+    });
   };
 
   const updateGameStatistics = (

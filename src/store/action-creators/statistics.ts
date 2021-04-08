@@ -10,7 +10,7 @@ import {
 const token =
   "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwNWQ4MjY5NDYwNTEyMjk5NDdlNGViMyIsImlhdCI6MTYxNzUzMjkxNiwiZXhwIjoxNjE3OTkzNzE2fQ.lHjMRJQL7HvgkLeKrJrgeUZOKccfjEuGfgCbqoPAwLk";
 
-const getStatisticsAction = () => {
+const getStatistics = () => {
   return async (dispatch: Dispatch<StatisticsAction>) => {
     try {
       dispatch({ type: StatisticsActionTypes.GET_STATISTICS });
@@ -69,4 +69,4 @@ const updateStatisticsAction = (data: IStatisticsData) => {
   };
 };
 
-export { getStatisticsAction, updateStatisticsAction };
+export { getStatistics, updateStatisticsAction };

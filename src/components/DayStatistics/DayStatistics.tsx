@@ -21,10 +21,10 @@ const DayStatistics = () => {
   const { statistics, isFetching } = useTypedSelector(
     (state) => state.statistics
   );
-  const { getStatisticsAction } = useActions();
+  const { getStatistics } = useActions();
 
   useEffect(() => {
-    getStatisticsAction();
+    getStatistics();
   }, []);
 
   const gamePercentage = (gameName: GamesNames) => {
