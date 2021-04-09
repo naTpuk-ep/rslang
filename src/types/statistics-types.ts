@@ -11,10 +11,12 @@ export interface IStatisticsData {
   learnedWords: number;
   optional: {
     today: IDayStatistics;
-    allTime: IDayStatistics[];
+    allTime: AllTimeStatistic[];
   };
 }
-
+interface AllTimeStatistic extends IDayStatistics {
+  learnedWords: number;
+}
 interface IDayStatistics {
   date: Date;
   dayLearns: number;
