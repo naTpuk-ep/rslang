@@ -2,12 +2,13 @@
 import { Dispatch } from "redux";
 import axios from "axios";
 import {
+  IUserWordOptions,
   UserWordsAction,
   UserWordsActionTypes,
 } from "../../types/userWords-types";
 
 const token =
-  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwNWQ4MjY5NDYwNTEyMjk5NDdlNGViMyIsImlhdCI6MTYxNzM3ODQzNCwiZXhwIjoxNjE3ODM5MjM0fQ.5T_H_lgVStikZb_z0pDSpek7sgjy2pks711zaPq85o4";
+  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwNWQ4MjY5NDYwNTEyMjk5NDdlNGViMyIsImlhdCI6MTYxNzUzMjkxNiwiZXhwIjoxNjE3OTkzNzE2fQ.lHjMRJQL7HvgkLeKrJrgeUZOKccfjEuGfgCbqoPAwLk";
 
 const aggregateUserWords = (
   group = 0,
@@ -69,46 +70,15 @@ const fetchPages = (group = 0) => {
   };
 };
 
-const createUserWord = (
-  userId: string,
-  wordId: string,
-  page: number,
-  data: { status: string; isLearn: boolean }
-) => {
-  return async (dispatch: Dispatch<UserWordsAction>) => {
-    try {
-      dispatch({ type: UserWordsActionTypes.CREATE_USER_WORD });
-      const response = await axios.post(
-        `https://rnovikov-rs-lang-back.herokuapp.com/users/${userId}/words/${wordId}`,
-        data,
-        {
-          headers: {
-            authorization: token,
-          },
-        }
-      );
-      dispatch({
-        type: UserWordsActionTypes.CREATE_USER_WORD_SUCCESS,
-        payload: { userWord: response.data, id: wordId, page },
-      });
-    } catch (e) {
-      dispatch({
-        type: UserWordsActionTypes.CREATE_USER_WORD_ERROR,
-        payload: "Произошла ошибка при добавлении слова",
-      });
-    }
-  };
-};
-
 const updateUserWord = (
   userId: string,
   wordId: string,
-  data: { status: string; isLearn: boolean }
+  data: IUserWordOptions
 ) => {
   return async (dispatch: Dispatch<UserWordsAction>) => {
     try {
       dispatch({ type: UserWordsActionTypes.UPDATE_USER_WORD });
-      const response = await axios.put(
+      const wordResponse = await axios.put(
         `https://rnovikov-rs-lang-back.herokuapp.com/users/${userId}/words/${wordId}`,
         data,
         {
@@ -119,7 +89,14 @@ const updateUserWord = (
       );
       dispatch({
         type: UserWordsActionTypes.UPDATE_USER_WORD_SUCCESS,
-        payload: { userWord: response.data, id: wordId },
+        payload: {
+          userWord: {
+            isLearn: wordResponse.data.isLearn,
+            status: wordResponse.data.status,
+            optional: wordResponse.data.optional,
+          },
+          id: wordId,
+        },
       });
     } catch (e) {
       dispatch({
@@ -130,14 +107,11 @@ const updateUserWord = (
   };
 };
 
-const setUserWordsPage = (page: number): UserWordsAction => {
-  return { type: UserWordsActionTypes.SET_USER_WORDS_PAGE, payload: page };
+const changeUserWordsPages = (page: number, count: number): UserWordsAction => {
+  return {
+    type: UserWordsActionTypes.CHANGE_USER_WORDS_PAGES,
+    payload: { page, count },
+  };
 };
 
-export {
-  aggregateUserWords,
-  fetchPages,
-  setUserWordsPage,
-  createUserWord,
-  updateUserWord,
-};
+export { aggregateUserWords, fetchPages, updateUserWord, changeUserWordsPages };

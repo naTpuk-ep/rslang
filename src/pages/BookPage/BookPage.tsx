@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from "react";
 import { useParams } from "react-router-dom";
+import UnitStatistics from "../../components/UnitStatistics/UnitStatistics";
 import WordsCategories from "../../components/WordsCategories";
 import WordsList from "../../components/WordsList";
 import { BOOK } from "../../constants/routes";
@@ -33,6 +34,7 @@ const BookPage: React.FunctionComponent = () => {
     <>
       <h1>
         Book Group: {group} Page: {page}
+        <UnitStatistics group={Number(group)} />
         <WordsCategories route={BOOK} />
         <WordsList {...props} />
       </h1>

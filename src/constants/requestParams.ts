@@ -1,6 +1,6 @@
 const STATUS_DELETED = "deleted";
 const STATUS_HARD = "hard";
-const NO_STATUS = "";
+const NO_STATUS = "empty";
 
 const GET_USER_BOOK_PAGE_FILTER = {
   $or: [{ "userWord.status": { $ne: "deleted" } }, { userWord: null }],
