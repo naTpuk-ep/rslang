@@ -47,7 +47,7 @@ const useUpdateStatistic = () => {
     const now = moment();
     const stat = updateStatisticState({ ...statistics });
     if (isLearn) {
-      if (moment(word.userWord.optional.learned).isSame(now, "day")) {
+      if (moment(word.userWord.optional.learned).isBefore(now, "day")) {
         stat.optional.today.dayLearns += 1;
       }
       const userWord = { ...word.userWord };
@@ -68,6 +68,8 @@ const useUpdateStatistic = () => {
         learned: new Date(now.format("YYYY-MM-DD")),
       },
     });
+    stat.learnedWords += 1;
+    stat.optional.today.learnedWordsToday += 1;
     stat.optional.today.dayLearns += 1;
     updateStatisticsAction(stat);
   };
