@@ -15,7 +15,7 @@ import {
 import useLearningStatistics from "../../hooks/useLearningStatistics";
 import { GamesNames } from "../../types/statistics-types";
 
-const LearningStatistics = () => {
+const LearningStatistics: React.FunctionComponent = () => {
   const {
     isFetching,
     statistics,

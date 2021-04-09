@@ -18,8 +18,6 @@ import {
 import "./App.scss";
 import BookPage from "../pages/BookPage";
 import useActions from "../hooks/useActions";
-import DayStatistics from "../components/LearningStatistics/LearningStatistics";
-import useUpdateStatistic from "../hooks/useUpdateStatistic";
 
 // Temporary page templates!
 const Main: React.FunctionComponent = () => {
@@ -58,7 +56,6 @@ const Statistics: React.FunctionComponent = () => {
   return (
     <>
       <h1>Statistics Page</h1>
-      <DayStatistics />
     </>
   );
 };

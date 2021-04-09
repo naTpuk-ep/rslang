@@ -6,11 +6,6 @@ import {
   UserWordsAction,
   UserWordsActionTypes,
 } from "../../types/userWords-types";
-import {
-  IStatisticsData,
-  StatisticsAction,
-  StatisticsActionTypes,
-} from "../../types/statistics-types";
 
 const token =
   "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwNWQ4MjY5NDYwNTEyMjk5NDdlNGViMyIsImlhdCI6MTYxNzUzMjkxNiwiZXhwIjoxNjE3OTkzNzE2fQ.lHjMRJQL7HvgkLeKrJrgeUZOKccfjEuGfgCbqoPAwLk";
