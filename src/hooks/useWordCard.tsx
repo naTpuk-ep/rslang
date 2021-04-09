@@ -15,7 +15,7 @@ import useUpdateStatistic from "./useUpdateStatistic";
 
 const useWordCard = (word: IUserWordData) => {
   const { updateUserWord } = useActions();
-  const { updateDayLearnsStatistic } = useUpdateStatistic();
+  const { updateDayLearnsStatistic, updateLearnedWords } = useUpdateStatistic();
   const [wordAudio] = useState(
     new Howl({
       src: [
@@ -43,6 +43,7 @@ const useWordCard = (word: IUserWordData) => {
           correctAnswers: 0,
         },
       });
+      updateLearnedWords(1, 1);
     } else {
       updateUserWord("605d826946051229947e4eb3", word._id, {
         ...word.userWord,
@@ -69,11 +70,15 @@ const useWordCard = (word: IUserWordData) => {
     const isLearn = word.userWord?.isLearn;
     const now = moment();
     if (isLearn) {
+      if (moment(word.userWord.optional.learned).isSame(now, "day")) {
+        updateLearnedWords(-1, -1);
+      } else {
+        updateLearnedWords(-1);
+      }
       updateUserWord("605d826946051229947e4eb3", word._id, {
         ...word.userWord,
         optional: {
-          learned: new Date(now.format("YYYY-MM-DD")),
-          lastLearn: new Date(now.format("YYYY-MM-DD")),
+          ...word.userWord.optional,
           correctAnswers: 0,
           wrongAnswers: 0,
         },

@@ -18,6 +18,26 @@ const useUpdateStatistic = () => {
   const { statistics } = useTypedSelector((state) => state.statistics);
   const { updateStatisticsAction, updateUserWord } = useActions();
 
+  const updateStatisticState = (statistic: IStatisticsData) => {
+    const now = moment();
+    if (
+      new Date(now.format("YYYY-MM-DD")) >
+      new Date(statistic.optional.today.date)
+    ) {
+      const today = {
+        ...defaultTodayState,
+        date: new Date(now.format("YYYY-MM-DD")),
+      };
+      const previousDay = statistic.optional.today;
+      statistic.optional.allTime.push({
+        ...previousDay,
+        learnedWords: statistic.learnedWords,
+      });
+      statistic.optional.today = today;
+    }
+    return statistic;
+  };
+
   const updateWordInGame = (
     word: IUserWordData,
     wrong: number,
@@ -25,12 +45,17 @@ const useUpdateStatistic = () => {
   ) => {
     const isLearn = word.userWord?.isLearn;
     const now = moment();
+    const stat = updateStatisticState({ ...statistics });
     if (isLearn) {
+      if (moment(word.userWord.optional.learned).isSame(now, "day")) {
+        stat.optional.today.dayLearns += 1;
+      }
       const userWord = { ...word.userWord };
       userWord.optional.lastLearn = new Date(now.format("YYYY-MM-DD"));
       userWord.optional.correctAnswers += correct;
       userWord.optional.wrongAnswers += wrong;
       updateUserWord("605d826946051229947e4eb3", word._id, userWord);
+      updateStatisticsAction(stat);
       return;
     }
     updateUserWord("605d826946051229947e4eb3", word._id, {
@@ -43,30 +68,21 @@ const useUpdateStatistic = () => {
         learned: new Date(now.format("YYYY-MM-DD")),
       },
     });
+    stat.optional.today.dayLearns += 1;
+    updateStatisticsAction(stat);
   };
 
-  const updateStatisticState = (statistic: IStatisticsData) => {
-    const now = moment();
-    if (
-      new Date(now.format("YYYY-MM-DD")) >
-      new Date(statistic.optional.today.date)
-    ) {
-      const today = {
-        ...defaultTodayState,
-        date: new Date(now.format("YYYY-MM-DD")),
-      };
-      const previousDay = statistic.optional.today;
-      statistic.optional.allTime.push(previousDay);
-      statistic.optional.today = today;
-    }
-    return statistic;
+  const updateLearnedWords = (learnedWords: number, learnedWordsToday = 0) => {
+    const stat = updateStatisticState({ ...statistics });
+    stat.learnedWords += learnedWords;
+    stat.optional.today.learnedWordsToday += learnedWordsToday;
+    updateStatisticsAction(stat);
   };
 
   const updateDayLearnsStatistic = (wrong: number, correct: number) => {
     const stat = updateStatisticState({ ...statistics });
     stat.optional.today.correctAnswers += correct;
     stat.optional.today.wrongAnswers += wrong;
-    updateStatisticsAction(stat);
   };
 
   const updateGameStatistics = (
@@ -91,7 +107,9 @@ const useUpdateStatistic = () => {
   };
 
   return {
+    updateStatisticState,
     updateGameStatistics,
+    updateLearnedWords,
     updateDayLearnsStatistic,
     updateWordInGame,
     statistics,

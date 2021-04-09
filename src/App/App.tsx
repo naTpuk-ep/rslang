@@ -18,7 +18,8 @@ import {
 import "./App.scss";
 import BookPage from "../pages/BookPage";
 import useActions from "../hooks/useActions";
-import DayStatistics from "../components/DayStatistics/DayStatistics";
+import DayStatistics from "../components/LearningStatistics/LearningStatistics";
+import useUpdateStatistic from "../hooks/useUpdateStatistic";
 
 // Temporary page templates!
 const Main: React.FunctionComponent = () => {
