@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import Fab from "@material-ui/core/Fab";
@@ -20,7 +21,6 @@ interface ITemplateGameProps {
 const TemplateGame: React.FunctionComponent<ITemplateGameProps> = ({
   words,
 }: ITemplateGameProps) => {
-  // eslint-disable-next-line no-console
   console.log(words);
   return <Typography variant="h3">Game</Typography>;
 };
@@ -43,29 +43,32 @@ const Game: React.FunctionComponent<IGameProps> = ({ game }: IGameProps) => {
   useEffect(() => {
     if (history.location.state?.from === Locations.Menu) {
       setUserWordsPage(0);
+      console.log("clear");
     }
+    return () => {
+      setUserWordsPage(0);
+      console.log("clear");
+    };
+  }, []);
 
-    if (selectedGroup) {
+  useEffect(() => {
+    if (selectedGroup !== null) {
       aggregateUserWords(
         selectedGroup,
         0,
         JSON.stringify(GET_USER_BOOK_PAGE_FILTER),
         1
       );
+      console.log("start");
     }
   }, [selectedGroup]);
 
   useEffect(() => {
-    if (selectedGroup && words.length) {
+    if (selectedGroup !== null && words.length) {
       setOpenStartDialog(false);
+      console.log("load");
     }
   }, [words.length]);
-
-  useEffect(() => {
-    return () => {
-      setUserWordsPage(0);
-    };
-  }, []);
 
   const handleClickCloseButton = () => {
     backToPreviousPage();
@@ -79,6 +82,7 @@ const Game: React.FunctionComponent<IGameProps> = ({ game }: IGameProps) => {
     <div className="game-page">
       <StartDialog
         open={openStartDialog}
+        group={selectedGroup}
         selectGroup={handleCloseStartDialog}
       />
       <Fab
