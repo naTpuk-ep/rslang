@@ -8,7 +8,7 @@ import {
 } from "../../types/userWords-types";
 
 const token =
-  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwNWQ4MjY5NDYwNTEyMjk5NDdlNGViMyIsImlhdCI6MTYxNzUzMjkxNiwiZXhwIjoxNjE3OTkzNzE2fQ.lHjMRJQL7HvgkLeKrJrgeUZOKccfjEuGfgCbqoPAwLk";
+  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwNWQ4MjY5NDYwNTEyMjk5NDdlNGViMyIsImlhdCI6MTYxODA0NDA1MSwiZXhwIjoxNjE4NTA0ODUxfQ.vsICxs1HaHcT_A59xj36r9SuBiTEEvZ3ZAYQg3pExG8";
 
 const aggregateUserWords = (
   group = 0,
