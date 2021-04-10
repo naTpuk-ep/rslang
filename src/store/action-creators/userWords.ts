@@ -5,7 +5,7 @@ import {
   IUserWordOptions,
   UserWordsAction,
   UserWordsActionTypes,
-} from "../../types/userWords-types";
+} from "../../types/user-words-types";
 
 const token =
   "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwNWQ4MjY5NDYwNTEyMjk5NDdlNGViMyIsImlhdCI6MTYxODA0NDA1MSwiZXhwIjoxNjE4NTA0ODUxfQ.vsICxs1HaHcT_A59xj36r9SuBiTEEvZ3ZAYQg3pExG8";
@@ -114,4 +114,14 @@ const changeUserWordsPages = (page: number, count: number): UserWordsAction => {
   };
 };
 
-export { aggregateUserWords, fetchPages, updateUserWord, changeUserWordsPages };
+const clearGameWords = (): UserWordsAction => {
+  return { type: UserWordsActionTypes.CLEAR_GAME_WORDS };
+};
+
+export {
+  aggregateUserWords,
+  fetchPages,
+  updateUserWord,
+  changeUserWordsPages,
+  clearGameWords,
+};

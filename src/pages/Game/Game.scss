@@ -1,0 +1,14 @@
+.game-page {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: white;
+
+  &__button-close {
+    position: fixed;
+    top: 0.5rem;
+    right: calc(40px - 100% + 0.5rem);
+  }
+}

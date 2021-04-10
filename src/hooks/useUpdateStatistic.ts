@@ -3,14 +3,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import moment from "moment";
-import { NO_STATUS } from "../constants/requestParams";
+import { NO_STATUS } from "../constants/request-params";
 import {
   defaultTodayState,
   GamesNames,
   IGameStatisticsData,
   IStatisticsData,
 } from "../types/statistics-types";
-import IUserWordData from "../types/userWords-types";
+import IUserWordData from "../types/user-words-types";
 import useActions from "./useActions";
 import useTypedSelector from "./useTypeSelector";
 

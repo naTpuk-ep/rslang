@@ -17,8 +17,8 @@ import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import PresentToAllIcon from "@material-ui/icons/PresentToAll";
 import React from "react";
+import IUserWordData from "../../types/user-words-types";
 import useWordCard from "../../hooks/useWordCard";
-import IUserWordData from "../../types/userWords-types";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

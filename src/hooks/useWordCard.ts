@@ -8,8 +8,8 @@ import {
   NO_STATUS,
   STATUS_DELETED,
   STATUS_HARD,
-} from "../constants/requestParams";
-import IUserWordData from "../types/userWords-types";
+} from "../constants/request-params";
+import IUserWordData from "../types/user-words-types";
 import useActions from "./useActions";
 import useUpdateStatistic from "./useUpdateStatistic";
 

@@ -16,7 +16,9 @@ import {
   STATISTICS,
 } from "../constants/routes";
 import "./App.scss";
-import BookPage from "../pages/BookPage";
+import Book from "../pages/Book";
+import Game from "../pages/Game";
+import GameNames from "../constants/game-names";
 import useActions from "../hooks/useActions";
 
 // Temporary page templates!
@@ -59,38 +61,6 @@ const Statistics: React.FunctionComponent = () => {
     </>
   );
 };
-
-const Savannah: React.FunctionComponent = () => {
-  return (
-    <>
-      <h1>Savannah</h1>
-    </>
-  );
-};
-
-const AudioCall: React.FunctionComponent = () => {
-  return (
-    <>
-      <h1>Audio Call</h1>
-    </>
-  );
-};
-
-const Sprint: React.FunctionComponent = () => {
-  return (
-    <>
-      <h1>Sprint</h1>
-    </>
-  );
-};
-
-const OwnGame: React.FunctionComponent = () => {
-  return (
-    <>
-      <h1>Own Game</h1>
-    </>
-  );
-};
 // Temporary page templates!
 
 const App: React.FunctionComponent = () => {
@@ -112,7 +82,7 @@ const App: React.FunctionComponent = () => {
               <Main />
             </Route>
             <Route path={`${BOOK}/:group/:page`}>
-              <BookPage />
+              <Book />
             </Route>
             <Route path={STUDIED_WORDS}>
               <StudiedWords />
@@ -127,16 +97,16 @@ const App: React.FunctionComponent = () => {
               <Statistics />
             </Route>
             <Route path={SAVANNAH}>
-              <Savannah />
+              <Game game={GameNames.Savannah} />
             </Route>
             <Route path={AUDIO_CALL}>
-              <AudioCall />
+              <Game game={GameNames.AudioCall} />
             </Route>
             <Route path={SPRINT}>
-              <Sprint />
+              <Game game={GameNames.Sprint} />
             </Route>
             <Route path={OWN_GAME}>
-              <OwnGame />
+              <Game game={GameNames.OwnGame} />
             </Route>
           </Switch>
         ) : (
@@ -145,19 +115,19 @@ const App: React.FunctionComponent = () => {
               <Main />
             </Route>
             <Route path={`${BOOK}/:group`}>
-              <BookPage />
+              <Book />
             </Route>
             <Route path={SAVANNAH}>
-              <Savannah />
+              <Game game={GameNames.Savannah} />
             </Route>
             <Route path={AUDIO_CALL}>
-              <AudioCall />
+              <Game game={GameNames.AudioCall} />
             </Route>
             <Route path={SPRINT}>
-              <Sprint />
+              <Game game={GameNames.Sprint} />
             </Route>
             <Route path={OWN_GAME}>
-              <OwnGame />
+              <Game game={GameNames.OwnGame} />
             </Route>
           </Switch>
         )}

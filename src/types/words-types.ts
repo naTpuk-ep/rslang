@@ -1,4 +1,4 @@
-import IUserWordData from "./userWords-types";
+import IUserWordData from "./user-words-types";
 
 export interface WordsState {
   words: IUserWordData[];

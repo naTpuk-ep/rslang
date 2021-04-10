@@ -3,7 +3,7 @@ import {
   UserWordsAction,
   UserWordsActionTypes,
   UserWordsState,
-} from "../../types/userWords-types";
+} from "../../types/user-words-types";
 
 const defaultWords = {
   words: [],
@@ -93,6 +93,13 @@ const userWordsReducer = (
               : page
           )
           .filter((page) => page.count > 0),
+      };
+    case UserWordsActionTypes.CLEAR_GAME_WORDS:
+      return {
+        ...state,
+        aggregatedWords: defaultWords,
+        isFetching: true,
+        error: null,
       };
     default:
       return state;
