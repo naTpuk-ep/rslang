@@ -1,22 +1,7 @@
-interface IWordData {
-  group: number;
-  page: number;
-  word: string;
-  image: string;
-  audio: string;
-  audioMeaning: string;
-  audioExample: string;
-  textMeaning: string;
-  textExample: string;
-  transcription: string;
-  textExampleTranslate: string;
-  textMeaningTranslate: string;
-  wordTranslate: string;
-  _id: string;
-}
+import IUserWordData from "./user-words-types";
 
 export interface WordsState {
-  words: IWordData[];
+  words: IUserWordData[];
   isFetching: boolean;
   error: null | string;
   page: number;
@@ -33,7 +18,7 @@ interface FetchWordsAction {
 }
 interface FetchWordsSuccessAction {
   type: WordsActionTypes.FETCH_WORDS_SUCCESS;
-  payload: IWordData[];
+  payload: IUserWordData[];
 }
 interface FetchWordsErrorAction {
   type: WordsActionTypes.FETCH_WORDS_ERROR;
@@ -48,5 +33,3 @@ export type WordsAction =
   | FetchWordsSuccessAction
   | FetchWordsErrorAction
   | SetWordsPage;
-
-export default IWordData;

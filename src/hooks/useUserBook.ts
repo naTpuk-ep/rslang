@@ -2,9 +2,9 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable react-hooks/exhaustive-deps */
 
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { GET_USER_BOOK_PAGE_FILTER } from "../constants/requestParams";
+import { GET_USER_BOOK_PAGE_FILTER } from "../constants/request-params";
 import { BOOK } from "../constants/routes";
 import useActions from "./useActions";
 import useTypedSelector from "./useTypeSelector";
@@ -23,7 +23,7 @@ const useUserBook = (props: IUseUserBookProps) => {
     isPagesFetching,
   } = useTypedSelector((state) => state.userWords);
   const history = useHistory();
-  const { aggregateUserWords, setUserWordsPage, fetchPages } = useActions();
+  const { aggregateUserWords, fetchPages, changeUserWordsPages } = useActions();
 
   useEffect(() => {
     fetchPages(group);
@@ -44,18 +44,24 @@ const useUserBook = (props: IUseUserBookProps) => {
     }
   }, [pages.length, currentPage]);
 
-  const onPageChangeHandler = (
-    event: React.ChangeEvent<unknown>,
-    page: number
-  ) => {
-    setUserWordsPage(page - 1);
-  };
+  useEffect(() => {
+    if (pages.length && !isFetching) {
+      const { length } = aggregatedWords.words.filter((word) => {
+        if (word.userWord?.status !== "deleted") return true;
+        return false;
+      });
+      changeUserWordsPages(pages[currentPage]._id, length);
+    }
+  }, [aggregatedWords]);
 
   return {
-    words: aggregatedWords.words,
+    words:
+      aggregatedWords.words /* .filter((word) => {
+      if (word.userWord?.status !== "deleted") return true;
+      return false;
+    }), */,
     isFetching,
     isPagesFetching,
-    onPageChangeHandler,
     pagesCount: pages.length,
   };
 };
