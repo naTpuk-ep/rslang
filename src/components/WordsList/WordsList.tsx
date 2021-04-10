@@ -6,7 +6,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import { createStyles, makeStyles, Theme } from "@material-ui/core";
 import WordCard from "../WordCard";
 import Paginator from "../Paginator";
-import IUserWordData from "../../types/userWords-types";
+import IUserWordData from "../../types/user-words-types";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
