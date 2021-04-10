@@ -1,4 +1,5 @@
-import React from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect } from "react";
 import { Container } from "@material-ui/core";
 import { Switch, Route } from "react-router-dom";
 import Header from "../components/Header";
@@ -18,6 +19,7 @@ import "./App.scss";
 import Book from "../pages/Book";
 import Game from "../pages/Game";
 import GameNames from "../constants/game-names";
+import useActions from "../hooks/useActions";
 
 // Temporary page templates!
 const Main: React.FunctionComponent = () => {
@@ -63,6 +65,12 @@ const Statistics: React.FunctionComponent = () => {
 
 const App: React.FunctionComponent = () => {
   const isAuthorization = true;
+
+  const { getStatistics } = useActions();
+
+  useEffect(() => {
+    getStatistics();
+  }, []);
 
   return (
     <>

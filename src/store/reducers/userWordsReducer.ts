@@ -31,7 +31,6 @@ const userWordsReducer = (
         ...state,
         isFetching: true,
         error: null,
-        aggregatedWords: defaultWords,
       };
     case UserWordsActionTypes.FETCH_USER_WORDS_SUCCESS:
       return {
@@ -45,7 +44,6 @@ const userWordsReducer = (
         ...state,
         isFetching: false,
         error: action.payload,
-        aggregatedWords: defaultWords,
       };
     case UserWordsActionTypes.SET_USER_WORDS_PAGE:
       return {
@@ -97,9 +95,9 @@ const userWordsReducer = (
       return {
         ...state,
         isPagesFetching: true,
+        isFetching: true,
         error: null,
         pages: [],
-        aggregatedWords: defaultWords,
         page: 0,
       };
     case UserWordsActionTypes.GET_USER_WORDS_PAGES_SUCCESS:
@@ -131,6 +129,17 @@ const userWordsReducer = (
     }
     case UserWordsActionTypes.UPDATE_USER_WORD_ERROR:
       return { ...state, isUpdating: false, error: action.payload };
+    case UserWordsActionTypes.CHANGE_USER_WORDS_PAGES:
+      return {
+        ...state,
+        pages: state.pages
+          .map((page) =>
+            page._id === action.payload.page
+              ? { ...page, count: action.payload.count }
+              : page
+          )
+          .filter((page) => page.count > 0),
+      };
     default:
       return state;
   }
