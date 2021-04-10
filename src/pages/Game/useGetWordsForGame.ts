@@ -4,9 +4,9 @@ import useTypedSelector from "../../hooks/useTypeSelector";
 
 const useGetWordsForGame = () => {
   const { aggregatedWords } = useTypedSelector((state) => state.userWords);
-  const { aggregateUserWords, setUserWordsPage } = useActions();
+  const { aggregateUserWords, clearGameWords } = useActions();
 
-  return { words: aggregatedWords.words, aggregateUserWords, setUserWordsPage };
+  return { words: aggregatedWords.words, aggregateUserWords, clearGameWords };
 };
 
 export default useGetWordsForGame;

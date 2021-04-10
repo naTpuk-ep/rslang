@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from "react";
-import { GET_USER_LEARN_WORDS_FILTER } from "../../constants/requestParams";
+import { GET_USER_LEARN_WORDS_FILTER } from "../../constants/request-params";
 import useActions from "../../hooks/useActions";
 import useTypedSelector from "../../hooks/useTypeSelector";
 

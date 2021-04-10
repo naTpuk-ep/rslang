@@ -38,15 +38,15 @@ const Game: React.FunctionComponent<IGameProps> = ({ game }: IGameProps) => {
     history.location.state?.from === Locations.Menu
   );
   const [selectedGroup, setSelectedGroup] = useState<number | null>(null);
-  const { words, aggregateUserWords, setUserWordsPage } = useGetWordsForGame();
+  const { words, aggregateUserWords, clearGameWords } = useGetWordsForGame();
 
   useEffect(() => {
     if (history.location.state?.from === Locations.Menu) {
-      setUserWordsPage(0);
+      clearGameWords();
       console.log("clear");
     }
     return () => {
-      setUserWordsPage(0);
+      clearGameWords();
       console.log("clear");
     };
   }, []);

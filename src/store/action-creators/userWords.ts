@@ -114,4 +114,14 @@ const changeUserWordsPages = (page: number, count: number): UserWordsAction => {
   };
 };
 
-export { aggregateUserWords, fetchPages, updateUserWord, changeUserWordsPages };
+const clearGameWords = (): UserWordsAction => {
+  return { type: UserWordsActionTypes.CLEAR_GAME_WORDS };
+};
+
+export {
+  aggregateUserWords,
+  fetchPages,
+  updateUserWord,
+  changeUserWordsPages,
+  clearGameWords,
+};

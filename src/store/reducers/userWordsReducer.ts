@@ -45,52 +45,6 @@ const userWordsReducer = (
         isFetching: false,
         error: action.payload,
       };
-    case UserWordsActionTypes.SET_USER_WORDS_PAGE:
-      return {
-        ...state,
-        page: action.payload,
-        isFetching: true,
-        error: "error",
-        aggregatedWords: defaultWords,
-      };
-    case UserWordsActionTypes.CREATE_USER_WORD:
-      return { ...state, isUpdating: true, error: null };
-    case UserWordsActionTypes.CREATE_USER_WORD_SUCCESS: {
-      const changeWords = state.aggregatedWords.words
-        .map((word) =>
-          word._id === action.payload.id
-            ? { ...word, userWord: action.payload.userWord }
-            : word
-        )
-        .filter((word) => {
-          if (word.userWord) {
-            if (word.userWord.status === "deleted") {
-              return false;
-            }
-            return true;
-          }
-          return true;
-        });
-      return {
-        ...state,
-        isUpdating: false,
-        pages: state.pages
-          .map((page) =>
-            page._id === action.payload.page
-              ? { ...page, count: changeWords.length }
-              : page
-          )
-          .filter((page) => page.count > 0),
-        aggregatedWords: {
-          ...state.aggregatedWords,
-          totalCount: changeWords.length,
-          words: changeWords,
-        },
-      };
-    }
-    case UserWordsActionTypes.CREATE_USER_WORD_ERROR:
-      return { ...state, isUpdating: false, error: action.payload };
-
     case UserWordsActionTypes.GET_USER_WORDS_PAGES:
       return {
         ...state,
@@ -139,6 +93,13 @@ const userWordsReducer = (
               : page
           )
           .filter((page) => page.count > 0),
+      };
+    case UserWordsActionTypes.CLEAR_GAME_WORDS:
+      return {
+        ...state,
+        aggregatedWords: defaultWords,
+        isFetching: true,
+        error: null,
       };
     default:
       return state;
