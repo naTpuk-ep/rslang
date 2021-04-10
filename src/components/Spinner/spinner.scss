@@ -1,0 +1,91 @@
+@keyframes ldio-uxajx9qqgfl {
+  0% {
+    transform: translate(7.199999999999999px, 56.16px) scale(0);
+  }
+  25% {
+    transform: translate(7.199999999999999px, 56.16px) scale(0);
+  }
+  50% {
+    transform: translate(7.199999999999999px, 56.16px) scale(1);
+  }
+  75% {
+    transform: translate(56.16px, 56.16px) scale(1);
+  }
+  100% {
+    transform: translate(105.11999999999999px, 56.16px) scale(1);
+  }
+}
+@keyframes ldio-uxajx9qqgfl-r {
+  0% {
+    transform: translate(105.11999999999999px, 56.16px) scale(1);
+  }
+  100% {
+    transform: translate(105.11999999999999px, 56.16px) scale(0);
+  }
+}
+@keyframes ldio-uxajx9qqgfl-c {
+  0% {
+    background: #93dbe9;
+  }
+  25% {
+    background: #3b4368;
+  }
+  50% {
+    background: #5e6fa3;
+  }
+  75% {
+    background: #689cc5;
+  }
+  100% {
+    background: #93dbe9;
+  }
+}
+.ldio-uxajx9qqgfl div {
+  position: absolute;
+  width: 31.68px;
+  height: 31.68px;
+  border-radius: 50%;
+  transform: translate(56.16px, 56.16px) scale(1);
+  background: #93dbe9;
+  animation: ldio-uxajx9qqgfl 1s infinite cubic-bezier(0, 0.5, 0.5, 1);
+}
+.ldio-uxajx9qqgfl div:nth-child(1) {
+  background: #689cc5;
+  transform: translate(105.11999999999999px, 56.16px) scale(1);
+  animation: ldio-uxajx9qqgfl-r 0.25s infinite cubic-bezier(0, 0.5, 0.5, 1),
+    ldio-uxajx9qqgfl-c 1s infinite step-start;
+}
+.ldio-uxajx9qqgfl div:nth-child(2) {
+  animation-delay: -0.25s;
+  background: #93dbe9;
+}
+.ldio-uxajx9qqgfl div:nth-child(3) {
+  animation-delay: -0.5s;
+  background: #689cc5;
+}
+.ldio-uxajx9qqgfl div:nth-child(4) {
+  animation-delay: -0.75s;
+  background: #5e6fa3;
+}
+.ldio-uxajx9qqgfl div:nth-child(5) {
+  animation-delay: -1s;
+  background: #3b4368;
+}
+.loadingio-spinner-ellipsis-pd9jvxvb97 {
+  width: 144px;
+  height: 144px;
+  display: inline-block;
+  overflow: hidden;
+  background: none;
+}
+.ldio-uxajx9qqgfl {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform: translateZ(0) scale(1);
+  backface-visibility: hidden;
+  transform-origin: 0 0; /* see note above */
+}
+.ldio-uxajx9qqgfl div {
+  box-sizing: content-box;
+}

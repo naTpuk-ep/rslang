@@ -1,7 +1,10 @@
-import React from "react";
+// import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { Container } from "@material-ui/core";
 import { Switch, Route } from "react-router-dom";
 import Header from "../components/Header";
+import AudioCallComponent from "../components/AudioCall";
 import {
   MAIN,
   BOOK,
@@ -67,9 +70,22 @@ const Savannah: React.FunctionComponent = () => {
 };
 
 const AudioCall: React.FunctionComponent = () => {
+  const [words, setWords] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await axios(
+        "https://rnovikov-rs-lang-back.herokuapp.com/words/group/1?count=50"
+      );
+      setWords(result.data);
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <>
-      <h1>Audio Call</h1>
+      <AudioCallComponent data={words} />
     </>
   );
 };
