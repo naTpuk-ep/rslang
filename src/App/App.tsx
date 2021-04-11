@@ -23,43 +23,23 @@ import useActions from "../hooks/useActions";
 
 // Temporary page templates!
 const Main: React.FunctionComponent = () => {
-  return (
-    <>
-      <h1>Main Page</h1>
-    </>
-  );
+  return <></>;
 };
 
 const StudiedWords: React.FunctionComponent = () => {
-  return (
-    <>
-      <h1>Studied Words Dictionary</h1>
-    </>
-  );
+  return <></>;
 };
 
 const DifficultWords: React.FunctionComponent = () => {
-  return (
-    <>
-      <h1>Difficult Words Dictionary</h1>
-    </>
-  );
+  return <></>;
 };
 
 const DeletedWords: React.FunctionComponent = () => {
-  return (
-    <>
-      <h1>Deleted Words Dictionary</h1>
-    </>
-  );
+  return <></>;
 };
 
 const Statistics: React.FunctionComponent = () => {
-  return (
-    <>
-      <h1>Statistics Page</h1>
-    </>
-  );
+  return <></>;
 };
 // Temporary page templates!
 
