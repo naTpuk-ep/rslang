@@ -2,23 +2,11 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import { createStyles, makeStyles, Theme } from "@material-ui/core";
+import LinearProgress from "@material-ui/core/LinearProgress";
 import WordCard from "../WordCard";
 import Paginator from "../Paginator";
 import IUserWordData from "../../types/user-words-types";
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      flexGrow: 1,
-      display: "flex",
-      flexDirection: "column",
-      rowGap: 15,
-      padding: theme.spacing(2, 2),
-    },
-  })
-);
+import "./WordList.scss";
 
 interface IWordsListProps {
   route: string;
@@ -33,7 +21,6 @@ interface IWordsListProps {
 const WordsList: React.FunctionComponent<IWordsListProps> = (
   props: IWordsListProps
 ) => {
-  const classes = useStyles();
   const {
     route,
     group,
@@ -52,17 +39,17 @@ const WordsList: React.FunctionComponent<IWordsListProps> = (
         pageCount={pagesCount}
         isPagesFetching={isPagesFetching}
       />
-      <>
+      <div className="word-list">
         {isFetching ? (
-          <CircularProgress />
+          <LinearProgress />
         ) : (
-          <div className={classes.root}>
+          <>
             {words.map((word) => {
               return <WordCard key={word._id} word={word} />;
             })}
-          </div>
+          </>
         )}
-      </>
+      </div>
     </>
   );
 };

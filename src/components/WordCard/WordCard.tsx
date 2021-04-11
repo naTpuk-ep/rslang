@@ -23,13 +23,13 @@ import useWordCard from "../../hooks/useWordCard";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      width: "450px",
+      width: "100%",
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
     },
     details: {
-      width: "340px",
+      width: "100%",
       display: "flex",
       flexDirection: "column",
       background: "#ececec",
