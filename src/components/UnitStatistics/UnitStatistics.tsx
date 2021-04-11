@@ -15,12 +15,15 @@ const UnitStatistics: React.FunctionComponent<UnitStatisticsParams> = (
   const { unit, isFetching } = useTypedSelector(
     (state) => state.unitStatistics
   );
+  const { userId, token } = useTypedSelector((state) => state.auth);
   const { aggregatedWords } = useTypedSelector((state) => state.userWords);
   const { getUnitStatisticsAction } = useActions();
 
   useEffect(() => {
     getUnitStatisticsAction(
       unitNumber,
+      userId,
+      token,
       JSON.stringify(GET_USER_LEARN_WORDS_FILTER)
     );
   }, [aggregatedWords]);

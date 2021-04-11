@@ -1,12 +1,15 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Dispatch } from "redux";
 import axios from "axios";
-import { WordsAction, WordsActionTypes } from "../../types/words-types";
+import {
+  UserWordsAction,
+  UserWordsActionTypes,
+} from "../../types/user-words-types";
 
 const fetchWords = (group = 0, page = 0) => {
-  return async (dispatch: Dispatch<WordsAction>) => {
+  return async (dispatch: Dispatch<UserWordsAction>) => {
     try {
-      dispatch({ type: WordsActionTypes.FETCH_WORDS });
+      dispatch({ type: UserWordsActionTypes.FETCH_USER_WORDS });
       const response = await axios.get(
         `https://rnovikov-rs-lang-back.herokuapp.com/words`,
         {
@@ -14,20 +17,20 @@ const fetchWords = (group = 0, page = 0) => {
         }
       );
       dispatch({
-        type: WordsActionTypes.FETCH_WORDS_SUCCESS,
-        payload: response.data,
+        type: UserWordsActionTypes.FETCH_USER_WORDS_SUCCESS,
+        payload: {
+          words: response.data,
+          totalCount: response.data.length,
+        },
       });
     } catch (e) {
       dispatch({
-        type: WordsActionTypes.FETCH_WORDS_ERROR,
+        type: UserWordsActionTypes.FETCH_USER_WORDS_ERROR,
         payload: "Произошла ошибка при загрузке слов",
       });
     }
   };
 };
 
-const setWordsPage = (page: number): WordsAction => {
-  return { type: WordsActionTypes.SET_WORDS_PAGE, payload: page };
-};
-
-export { fetchWords, setWordsPage };
+// eslint-disable-next-line import/prefer-default-export
+export { fetchWords };
