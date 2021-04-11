@@ -1,10 +1,10 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from "react";
-
 import Pagination from "@material-ui/lab/Pagination";
 import PaginationItem from "@material-ui/lab/PaginationItem";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { Link } from "react-router-dom";
+import "./Paginator.scss";
 
 interface IPaginatorProps {
   route: string;
@@ -23,8 +23,11 @@ const Paginator: React.FunctionComponent<IPaginatorProps> = (
       {isPagesFetching ? (
         <CircularProgress />
       ) : (
-        <>
+        <div className="paginator">
           <Pagination
+            variant="outlined"
+            shape="rounded"
+            size="large"
             page={currentPage}
             count={pageCount}
             renderItem={(item) => (
@@ -35,7 +38,7 @@ const Paginator: React.FunctionComponent<IPaginatorProps> = (
               />
             )}
           />
-        </>
+        </div>
       )}
     </>
   );
