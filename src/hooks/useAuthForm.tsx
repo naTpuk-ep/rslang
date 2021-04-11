@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { ValidatorForm } from "react-material-ui-form-validator";
 import useActions from "./useActions";
 import useTypedSelector from "./useTypeSelector";
@@ -11,6 +11,9 @@ const useAuthForm = () => {
     signInError,
     signUpError,
     loading,
+    isRegistered,
+    email,
+    password,
   } = useTypedSelector((state) => state.auth);
   const { signUp, signIn } = useActions();
   const [form, setForm] = useState({
@@ -21,6 +24,12 @@ const useAuthForm = () => {
     userImage: [""],
   });
   const refForm = useRef<ValidatorForm>(null);
+
+  useEffect(() => {
+    if (isRegistered) {
+      signIn({ email, password });
+    }
+  }, [isRegistered]);
 
   const changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [event.target.name]: event.target.value });

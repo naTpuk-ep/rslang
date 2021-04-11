@@ -8,15 +8,12 @@ import useTypedSelector from "./useTypeSelector";
 const useAuthentication = () => {
   const {
     isAuthenticated,
-    isRegistered,
-    email,
-    password,
     refreshToken,
     userId,
     name,
     loading,
   } = useTypedSelector((state) => state.auth);
-  const { signIn, refreshTokens, setLoading } = useActions();
+  const { refreshTokens, setLoading } = useActions();
 
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem(STORAGE_NAME) || "{}");
@@ -26,12 +23,6 @@ const useAuthentication = () => {
       setLoading(false);
     }
   }, []);
-
-  useEffect(() => {
-    if (isRegistered) {
-      signIn({ email, password });
-    }
-  }, [isRegistered]);
 
   useEffect(() => {
     if (isAuthenticated) {
