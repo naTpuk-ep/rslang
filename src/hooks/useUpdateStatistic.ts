@@ -17,7 +17,7 @@ import useTypedSelector from "./useTypeSelector";
 const useUpdateStatistic = () => {
   const { statistics } = useTypedSelector((state) => state.statistics);
   const { userId, token } = useTypedSelector((state) => state.auth);
-  const { updateStatisticsAction, updateUserWord } = useActions();
+  const { updateStatisticsAction, updateUserWord, setIsUpdated } = useActions();
 
   const updateStatisticState = (statistic: IStatisticsData) => {
     const now = moment();
@@ -36,6 +36,7 @@ const useUpdateStatistic = () => {
       });
       statistic.optional.today = today;
     }
+    setIsUpdated(true);
     return statistic;
   };
 

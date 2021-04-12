@@ -71,4 +71,13 @@ const updateStatisticsAction = (
   };
 };
 
-export { getStatistics, updateStatisticsAction };
+const setIsUpdated = (isUpdated: boolean) => {
+  return (dispatch: Dispatch<StatisticsAction>) => {
+    dispatch({
+      type: StatisticsActionTypes.SET_IS_UPDATED,
+      payload: isUpdated,
+    });
+  };
+};
+
+export { getStatistics, updateStatisticsAction, setIsUpdated };

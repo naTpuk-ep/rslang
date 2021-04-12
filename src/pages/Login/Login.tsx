@@ -74,6 +74,7 @@ const Login: React.FunctionComponent = () => {
             onChange={changeHandler}
             validators={["minStringLength:1"]}
             errorMessages={["Заполните поле"]}
+            error={!!signInError}
           />
           <TextValidator
             variant="outlined"
@@ -88,6 +89,7 @@ const Login: React.FunctionComponent = () => {
             onChange={changeHandler}
             validators={["minStringLength:1"]}
             errorMessages={["Заполните поле"]}
+            error={!!signInError}
           />
           <Grid item xs={12}>
             <Typography

@@ -2,6 +2,7 @@
 import React from "react";
 import { Container } from "@material-ui/core";
 import { Switch, Route } from "react-router-dom";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import Header from "../components/Header";
 import {
   MAIN,
@@ -25,6 +26,7 @@ import Registration from "../pages/Registration";
 import useAuthentication from "../hooks/useAuthentication";
 import UserBook from "../pages/BookUser";
 import Book from "../pages/Book";
+import StatisticsPage from "../pages/StatisticsPage";
 
 // Temporary page templates!
 const Main: React.FunctionComponent = () => {
@@ -76,7 +78,7 @@ const App: React.FunctionComponent = () => {
       <Header />
       <Container className="main">
         {loading ? (
-          ""
+          <CircularProgress />
         ) : (
           <>
             {isAuthenticated ? (
@@ -97,7 +99,7 @@ const App: React.FunctionComponent = () => {
                   <DeletedWords />
                 </Route>
                 <Route path={STATISTICS}>
-                  <Statistics />
+                  <StatisticsPage />
                 </Route>
                 <Route path={SAVANNAH}>
                   <Game game={GameNames.Savannah} />

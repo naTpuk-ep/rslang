@@ -11,12 +11,6 @@ const useLearningStatistics = () => {
   const { statistics, isFetching } = useTypedSelector(
     (state) => state.statistics
   );
-  const { userId, token } = useTypedSelector((state) => state.auth);
-  const { getStatistics } = useActions();
-
-  useEffect(() => {
-    getStatistics(userId, token);
-  }, []);
 
   const gamePercentage = (gameName: GamesNames) => {
     const percent =

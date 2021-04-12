@@ -41,6 +41,7 @@ const authReducer = (state = defaultState, action: AuthAction): AuthState => {
         token: action.payload.token,
         refreshToken: action.payload.refreshToken,
         userId: action.payload.userId,
+        userImage: action.payload.userImage,
         name: action.payload.name,
         signInError: null,
       };

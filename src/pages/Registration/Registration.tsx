@@ -79,6 +79,7 @@ const Registration: React.FunctionComponent = () => {
                   "Заполните поле",
                   "Недопустимое значение поля email",
                 ]}
+                error={!!signUpError}
               />
             </Grid>
             <Grid item xs={12}>
@@ -96,6 +97,7 @@ const Registration: React.FunctionComponent = () => {
                   "Заполните поле",
                   "Максимальная длина 200 символов",
                 ]}
+                error={!!signUpError}
               />
             </Grid>
 
@@ -105,7 +107,7 @@ const Registration: React.FunctionComponent = () => {
                 required
                 fullWidth
                 id="name"
-                label="Имя"
+                label="ФИО"
                 name="name"
                 value={form.name}
                 onChange={changeHandler}
@@ -114,6 +116,7 @@ const Registration: React.FunctionComponent = () => {
                   "Заполните поле",
                   "Максимальная длина 200 символов",
                 ]}
+                error={!!signUpError}
               />
             </Grid>
             <Grid item xs={12}>
@@ -129,6 +132,7 @@ const Registration: React.FunctionComponent = () => {
                 onChange={changeHandler}
                 validators={["minStringLength:8"]}
                 errorMessages={["Минимальная длина пароля 8 символов"]}
+                error={!!signUpError}
               />
             </Grid>
 
