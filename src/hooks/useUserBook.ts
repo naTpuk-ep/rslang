@@ -66,11 +66,10 @@ const useUserBook = (props: IUseUserBookProps) => {
   }, [aggregatedWords]);
 
   return {
-    words:
-      aggregatedWords.words /* .filter((word) => {
+    words: aggregatedWords.words.filter((word) => {
       if (word.userWord?.status !== "deleted") return true;
       return false;
-    }), */,
+    }),
     isFetching,
     isPagesFetching,
     pagesCount: pages.length,
