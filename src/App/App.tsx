@@ -61,15 +61,6 @@ const DeletedWords: React.FunctionComponent = () => {
   );
 };
 
-const Statistics: React.FunctionComponent = () => {
-  return (
-    <>
-      <h1>Statistics Page</h1>
-    </>
-  );
-};
-// Temporary page templates!
-
 const App: React.FunctionComponent = () => {
   const { isAuthenticated, loading } = useAuthentication();
 
