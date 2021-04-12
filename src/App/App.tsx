@@ -24,7 +24,7 @@ import GameNames from "../constants/game-names";
 import Login from "../pages/Login";
 import Registration from "../pages/Registration";
 import useAuthentication from "../hooks/useAuthentication";
-import UserBook from "../pages/BookUser";
+import UserBook from "../pages/UserBook";
 import Book from "../pages/Book";
 import StatisticsPage from "../pages/StatisticsPage";
 
