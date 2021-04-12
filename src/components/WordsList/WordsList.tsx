@@ -32,14 +32,16 @@ const WordsList: React.FunctionComponent<IWordsListProps> = (
   } = props;
 
   return (
-    <>
-      <Paginator
-        route={`${route}/${group}`}
-        currentPage={page + 1}
-        pageCount={pagesCount}
-        isPagesFetching={isPagesFetching}
-      />
-      <div className="word-list">
+    <div id="body">
+      <div id="head">
+        <Paginator
+          route={`${route}/${group}`}
+          currentPage={page + 1}
+          pageCount={pagesCount}
+          isPagesFetching={isPagesFetching}
+        />
+      </div>
+      <div id="content" className="word-list">
         {isFetching ? (
           <LinearProgress />
         ) : (
@@ -50,7 +52,15 @@ const WordsList: React.FunctionComponent<IWordsListProps> = (
           </>
         )}
       </div>
-    </>
+      <div id="foot">
+        <Paginator
+          route={`${route}/${group}`}
+          currentPage={page + 1}
+          pageCount={pagesCount}
+          isPagesFetching={isPagesFetching}
+        />
+      </div>
+    </div>
   );
 };
 

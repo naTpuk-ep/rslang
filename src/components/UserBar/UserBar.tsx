@@ -40,7 +40,7 @@ const UserBar: React.FunctionComponent = () => {
   return (
     <>
       {loading ? (
-        <LinearProgress className={classes.loadbar} />
+        <LinearProgress color="secondary" className={classes.loadbar} />
       ) : (
         <>
           {" "}

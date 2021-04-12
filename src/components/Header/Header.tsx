@@ -48,7 +48,7 @@ const Header: React.FunctionComponent = () => {
     <>
       <Menu open={openMenu} closeMenu={toggleDrawer} />
       <div className={classes.root}>
-        <AppBar position="static">
+        <AppBar position="fixed">
           <Toolbar>
             <IconButton
               edge="start"

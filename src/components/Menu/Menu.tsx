@@ -29,6 +29,7 @@ import {
   STATISTICS,
 } from "../../constants/routes";
 import Locations from "../../constants/locations";
+import useTypedSelector from "../../hooks/useTypeSelector";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -54,11 +55,11 @@ const Menu: React.FunctionComponent<IMenuProps> = ({
   open,
   closeMenu,
 }: IMenuProps) => {
-  const isAuthorization = true;
   const classes = useStyles();
   const [openBook, setOpenBook] = useState(false);
   const [openGame, setOpenGame] = useState(false);
   const [openDictionary, setOpenDictionary] = useState(false);
+  const { isAuthenticated } = useTypedSelector((state) => state.auth);
 
   const handleClickBook = () => setOpenBook(!openBook);
   const handleClickGame = () => setOpenGame(!openGame);
@@ -180,7 +181,7 @@ const Menu: React.FunctionComponent<IMenuProps> = ({
             </List>
           </Collapse>
 
-          {isAuthorization && (
+          {isAuthenticated && (
             <>
               <ListItem button onClick={handleClickDictionary}>
                 <ListItemIcon>
