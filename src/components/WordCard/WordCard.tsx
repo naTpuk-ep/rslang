@@ -24,19 +24,20 @@ import useTypedSelector from "../../hooks/useTypeSelector";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      width: "450px",
+      width: "100%",
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
     },
     details: {
-      width: "340px",
+      width: "100%",
       display: "flex",
       flexDirection: "column",
       background: "#ececec",
     },
     content: {
       flex: "1 0 auto",
+      padding: theme.spacing(1),
     },
     cover: {
       width: 120,
@@ -49,9 +50,12 @@ const useStyles = makeStyles((theme: Theme) =>
       paddingLeft: theme.spacing(1),
       paddingBottom: theme.spacing(1),
     },
+    playButton: {
+      padding: theme.spacing(1),
+    },
     playIcon: {
-      height: 38,
-      width: 38,
+      height: 32,
+      width: 32,
     },
     button: {
       margin: theme.spacing(1),
@@ -178,6 +182,7 @@ const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
         </CardContent>
         <div className={classes.controls}>
           <IconButton
+            className={classes.playButton}
             aria-label="play/pause"
             onClick={() => {
               wordAudio.play();

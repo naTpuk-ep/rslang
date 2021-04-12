@@ -2,7 +2,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import Fab from "@material-ui/core/Fab";
-import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
 import { useHistory } from "react-router-dom";
 import GameNames from "../../constants/game-names";
@@ -23,7 +22,7 @@ const TemplateGame: React.FunctionComponent<ITemplateGameProps> = ({
   words,
 }: ITemplateGameProps) => {
   console.log(words);
-  return <Typography variant="h3">Game</Typography>;
+  return <></>;
 };
 
 interface IGameProps {

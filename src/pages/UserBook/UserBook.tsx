@@ -1,11 +1,11 @@
 /* eslint-disable react/jsx-props-no-spreading */
+import { Box } from "@material-ui/core";
+import Typography from "@material-ui/core/Typography";
 import React from "react";
-import { Link, useParams } from "react-router-dom";
-import UnitStatistics from "../../components/UnitStatistics/UnitStatistics";
+import { useParams } from "react-router-dom";
 import WordsCategories from "../../components/WordsCategories";
 import WordsList from "../../components/WordsList";
-import Locations from "../../constants/locations";
-import { BOOK, SAVANNAH } from "../../constants/routes";
+import { BOOK } from "../../constants/routes";
 import useUserBook from "../../hooks/useUserBook";
 
 export interface IBookParams {
@@ -33,14 +33,12 @@ const UserBook: React.FunctionComponent = () => {
 
   return (
     <>
-      <h1>
-        Book Group: {group} Page: {page}
-      </h1>
-      <UnitStatistics group={Number(group)} />
+      <Box marginTop={2}>
+        <Typography variant="h3" component="h2">
+          Учебник
+        </Typography>
+      </Box>
       <WordsCategories route={BOOK} />
-      <Link to={{ pathname: SAVANNAH, state: { from: Locations.Book } }}>
-        GAME
-      </Link>
       <WordsList {...props} />
     </>
   );
