@@ -20,15 +20,16 @@ import Book from "../pages/Book";
 import Game from "../pages/Game";
 import GameNames from "../constants/game-names";
 import useActions from "../hooks/useActions";
+import Main from "../pages/Main";
 
 // Temporary page templates!
-const Main: React.FunctionComponent = () => {
-  return (
-    <>
-      <h1>Main Page</h1>
-    </>
-  );
-};
+// const Main: React.FunctionComponent = () => {
+//   return (
+//     <>
+//       <h1>Main Page</h1>
+//     </>
+//   );
+// };
 
 const StudiedWords: React.FunctionComponent = () => {
   return (
