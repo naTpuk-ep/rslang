@@ -2,6 +2,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import Fab from "@material-ui/core/Fab";
+import Backdrop from "@material-ui/core/Backdrop";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import CloseIcon from "@material-ui/icons/Close";
 import { useHistory } from "react-router-dom";
 import GameNames from "../../constants/game-names";
@@ -12,7 +14,6 @@ import { GET_USER_BOOK_PAGE_FILTER } from "../../constants/request-params";
 import useGetWordsForGame from "./useGetWordsForGame";
 import useBackTo from "./useBackTo";
 import "./Game.scss";
-import useTypedSelector from "../../hooks/useTypeSelector";
 
 interface ITemplateGameProps {
   words: IUserWordData[];
@@ -22,8 +23,15 @@ const TemplateGame: React.FunctionComponent<ITemplateGameProps> = ({
   words,
 }: ITemplateGameProps) => {
   console.log(words);
-  return <></>;
+  return <h1>Game</h1>;
 };
+
+interface ILocationState {
+  from: Locations;
+  group: number;
+  page: number;
+  filter: string;
+}
 
 interface IGameProps {
   game: GameNames;
@@ -32,46 +40,69 @@ interface IGameProps {
 const Game: React.FunctionComponent<IGameProps> = ({ game }: IGameProps) => {
   const { backToPreviousPage, backToMain } = useBackTo();
   backToMain();
-  const { userId, token } = useTypedSelector((state) => state.auth);
 
-  const history = useHistory<{ from: Locations }>();
+  const history = useHistory<ILocationState>();
+  const { from, group, page, filter } = history.location.state;
   const [openStartDialog, setOpenStartDialog] = useState(
-    history.location.state?.from === Locations.Menu
+    from === Locations.Menu
   );
+  const [openLoader, setOpenLoader] = useState(from === Locations.Book);
   const [selectedGroup, setSelectedGroup] = useState<number | null>(null);
-  const { words, aggregateUserWords, clearGameWords } = useGetWordsForGame();
+
+  const {
+    userId,
+    token,
+    isAuthenticated,
+    words,
+    aggregateUserWords,
+    gameWords,
+    isGameWordsFetching,
+    fetchGameWords,
+    fetchAggregatedGameWords,
+    fillGameWords,
+    clearGameWords,
+  } = useGetWordsForGame();
+
+  const finishWords =
+    !isAuthenticated && from === Locations.Book ? words : gameWords;
 
   useEffect(() => {
-    if (history.location.state?.from === Locations.Menu) {
-      clearGameWords();
-      console.log("clear");
-    }
     return () => {
       clearGameWords();
-      console.log("clear");
     };
   }, []);
 
   useEffect(() => {
-    if (selectedGroup !== null) {
-      aggregateUserWords(
-        selectedGroup,
-        0,
-        JSON.stringify(GET_USER_BOOK_PAGE_FILTER),
-        userId,
-        token,
-        1
-      );
-      console.log("start");
+    if (from === Locations.Menu && selectedGroup !== null) {
+      if (isAuthenticated) {
+        // fetchAggregatedGameWords(group, 30, filter, );
+        console.log();
+      } else {
+        fetchGameWords(selectedGroup as number, 30);
+      }
     }
+    return () => {};
   }, [selectedGroup]);
 
   useEffect(() => {
-    if (selectedGroup !== null && words.length) {
+    if (selectedGroup !== null && finishWords.length) {
       setOpenStartDialog(false);
-      console.log("load");
     }
-  }, [words.length]);
+  }, [finishWords.length]);
+
+  useEffect(() => {
+    if (finishWords.length) {
+      setOpenLoader(false);
+    }
+  }, [finishWords.length]);
+
+  useEffect(() => {
+    if (from === Locations.Book && isAuthenticated) {
+      console.log(filter);
+      console.log(words);
+      fillGameWords(group, 0, words, filter, 20, 20, userId, token);
+    }
+  }, []);
 
   const handleClickCloseButton = () => {
     backToPreviousPage();
@@ -88,6 +119,9 @@ const Game: React.FunctionComponent<IGameProps> = ({ game }: IGameProps) => {
         group={selectedGroup}
         selectGroup={handleCloseStartDialog}
       />
+      <Backdrop open={openLoader}>
+        <CircularProgress />
+      </Backdrop>
       <Fab
         onClick={handleClickCloseButton}
         size="small"
@@ -96,14 +130,14 @@ const Game: React.FunctionComponent<IGameProps> = ({ game }: IGameProps) => {
       >
         <CloseIcon />
       </Fab>
-      {openStartDialog ? (
+      {openStartDialog || openLoader ? (
         ""
       ) : (
         <>
-          {game === GameNames.Savannah && <TemplateGame words={words} />}
-          {game === GameNames.AudioCall && <TemplateGame words={words} />}
-          {game === GameNames.Sprint && <TemplateGame words={words} />}
-          {game === GameNames.OwnGame && <TemplateGame words={words} />}
+          {game === GameNames.Savannah && <TemplateGame words={finishWords} />}
+          {game === GameNames.AudioCall && <TemplateGame words={finishWords} />}
+          {game === GameNames.Sprint && <TemplateGame words={finishWords} />}
+          {game === GameNames.OwnGame && <TemplateGame words={finishWords} />}
         </>
       )}
     </div>
