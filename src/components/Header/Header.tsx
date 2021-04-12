@@ -8,6 +8,7 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import { MAIN } from "../../constants/routes";
 import Menu from "../Menu";
+import UserBar from "../UserBar/UserBar";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -62,7 +63,7 @@ const Header: React.FunctionComponent = () => {
                 RSLang
               </Typography>
             </LinkContainer>
-            {/* <Button color="inherit">Login</Button> */}
+            <UserBar />
           </Toolbar>
         </AppBar>
       </div>

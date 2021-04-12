@@ -11,11 +11,13 @@ import {
 } from "../constants/request-params";
 import IUserWordData from "../types/user-words-types";
 import useActions from "./useActions";
+import useTypedSelector from "./useTypeSelector";
 import useUpdateStatistic from "./useUpdateStatistic";
 
 const useWordCard = (word: IUserWordData) => {
   const { updateUserWord } = useActions();
   const { updateDayLearnsStatistic, updateLearnedWords } = useUpdateStatistic();
+  const { userId, token } = useTypedSelector((state) => state.auth);
   const [wordAudio] = useState(
     new Howl({
       src: [
@@ -33,23 +35,33 @@ const useWordCard = (word: IUserWordData) => {
     const yesterday = moment().subtract(1, "days");
     updateDayLearnsStatistic(1, 2);
     if (!isLearn) {
-      updateUserWord("605d826946051229947e4eb3", word._id, {
-        status: STATUS_HARD,
-        isLearn: true,
-        optional: {
-          lastLearn: new Date(yesterday.format("YYYY-MM-DD")),
-          learned: new Date(now.format("YYYY-MM-DD")),
-          wrongAnswers: 0,
-          correctAnswers: 0,
+      updateUserWord(
+        word._id,
+        {
+          status: STATUS_HARD,
+          isLearn: true,
+          optional: {
+            lastLearn: new Date(yesterday.format("YYYY-MM-DD")),
+            learned: new Date(now.format("YYYY-MM-DD")),
+            wrongAnswers: 0,
+            correctAnswers: 0,
+          },
         },
-      });
+        userId,
+        token
+      );
       updateLearnedWords(1, 1);
     } else {
-      updateUserWord("605d826946051229947e4eb3", word._id, {
-        ...word.userWord,
-        status: STATUS_HARD,
-        isLearn: true,
-      });
+      updateUserWord(
+        word._id,
+        {
+          ...word.userWord,
+          status: STATUS_HARD,
+          isLearn: true,
+        },
+        userId,
+        token
+      );
     }
   };
 
@@ -59,11 +71,16 @@ const useWordCard = (word: IUserWordData) => {
     if (status === STATUS_HARD) {
       isLearn = true;
     }
-    updateUserWord("605d826946051229947e4eb3", word._id, {
-      ...word.userWord,
-      status: NO_STATUS,
-      isLearn,
-    });
+    updateUserWord(
+      word._id,
+      {
+        ...word.userWord,
+        status: NO_STATUS,
+        isLearn,
+      },
+      userId,
+      token
+    );
   };
 
   const changeDeletedStatusHandler = () => {
@@ -75,22 +92,32 @@ const useWordCard = (word: IUserWordData) => {
       } else {
         updateLearnedWords(-1);
       }
-      updateUserWord("605d826946051229947e4eb3", word._id, {
-        ...word.userWord,
-        optional: {
-          ...word.userWord.optional,
-          correctAnswers: 0,
-          wrongAnswers: 0,
+      updateUserWord(
+        word._id,
+        {
+          ...word.userWord,
+          optional: {
+            ...word.userWord.optional,
+            correctAnswers: 0,
+            wrongAnswers: 0,
+          },
+          status: STATUS_DELETED,
+          isLearn: false,
         },
-        status: STATUS_DELETED,
-        isLearn: false,
-      });
+        userId,
+        token
+      );
     } else {
-      updateUserWord("605d826946051229947e4eb3", word._id, {
-        ...word.userWord,
-        status: STATUS_DELETED,
-        isLearn: false,
-      });
+      updateUserWord(
+        word._id,
+        {
+          ...word.userWord,
+          status: STATUS_DELETED,
+          isLearn: false,
+        },
+        userId,
+        token
+      );
     }
   };
 

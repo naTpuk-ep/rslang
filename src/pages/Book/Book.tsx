@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import WordsCategories from "../../components/WordsCategories";
 import WordsList from "../../components/WordsList";
 import { BOOK } from "../../constants/routes";
-import useUserBook from "../../hooks/useUserBook";
+import useBook from "../../hooks/useBook";
 
 export interface IBookParams {
   group: string;
@@ -14,7 +14,7 @@ export interface IBookParams {
 const Book: React.FunctionComponent = () => {
   const { group, page } = useParams<IBookParams>();
 
-  const { words, pagesCount, isFetching, isPagesFetching } = useUserBook({
+  const { words, isFetching } = useBook({
     group: Number(group),
     page: Number(page),
   });
@@ -24,9 +24,9 @@ const Book: React.FunctionComponent = () => {
     group: Number(group),
     page: Number(page),
     words,
-    pagesCount,
+    pagesCount: 30,
     isFetching,
-    isPagesFetching,
+    isPagesFetching: false,
   };
 
   return (

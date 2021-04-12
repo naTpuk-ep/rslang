@@ -16,7 +16,8 @@ import useTypedSelector from "./useTypeSelector";
 
 const useUpdateStatistic = () => {
   const { statistics } = useTypedSelector((state) => state.statistics);
-  const { updateStatisticsAction, updateUserWord } = useActions();
+  const { userId, token } = useTypedSelector((state) => state.auth);
+  const { updateStatisticsAction, updateUserWord, setIsUpdated } = useActions();
 
   const updateStatisticState = (statistic: IStatisticsData) => {
     const now = moment();
@@ -35,6 +36,7 @@ const useUpdateStatistic = () => {
       });
       statistic.optional.today = today;
     }
+    setIsUpdated(true);
     return statistic;
   };
 
@@ -54,31 +56,36 @@ const useUpdateStatistic = () => {
       userWord.optional.lastLearn = new Date(now.format("YYYY-MM-DD"));
       userWord.optional.correctAnswers += correct;
       userWord.optional.wrongAnswers += wrong;
-      updateUserWord("605d826946051229947e4eb3", word._id, userWord);
-      updateStatisticsAction(stat);
+      updateUserWord(word._id, userWord, userId, token);
+      updateStatisticsAction(stat, userId, token);
       return;
     }
-    updateUserWord("605d826946051229947e4eb3", word._id, {
-      isLearn: true,
-      status: NO_STATUS,
-      optional: {
-        correctAnswers: correct,
-        wrongAnswers: wrong,
-        lastLearn: new Date(now.format("YYYY-MM-DD")),
-        learned: new Date(now.format("YYYY-MM-DD")),
+    updateUserWord(
+      word._id,
+      {
+        isLearn: true,
+        status: NO_STATUS,
+        optional: {
+          correctAnswers: correct,
+          wrongAnswers: wrong,
+          lastLearn: new Date(now.format("YYYY-MM-DD")),
+          learned: new Date(now.format("YYYY-MM-DD")),
+        },
       },
-    });
+      userId,
+      token
+    );
     stat.learnedWords += 1;
     stat.optional.today.learnedWordsToday += 1;
     stat.optional.today.dayLearns += 1;
-    updateStatisticsAction(stat);
+    updateStatisticsAction(stat, userId, token);
   };
 
   const updateLearnedWords = (learnedWords: number, learnedWordsToday = 0) => {
     const stat = updateStatisticState({ ...statistics });
     stat.learnedWords += learnedWords;
     stat.optional.today.learnedWordsToday += learnedWordsToday;
-    updateStatisticsAction(stat);
+    updateStatisticsAction(stat, userId, token);
   };
 
   const updateDayLearnsStatistic = (wrong: number, correct: number) => {
@@ -105,7 +112,7 @@ const useUpdateStatistic = () => {
     };
     stat.optional.today[gameName] = newGameStat;
 
-    updateStatisticsAction(stat);
+    updateStatisticsAction(stat, userId, token);
   };
 
   return {

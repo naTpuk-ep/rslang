@@ -19,6 +19,7 @@ import PresentToAllIcon from "@material-ui/icons/PresentToAll";
 import React from "react";
 import IUserWordData from "../../types/user-words-types";
 import useWordCard from "../../hooks/useWordCard";
+import useTypedSelector from "../../hooks/useTypeSelector";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -68,6 +69,7 @@ interface IWordsCardProps {
 const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
   const classes = useStyles();
   const { word, difficultCategory, learnCategory, deletedCategory } = props;
+  const { isAuthenticated } = useTypedSelector((state) => state.auth);
   const {
     wordAudio,
     changeHardStatusHandler,
@@ -183,7 +185,7 @@ const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
           >
             <PlayArrowIcon className={classes.playIcon} />
           </IconButton>
-          {renderButtons()}
+          {isAuthenticated ? <>{renderButtons()}</> : ""}
         </div>
       </div>
     </Card>

@@ -12,6 +12,7 @@ import { GET_USER_BOOK_PAGE_FILTER } from "../../constants/request-params";
 import useGetWordsForGame from "./useGetWordsForGame";
 import useBackTo from "./useBackTo";
 import "./Game.scss";
+import useTypedSelector from "../../hooks/useTypeSelector";
 
 interface ITemplateGameProps {
   words: IUserWordData[];
@@ -31,6 +32,7 @@ interface IGameProps {
 const Game: React.FunctionComponent<IGameProps> = ({ game }: IGameProps) => {
   const { backToPreviousPage, backToMain } = useBackTo();
   backToMain();
+  const { userId, token } = useTypedSelector((state) => state.auth);
 
   const history = useHistory<{ from: Locations }>();
   const [openStartDialog, setOpenStartDialog] = useState(
@@ -56,6 +58,8 @@ const Game: React.FunctionComponent<IGameProps> = ({ game }: IGameProps) => {
         selectedGroup,
         0,
         JSON.stringify(GET_USER_BOOK_PAGE_FILTER),
+        userId,
+        token,
         1
       );
       console.log("start");
