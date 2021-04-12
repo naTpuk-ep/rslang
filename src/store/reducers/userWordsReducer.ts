@@ -101,6 +101,13 @@ const userWordsReducer = (
         isFetching: true,
         error: null,
       };
+    case UserWordsActionTypes.SET_IS_FETCHING:
+      return {
+        ...state,
+        pages: [],
+        isPagesFetching: true,
+        isFetching: action.payload,
+      };
     default:
       return state;
   }

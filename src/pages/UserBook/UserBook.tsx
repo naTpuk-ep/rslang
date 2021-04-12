@@ -1,21 +1,22 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from "react";
 import { Link, useParams } from "react-router-dom";
+import UnitStatistics from "../../components/UnitStatistics/UnitStatistics";
 import WordsCategories from "../../components/WordsCategories";
 import WordsList from "../../components/WordsList";
 import Locations from "../../constants/locations";
 import { BOOK, SAVANNAH } from "../../constants/routes";
-import useBook from "../../hooks/useBook";
+import useUserBook from "../../hooks/useUserBook";
 
 export interface IBookParams {
   group: string;
   page: string;
 }
 
-const Book: React.FunctionComponent = () => {
+const UserBook: React.FunctionComponent = () => {
   const { group, page } = useParams<IBookParams>();
 
-  const { words, isFetching } = useBook({
+  const { words, pagesCount, isFetching, isPagesFetching } = useUserBook({
     group: Number(group),
     page: Number(page),
   });
@@ -25,9 +26,9 @@ const Book: React.FunctionComponent = () => {
     group: Number(group),
     page: Number(page),
     words,
-    pagesCount: 30,
+    pagesCount,
     isFetching,
-    isPagesFetching: false,
+    isPagesFetching,
   };
 
   return (
@@ -35,6 +36,7 @@ const Book: React.FunctionComponent = () => {
       <h1>
         Book Group: {group} Page: {page}
       </h1>
+      <UnitStatistics group={Number(group)} />
       <WordsCategories route={BOOK} />
       <Link to={{ pathname: SAVANNAH, state: { from: Locations.Book } }}>
         GAME
@@ -44,4 +46,4 @@ const Book: React.FunctionComponent = () => {
   );
 };
 
-export default Book;
+export default UserBook;

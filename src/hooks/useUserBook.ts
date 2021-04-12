@@ -22,11 +22,20 @@ const useUserBook = (props: IUseUserBookProps) => {
     isFetching,
     isPagesFetching,
   } = useTypedSelector((state) => state.userWords);
+  const { userId, token } = useTypedSelector((state) => state.auth);
   const history = useHistory();
-  const { aggregateUserWords, fetchPages, changeUserWordsPages } = useActions();
+  const {
+    aggregateUserWords,
+    fetchPages,
+    changeUserWordsPages,
+    setIsFetching,
+  } = useActions();
 
   useEffect(() => {
-    fetchPages(group);
+    fetchPages(group, userId, token);
+    return () => {
+      setIsFetching(true);
+    };
   }, [group]);
 
   useEffect(() => {
@@ -39,6 +48,8 @@ const useUserBook = (props: IUseUserBookProps) => {
         group,
         pages[currentPage]._id,
         JSON.stringify(GET_USER_BOOK_PAGE_FILTER),
+        userId,
+        token,
         1
       );
     }
@@ -55,11 +66,10 @@ const useUserBook = (props: IUseUserBookProps) => {
   }, [aggregatedWords]);
 
   return {
-    words:
-      aggregatedWords.words /* .filter((word) => {
+    words: aggregatedWords.words.filter((word) => {
       if (word.userWord?.status !== "deleted") return true;
       return false;
-    }), */,
+    }),
     isFetching,
     isPagesFetching,
     pagesCount: pages.length,
