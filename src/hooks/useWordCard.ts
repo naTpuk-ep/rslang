@@ -79,7 +79,8 @@ const useWordCard = (word: IUserWordData) => {
         isLearn,
       },
       userId,
-      token
+      token,
+      true
     );
   };
 
@@ -105,7 +106,8 @@ const useWordCard = (word: IUserWordData) => {
           isLearn: false,
         },
         userId,
-        token
+        token,
+        true
       );
     } else {
       updateUserWord(
@@ -116,7 +118,8 @@ const useWordCard = (word: IUserWordData) => {
           isLearn: false,
         },
         userId,
-        token
+        token,
+        true
       );
     }
   };

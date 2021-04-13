@@ -87,7 +87,7 @@ interface UpdateUserWordAction {
 
 interface UpdateUserWordSuccessAction {
   type: UserWordsActionTypes.UPDATE_USER_WORD_SUCCESS;
-  payload: { id: string; userWord: IUserWordOptions };
+  payload: { id: string; userWord: IUserWordOptions; remove: boolean };
 }
 
 interface UpdateUserWordErrorAction {
