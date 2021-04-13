@@ -14,6 +14,7 @@ import React, {
 } from "react";
 import FinishGameModal from "../../components/FinishGameModal/FinishGameModal";
 import useKeyDown from "../../hooks/useKeyDown";
+import useUpdateStatistic from "../../hooks/useUpdateStatistic";
 import { GamesNames } from "../../types/statistics-types";
 import IUserWordData from "../../types/user-words-types";
 import Game from "./Game";
@@ -33,7 +34,7 @@ const OwnGame: FC<IOwnGameProps> = (props: IOwnGameProps) => {
   const [game, setGame] = useState<Game | undefined>();
   const [currentWord, setCurrentWord] = useState<IUserWordData | undefined>(); // "any" will be the word interface
   const [inputValue, setInputValue] = useState("");
-  const numberOfSeconds = useMemo(() => -1, []);
+  const numberOfSeconds = useMemo(() => 100, []);
   const [timer, setTimer] = useState<number>(numberOfSeconds);
   const [isFinish, setIsFinish] = useState(false);
   const totalWordCount = useRef(0);
@@ -43,6 +44,7 @@ const OwnGame: FC<IOwnGameProps> = (props: IOwnGameProps) => {
   const correctWords = useRef<IUserWordData[]>([]);
   const mistakes = useRef<IUserWordData[]>([]);
   const [prevWords, setPrevWords] = useState<PrevWord[]>([]);
+  const { updateWordInGame } = useUpdateStatistic();
 
   const setNext = useCallback(() => {
     setCurrentWord(game?.nextWord());
@@ -96,11 +98,12 @@ const OwnGame: FC<IOwnGameProps> = (props: IOwnGameProps) => {
               isCorrect: true,
             },
           ]);
+          updateWordInGame(currentWord, 0, 1);
           setNext();
         }
       }
     },
-    [currentWord, game, setNext]
+    [currentWord, game, setNext, updateWordInGame]
   );
 
   const skipHandler = useCallback(() => {
@@ -117,9 +120,10 @@ const OwnGame: FC<IOwnGameProps> = (props: IOwnGameProps) => {
           isCorrect: false,
         },
       ]);
+      updateWordInGame(currentWord, 1, 0);
       setNext();
     }
-  }, [currentWord, isFinish, setNext]);
+  }, [currentWord, isFinish, setNext, updateWordInGame]);
 
   useKeyDown("Space", skipHandler);
 

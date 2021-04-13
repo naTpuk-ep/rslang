@@ -4,7 +4,6 @@
   width: 100%;
   height: 100vh;
   &__words {
-    z-index: 1;
     padding: 5vw 2vw;
     width: 20%;
     border-left: 1px solid #ffffff4f;
@@ -20,7 +19,7 @@
   }
   &__background {
     background: url("../../assets/own-game.jpg");
-    z-index: 0;
+    z-index: -1;
     background-size: cover;
     width: 100%;
     position: absolute;
@@ -30,7 +29,6 @@
     right: 0;
   }
   &__content {
-    z-index: 1;
     color: white;
     width: 80%;
     margin: 0 auto;
