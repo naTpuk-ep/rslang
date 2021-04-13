@@ -105,8 +105,7 @@ const fillGameWords = (
   wordsPerPage: number,
   count = 20,
   id: string,
-  token: string,
-  book?: number
+  token: string
 ) => {
   return async (
     dispatch: (arg0: {
@@ -127,7 +126,6 @@ const fillGameWords = (
           params: { group, page, count, wordsPerPage, filter },
         }
       );
-      console.log(response.data);
       dispatch({
         type: UserWordsActionTypes.FILL_GAME_WORDS_SUCCESS,
         payload: {

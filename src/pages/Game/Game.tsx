@@ -1,18 +1,18 @@
-/* eslint-disable no-console */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import Fab from "@material-ui/core/Fab";
 import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import CloseIcon from "@material-ui/icons/Close";
-import { useHistory } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 import GameNames from "../../constants/game-names";
 import Locations from "../../constants/locations";
 import IUserWordData from "../../types/user-words-types";
 import StartDialog from "../../components/StartDialog";
-import { GET_USER_BOOK_PAGE_FILTER } from "../../constants/request-params";
 import useGetWordsForGame from "./useGetWordsForGame";
 import useBackTo from "./useBackTo";
+import { MAIN } from "../../constants/routes";
+import { GET_USER_BOOK_PAGE_FILTER } from "../../constants/request-params";
 import "./Game.scss";
 
 interface ITemplateGameProps {
@@ -22,6 +22,7 @@ interface ITemplateGameProps {
 const TemplateGame: React.FunctionComponent<ITemplateGameProps> = ({
   words,
 }: ITemplateGameProps) => {
+  // eslint-disable-next-line no-console
   console.log(words);
   return <h1>Game</h1>;
 };
@@ -31,6 +32,8 @@ interface ILocationState {
   group: number;
   page: number;
   filter: string;
+  wordsPerPage: number;
+  count: number;
 }
 
 interface IGameProps {
@@ -38,11 +41,11 @@ interface IGameProps {
 }
 
 const Game: React.FunctionComponent<IGameProps> = ({ game }: IGameProps) => {
-  const { backToPreviousPage, backToMain } = useBackTo();
-  backToMain();
-
   const history = useHistory<ILocationState>();
-  const { from, group, page, filter } = history.location.state;
+  const { from, group, filter, wordsPerPage, count } = history.location.state
+    ? history.location.state
+    : { from: "", group: 0, filter: "", wordsPerPage: 0, count: 0 };
+  const { backToPreviousPage } = useBackTo();
   const [openStartDialog, setOpenStartDialog] = useState(
     from === Locations.Menu
   );
@@ -54,9 +57,7 @@ const Game: React.FunctionComponent<IGameProps> = ({ game }: IGameProps) => {
     token,
     isAuthenticated,
     words,
-    aggregateUserWords,
     gameWords,
-    isGameWordsFetching,
     fetchGameWords,
     fetchAggregatedGameWords,
     fillGameWords,
@@ -75,8 +76,13 @@ const Game: React.FunctionComponent<IGameProps> = ({ game }: IGameProps) => {
   useEffect(() => {
     if (from === Locations.Menu && selectedGroup !== null) {
       if (isAuthenticated) {
-        // fetchAggregatedGameWords(group, 30, filter, );
-        console.log();
+        fetchAggregatedGameWords(
+          selectedGroup as number,
+          30,
+          JSON.stringify(GET_USER_BOOK_PAGE_FILTER),
+          userId,
+          token
+        );
       } else {
         fetchGameWords(selectedGroup as number, 30);
       }
@@ -98,9 +104,16 @@ const Game: React.FunctionComponent<IGameProps> = ({ game }: IGameProps) => {
 
   useEffect(() => {
     if (from === Locations.Book && isAuthenticated) {
-      console.log(filter);
-      console.log(words);
-      fillGameWords(group, 0, words, filter, 20, 20, userId, token);
+      fillGameWords(
+        group,
+        0,
+        words,
+        filter,
+        wordsPerPage,
+        count,
+        userId,
+        token
+      );
     }
   }, []);
 
@@ -112,7 +125,7 @@ const Game: React.FunctionComponent<IGameProps> = ({ game }: IGameProps) => {
     setSelectedGroup(value);
   };
 
-  return (
+  return history.location.state ? (
     <div className="game-page">
       <StartDialog
         open={openStartDialog}
@@ -141,6 +154,8 @@ const Game: React.FunctionComponent<IGameProps> = ({ game }: IGameProps) => {
         </>
       )}
     </div>
+  ) : (
+    <Redirect to={MAIN} />
   );
 };
 
