@@ -76,7 +76,8 @@ const updateUserWord = (
   wordId: string,
   data: IUserWordOptions,
   id: string,
-  token: string
+  token: string,
+  remove = false
 ) => {
   return async (dispatch: Dispatch<UserWordsAction>) => {
     try {
@@ -99,6 +100,7 @@ const updateUserWord = (
             optional: wordResponse.data.optional,
           },
           id: wordId,
+          remove,
         },
       });
     } catch (e) {
