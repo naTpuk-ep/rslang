@@ -56,7 +56,9 @@ const App: React.FunctionComponent = () => {
             {loading ? <></> : isAuthenticated ? <UserBook /> : <Book />}
           </Route>
           <Route path={`${STUDIED_WORDS}/:group/:page`}>
-            {isAuthenticated ? (
+            {loading ? (
+              <></>
+            ) : isAuthenticated ? (
               <Dictionary
                 header="Изучаемые слова"
                 route={STUDIED_WORDS}
@@ -68,7 +70,9 @@ const App: React.FunctionComponent = () => {
             )}
           </Route>
           <Route path={`${DIFFICULT_WORDS}/:group/:page`}>
-            {isAuthenticated ? (
+            {loading ? (
+              <></>
+            ) : isAuthenticated ? (
               <Dictionary
                 header="Сложные слова"
                 route={DIFFICULT_WORDS}
@@ -80,7 +84,9 @@ const App: React.FunctionComponent = () => {
             )}
           </Route>
           <Route path={`${DELETED_WORDS}/:group/:page`}>
-            {isAuthenticated ? (
+            {loading ? (
+              <></>
+            ) : isAuthenticated ? (
               <Dictionary
                 header="Удаленные слова"
                 route={DELETED_WORDS}
@@ -92,7 +98,13 @@ const App: React.FunctionComponent = () => {
             )}
           </Route>
           <Route path={STATISTICS}>
-            {isAuthenticated ? <Statistics /> : <Redirect to={SIGN_IN} />}
+            {loading ? (
+              <></>
+            ) : isAuthenticated ? (
+              <Statistics />
+            ) : (
+              <Redirect to={SIGN_IN} />
+            )}
           </Route>
           <Route path={SAVANNAH}>
             <Game game={GameNames.Savannah} />
