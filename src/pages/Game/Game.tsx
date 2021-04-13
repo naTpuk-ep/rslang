@@ -1,10 +1,12 @@
+/* eslint-disable react/style-prop-object */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import Fab from "@material-ui/core/Fab";
 import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import CloseIcon from "@material-ui/icons/Close";
+import { Fullscreen, Close, FullscreenExit } from "@material-ui/icons/";
 import { Redirect, useHistory } from "react-router-dom";
+import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import GameNames from "../../constants/game-names";
 import Locations from "../../constants/locations";
 import IUserWordData from "../../types/user-words-types";
@@ -24,7 +26,11 @@ const TemplateGame: React.FunctionComponent<ITemplateGameProps> = ({
 }: ITemplateGameProps) => {
   // eslint-disable-next-line no-console
   console.log(words);
-  return <h1>Game</h1>;
+  return (
+    <div style={{ width: "100%", height: "100%", background: "white" }}>
+      Game
+    </div>
+  );
 };
 
 interface ILocationState {
@@ -42,6 +48,7 @@ interface IGameProps {
 
 const Game: React.FunctionComponent<IGameProps> = ({ game }: IGameProps) => {
   const history = useHistory<ILocationState>();
+  const handle = useFullScreenHandle();
   const { from, group, filter, wordsPerPage, count } = history.location.state
     ? history.location.state
     : { from: "", group: 0, filter: "", wordsPerPage: 0, count: 0 };
@@ -121,38 +128,60 @@ const Game: React.FunctionComponent<IGameProps> = ({ game }: IGameProps) => {
     backToPreviousPage();
   };
 
+  const handleClickFullscreenButton = () => {
+    if (handle.active) {
+      handle.exit();
+    } else {
+      handle.enter();
+    }
+  };
+
   const handleCloseStartDialog = (value: number) => {
     setSelectedGroup(value);
   };
 
   return history.location.state ? (
     <div className="game-page">
-      <StartDialog
-        open={openStartDialog}
-        group={selectedGroup}
-        selectGroup={handleCloseStartDialog}
-      />
-      <Backdrop open={openLoader}>
-        <CircularProgress />
-      </Backdrop>
-      <Fab
-        onClick={handleClickCloseButton}
-        size="small"
-        color="secondary"
-        className="game-page__button-close"
-      >
-        <CloseIcon />
-      </Fab>
-      {openStartDialog || openLoader ? (
-        ""
-      ) : (
-        <>
-          {game === GameNames.Savannah && <TemplateGame words={finishWords} />}
-          {game === GameNames.AudioCall && <TemplateGame words={finishWords} />}
-          {game === GameNames.Sprint && <TemplateGame words={finishWords} />}
-          {game === GameNames.OwnGame && <TemplateGame words={finishWords} />}
-        </>
-      )}
+      <FullScreen handle={handle} className="game-page__fullscreen">
+        <StartDialog
+          open={openStartDialog}
+          group={selectedGroup}
+          selectGroup={handleCloseStartDialog}
+        />
+        <Backdrop open={openLoader}>
+          <CircularProgress />
+        </Backdrop>
+        <Fab
+          onClick={handleClickCloseButton}
+          size="small"
+          color="secondary"
+          className="game-page__button-close"
+        >
+          <Close />
+        </Fab>
+        <Fab
+          onClick={handleClickFullscreenButton}
+          size="small"
+          color="primary"
+          className="game-page__button-fullscreen"
+        >
+          {handle.active ? <FullscreenExit /> : <Fullscreen />}
+        </Fab>
+        {openStartDialog || openLoader ? (
+          ""
+        ) : (
+          <>
+            {game === GameNames.Savannah && (
+              <TemplateGame words={finishWords} />
+            )}
+            {game === GameNames.AudioCall && (
+              <TemplateGame words={finishWords} />
+            )}
+            {game === GameNames.Sprint && <TemplateGame words={finishWords} />}
+            {game === GameNames.OwnGame && <TemplateGame words={finishWords} />}
+          </>
+        )}
+      </FullScreen>
     </div>
   ) : (
     <Redirect to={MAIN} />
