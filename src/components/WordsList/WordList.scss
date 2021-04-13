@@ -1,0 +1,7 @@
+.word-list {
+  margin-top: 1rem;
+  display: grid;
+  grid-gap: 1rem;
+  grid-auto-rows: max-content;  
+  overflow: auto;  
+}
