@@ -1,24 +1,15 @@
+/* eslint-disable react/no-array-index-key */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { nanoid } from "nanoid";
 import React from "react";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import { createStyles, makeStyles, Theme } from "@material-ui/core";
+import LinearProgress from "@material-ui/core/LinearProgress";
+import { Box } from "@material-ui/core";
 import WordCard from "../WordCard";
 import Paginator from "../Paginator";
-import IUserWordData from "../../types/userWords-types";
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      flexGrow: 1,
-      display: "flex",
-      flexDirection: "column",
-      rowGap: 15,
-      padding: theme.spacing(2, 2),
-    },
-  })
-);
+import IUserWordData from "../../types/user-words-types";
+import "./WordList.scss";
+import useSwitchParams from "./useSwitchParams";
+import LinksGames from "../LinksGames";
 
 interface IWordsListProps {
   route: string;
@@ -36,7 +27,6 @@ interface IWordsListProps {
 const WordsList: React.FunctionComponent<IWordsListProps> = (
   props: IWordsListProps
 ) => {
-  const classes = useStyles();
   const {
     route,
     group,
@@ -50,6 +40,8 @@ const WordsList: React.FunctionComponent<IWordsListProps> = (
     deletedCategory,
   } = props;
 
+  const { filter, wordsPerPage } = useSwitchParams(page);
+
   return (
     <>
       <Paginator
@@ -58,15 +50,23 @@ const WordsList: React.FunctionComponent<IWordsListProps> = (
         pageCount={pagesCount}
         isPagesFetching={isPagesFetching}
       />
-      <>
-        {isFetching ? (
-          <CircularProgress />
-        ) : (
-          <div className={classes.root}>
+      {isFetching ? (
+        <Box mt={2}>
+          <LinearProgress />
+        </Box>
+      ) : (
+        <>
+          <LinksGames
+            group={group}
+            page={page}
+            filter={filter}
+            wordsPerPage={wordsPerPage}
+          />
+          <div className="word-list">
             {words.map((word) => {
               return (
                 <WordCard
-                  key={nanoid()}
+                  key={word._id}
                   word={word}
                   difficultCategory={difficultCategory}
                   learnCategory={learnCategory}
@@ -75,8 +75,20 @@ const WordsList: React.FunctionComponent<IWordsListProps> = (
               );
             })}
           </div>
-        )}
-      </>
+          <LinksGames
+            group={group}
+            page={page}
+            filter={filter}
+            wordsPerPage={wordsPerPage}
+          />
+        </>
+      )}
+      <Paginator
+        route={`${route}/${group}`}
+        currentPage={page + 1}
+        pageCount={pagesCount}
+        isPagesFetching={isPagesFetching}
+      />
     </>
   );
 };

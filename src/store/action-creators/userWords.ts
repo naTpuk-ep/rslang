@@ -2,27 +2,28 @@
 import { Dispatch } from "redux";
 import axios from "axios";
 import {
+  IUserWordOptions,
   UserWordsAction,
   UserWordsActionTypes,
-} from "../../types/userWords-types";
-
-const token =
-  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwNWQ4MjY5NDYwNTEyMjk5NDdlNGViMyIsImlhdCI6MTYxNzM3ODQzNCwiZXhwIjoxNjE3ODM5MjM0fQ.5T_H_lgVStikZb_z0pDSpek7sgjy2pks711zaPq85o4";
+} from "../../types/user-words-types";
+import { unauthorizedHandler } from "./auth";
 
 const aggregateUserWords = (
   group = 0,
   page = 0,
   filter: string,
+  id: string,
+  token: string,
   book?: number
 ) => {
   return async (dispatch: Dispatch<UserWordsAction>) => {
     try {
       dispatch({ type: UserWordsActionTypes.FETCH_USER_WORDS });
       const response = await axios.get(
-        `https://rnovikov-rs-lang-back.herokuapp.com/users/605d826946051229947e4eb3/aggregatedWords`,
+        `https://rnovikov-rs-lang-back.herokuapp.com/users/${id}/aggregatedWords`,
         {
           headers: {
-            authorization: token,
+            authorization: `Bearer ${token}`,
           },
           params: { group, page, wordsPerPage: 20, filter, book },
         }
@@ -35,6 +36,7 @@ const aggregateUserWords = (
         },
       });
     } catch (e) {
+      unauthorizedHandler(e);
       dispatch({
         type: UserWordsActionTypes.FETCH_USER_WORDS_ERROR,
         payload: "Произошла ошибка при загрузке слов пользователя",
@@ -43,15 +45,15 @@ const aggregateUserWords = (
   };
 };
 
-const fetchPages = (group = 0) => {
+const fetchPages = (group = 0, id: string, token: string) => {
   return async (dispatch: Dispatch<UserWordsAction>) => {
     try {
       dispatch({ type: UserWordsActionTypes.GET_USER_WORDS_PAGES });
       const response = await axios.get(
-        `https://rnovikov-rs-lang-back.herokuapp.com/users/605d826946051229947e4eb3/aggregatedWords/group`,
+        `https://rnovikov-rs-lang-back.herokuapp.com/users/${id}/aggregatedWords/group`,
         {
           headers: {
-            authorization: token,
+            authorization: `Bearer ${token}`,
           },
           params: { group },
         }
@@ -61,6 +63,7 @@ const fetchPages = (group = 0) => {
         payload: response.data,
       });
     } catch (e) {
+      unauthorizedHandler(e);
       dispatch({
         type: UserWordsActionTypes.GET_USER_WORDS_PAGES_ERROR,
         payload: "Произошла ошибка при загрузке страниц",
@@ -69,59 +72,37 @@ const fetchPages = (group = 0) => {
   };
 };
 
-const createUserWord = (
-  userId: string,
-  wordId: string,
-  page: number,
-  data: { status: string; isLearn: boolean }
-) => {
-  return async (dispatch: Dispatch<UserWordsAction>) => {
-    try {
-      dispatch({ type: UserWordsActionTypes.CREATE_USER_WORD });
-      const response = await axios.post(
-        `https://rnovikov-rs-lang-back.herokuapp.com/users/${userId}/words/${wordId}`,
-        data,
-        {
-          headers: {
-            authorization: token,
-          },
-        }
-      );
-      dispatch({
-        type: UserWordsActionTypes.CREATE_USER_WORD_SUCCESS,
-        payload: { userWord: response.data, id: wordId, page },
-      });
-    } catch (e) {
-      dispatch({
-        type: UserWordsActionTypes.CREATE_USER_WORD_ERROR,
-        payload: "Произошла ошибка при добавлении слова",
-      });
-    }
-  };
-};
-
 const updateUserWord = (
-  userId: string,
   wordId: string,
-  data: { status: string; isLearn: boolean }
+  data: IUserWordOptions,
+  id: string,
+  token: string
 ) => {
   return async (dispatch: Dispatch<UserWordsAction>) => {
     try {
       dispatch({ type: UserWordsActionTypes.UPDATE_USER_WORD });
-      const response = await axios.put(
-        `https://rnovikov-rs-lang-back.herokuapp.com/users/${userId}/words/${wordId}`,
+      const wordResponse = await axios.put(
+        `https://rnovikov-rs-lang-back.herokuapp.com/users/${id}/words/${wordId}`,
         data,
         {
           headers: {
-            authorization: token,
+            authorization: `Bearer ${token}`,
           },
         }
       );
       dispatch({
         type: UserWordsActionTypes.UPDATE_USER_WORD_SUCCESS,
-        payload: { userWord: response.data, id: wordId },
+        payload: {
+          userWord: {
+            isLearn: wordResponse.data.isLearn,
+            status: wordResponse.data.status,
+            optional: wordResponse.data.optional,
+          },
+          id: wordId,
+        },
       });
     } catch (e) {
+      unauthorizedHandler(e);
       dispatch({
         type: UserWordsActionTypes.UPDATE_USER_WORD_ERROR,
         payload: "Произошла ошибка при изменение слова",
@@ -130,14 +111,24 @@ const updateUserWord = (
   };
 };
 
-const setUserWordsPage = (page: number): UserWordsAction => {
-  return { type: UserWordsActionTypes.SET_USER_WORDS_PAGE, payload: page };
+const changeUserWordsPages = (page: number, count: number): UserWordsAction => {
+  return {
+    type: UserWordsActionTypes.CHANGE_USER_WORDS_PAGES,
+    payload: { page, count },
+  };
+};
+
+const setIsFetching = (isFetching: boolean): UserWordsAction => {
+  return {
+    type: UserWordsActionTypes.SET_IS_FETCHING,
+    payload: isFetching,
+  };
 };
 
 export {
   aggregateUserWords,
   fetchPages,
-  setUserWordsPage,
-  createUserWord,
   updateUserWord,
+  changeUserWordsPages,
+  setIsFetching,
 };
