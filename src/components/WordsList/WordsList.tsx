@@ -7,6 +7,7 @@ import WordCard from "../WordCard";
 import Paginator from "../Paginator";
 import IUserWordData from "../../types/user-words-types";
 import "./WordList.scss";
+import BookSettings from "../Settings";
 
 interface IWordsListProps {
   route: string;
@@ -41,6 +42,7 @@ const WordsList: React.FunctionComponent<IWordsListProps> = (
           isPagesFetching={isPagesFetching}
         />
       </div>
+      <BookSettings />
       <div id="content" className="word-list">
         {isFetching ? (
           <LinearProgress />

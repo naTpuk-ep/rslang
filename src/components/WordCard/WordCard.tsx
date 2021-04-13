@@ -74,6 +74,7 @@ const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
   const classes = useStyles();
   const { word, difficultCategory, learnCategory, deletedCategory } = props;
   const { isAuthenticated } = useTypedSelector((state) => state.auth);
+  const { bookSettings } = useTypedSelector((state) => state.settings);
   const {
     wordAudio,
     changeHardStatusHandler,
@@ -162,21 +163,35 @@ const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
           <Typography component="h6" variant="h6">
             {word.word} {word.transcription}
           </Typography>
-          <Typography component="h6" variant="h6">
-            {word.wordTranslate}
-          </Typography>
+          {bookSettings.isWordTranslate ? (
+            <>
+              <Typography component="h6" variant="h6">
+                {word.wordTranslate}
+              </Typography>
+            </>
+          ) : (
+            ""
+          )}
           <Typography
             variant="subtitle1"
             color="textSecondary"
             dangerouslySetInnerHTML={{
-              __html: `${word.textMeaning}(${word.textMeaningTranslate})`,
+              __html: `${word.textMeaning}${
+                bookSettings.isSentenceTranslate
+                  ? `(${word.textMeaningTranslate})`
+                  : ""
+              }`,
             }}
           />
           <Typography
             variant="subtitle1"
             color="textSecondary"
             dangerouslySetInnerHTML={{
-              __html: `${word.textExample}(${word.textExampleTranslate})`,
+              __html: `${word.textExample}${
+                bookSettings.isSentenceTranslate
+                  ? `(${word.textExampleTranslate})`
+                  : ""
+              }`,
             }}
           />
         </CardContent>
@@ -190,7 +205,11 @@ const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
           >
             <PlayArrowIcon className={classes.playIcon} />
           </IconButton>
-          {isAuthenticated ? <>{renderButtons()}</> : ""}
+          {bookSettings.isButtons ? (
+            <>{isAuthenticated ? <>{renderButtons()}</> : ""}</>
+          ) : (
+            ""
+          )}
         </div>
       </div>
     </Card>
