@@ -24,7 +24,7 @@ const UserBar: React.FunctionComponent = () => {
   const { isAuthenticated, name, userImage, loading } = useTypedSelector(
     (state) => state.auth
   );
-  const { logout } = useActions();
+  const { logout, setIsUpdated } = useActions();
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const show = Boolean(anchorEl);
@@ -81,6 +81,7 @@ const UserBar: React.FunctionComponent = () => {
                 <MenuItem
                   onClick={() => {
                     logout();
+                    setIsUpdated(false);
                     setAnchorEl(null);
                   }}
                 >
