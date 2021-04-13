@@ -19,6 +19,7 @@ interface ILinksGamesProps {
   page: number;
   filter: string;
   wordsPerPage: number;
+  count: number;
 }
 
 const LinksGames: React.FunctionComponent<ILinksGamesProps> = ({
@@ -26,6 +27,7 @@ const LinksGames: React.FunctionComponent<ILinksGamesProps> = ({
   page,
   filter,
   wordsPerPage,
+  count,
 }: ILinksGamesProps) => {
   return (
     <div className="links-game">
@@ -41,6 +43,7 @@ const LinksGames: React.FunctionComponent<ILinksGamesProps> = ({
                 page,
                 filter,
                 wordsPerPage,
+                count,
               },
             }}
           >

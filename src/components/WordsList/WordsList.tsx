@@ -40,7 +40,7 @@ const WordsList: React.FunctionComponent<IWordsListProps> = (
     deletedCategory,
   } = props;
 
-  const { filter, wordsPerPage } = useSwitchParams(page);
+  const { filter, wordsPerPage, count } = useSwitchParams(page);
 
   return (
     <>
@@ -56,31 +56,39 @@ const WordsList: React.FunctionComponent<IWordsListProps> = (
         </Box>
       ) : (
         <>
-          <LinksGames
-            group={group}
-            page={page}
-            filter={filter}
-            wordsPerPage={wordsPerPage}
-          />
-          <div className="word-list">
-            {words.map((word) => {
-              return (
-                <WordCard
-                  key={word._id}
-                  word={word}
-                  difficultCategory={difficultCategory}
-                  learnCategory={learnCategory}
-                  deletedCategory={deletedCategory}
-                />
-              );
-            })}
-          </div>
-          <LinksGames
-            group={group}
-            page={page}
-            filter={filter}
-            wordsPerPage={wordsPerPage}
-          />
+          {words.length ? (
+            <>
+              <LinksGames
+                group={group}
+                page={page}
+                filter={filter}
+                wordsPerPage={wordsPerPage}
+                count={count}
+              />
+              <div className="word-list">
+                {words.map((word) => {
+                  return (
+                    <WordCard
+                      key={word._id}
+                      word={word}
+                      difficultCategory={difficultCategory}
+                      learnCategory={learnCategory}
+                      deletedCategory={deletedCategory}
+                    />
+                  );
+                })}
+              </div>
+              <LinksGames
+                group={group}
+                page={page}
+                filter={filter}
+                wordsPerPage={wordsPerPage}
+                count={count}
+              />
+            </>
+          ) : (
+            "not words"
+          )}
         </>
       )}
       <Paginator
