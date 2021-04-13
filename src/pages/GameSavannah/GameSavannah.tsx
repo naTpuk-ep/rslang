@@ -8,16 +8,17 @@ import crystal from "../../assets/savannah-crystal.png";
 import heart from "../../assets/heart.png";
 import emptyHeart from "../../assets/empty-heart.png";
 import IUserWordData from "../../types/user-words-types";
-import useTypedSelector from "../../hooks/useTypeSelector";
 
 interface IGameSavannahParams {
   words: IUserWordData[];
 }
 
-const GameSavannah: React.FunctionComponent = () => {
-  const { aggregatedWords } = useTypedSelector((state) => state.userWords);
+const GameSavannah: React.FunctionComponent<IGameSavannahParams> = (
+  props: IGameSavannahParams
+) => {
+  const { words } = props;
   const [index, setIndex] = useState(0);
-  const [guessWord, setGuessWord] = useState(aggregatedWords.words[0]);
+  const [guessWord, setGuessWord] = useState(words[0]);
   const [animated, setAnimated] = useState(nanoid());
   const [options, setOptions] = useState<IUserWordData[]>([]);
   const [isStarted, setIsStarted] = useState(false);
@@ -28,19 +29,16 @@ const GameSavannah: React.FunctionComponent = () => {
 
   useEffect(() => {
     if (isStarted && !isFinished) {
-      if (index >= aggregatedWords.words.length) {
+      if (index >= words.length) {
         setIsFinished(true);
         return;
       }
-      setGuessWord(aggregatedWords.words[index]);
+      setGuessWord(words[index]);
       setAnimated(nanoid());
-      const optionWords = [
-        ...aggregatedWords.words.slice(0, index),
-        ...aggregatedWords.words.slice(index + 1),
-      ]
+      const optionWords = [...words.slice(0, index), ...words.slice(index + 1)]
         .sort(() => Math.random() - 0.5)
         .slice(0, 3);
-      optionWords.push(aggregatedWords.words[index]);
+      optionWords.push(words[index]);
       optionWords.sort(() => Math.random() - 0.5);
       setOptions(optionWords);
     }
