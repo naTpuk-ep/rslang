@@ -4,6 +4,7 @@
 import React from "react";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import { Box } from "@material-ui/core";
+import Alert from "@material-ui/lab/Alert";
 import WordCard from "../WordCard";
 import Paginator from "../Paginator";
 import IUserWordData from "../../types/user-words-types";
@@ -19,6 +20,9 @@ interface IWordsListProps {
   pagesCount: number;
   isFetching: boolean;
   isPagesFetching: boolean;
+  difficultCategory?: boolean;
+  learnCategory?: boolean;
+  deletedCategory?: boolean;
 }
 
 const WordsList: React.FunctionComponent<IWordsListProps> = (
@@ -32,9 +36,12 @@ const WordsList: React.FunctionComponent<IWordsListProps> = (
     pagesCount,
     isFetching,
     isPagesFetching,
+    difficultCategory,
+    learnCategory,
+    deletedCategory,
   } = props;
 
-  const { filter, wordsPerPage } = useSwitchParams(page);
+  const { filter, wordsPerPage, count } = useSwitchParams(page);
 
   return (
     <>
@@ -50,23 +57,41 @@ const WordsList: React.FunctionComponent<IWordsListProps> = (
         </Box>
       ) : (
         <>
-          <LinksGames
-            group={group}
-            page={page}
-            filter={filter}
-            wordsPerPage={wordsPerPage}
-          />
-          <div className="word-list">
-            {words.map((word) => {
-              return <WordCard key={word._id} word={word} />;
-            })}
-          </div>
-          <LinksGames
-            group={group}
-            page={page}
-            filter={filter}
-            wordsPerPage={wordsPerPage}
-          />
+          {words.length ? (
+            <>
+              <LinksGames
+                group={group}
+                page={page}
+                filter={filter}
+                wordsPerPage={wordsPerPage}
+                count={count}
+              />
+              <div className="word-list">
+                {words.map((word) => {
+                  return (
+                    <WordCard
+                      key={word._id}
+                      word={word}
+                      difficultCategory={difficultCategory}
+                      learnCategory={learnCategory}
+                      deletedCategory={deletedCategory}
+                    />
+                  );
+                })}
+              </div>
+              <LinksGames
+                group={group}
+                page={page}
+                filter={filter}
+                wordsPerPage={wordsPerPage}
+                count={count}
+              />
+            </>
+          ) : (
+            <Box mt={2}>
+              <Alert severity="warning">В разделе нет слов!</Alert>
+            </Box>
+          )}
         </>
       )}
       <Paginator
@@ -77,6 +102,12 @@ const WordsList: React.FunctionComponent<IWordsListProps> = (
       />
     </>
   );
+};
+
+WordsList.defaultProps = {
+  difficultCategory: false,
+  learnCategory: false,
+  deletedCategory: false,
 };
 
 export default WordsList;
