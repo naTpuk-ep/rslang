@@ -99,13 +99,6 @@ const userWordsReducer = (
           )
           .filter((page) => page.count > 0),
       };
-    case UserWordsActionTypes.CLEAR_GAME_WORDS:
-      return {
-        ...state,
-        aggregatedWords: defaultWords,
-        isFetching: true,
-        error: null,
-      };
     case UserWordsActionTypes.SET_IS_FETCHING:
       return {
         ...state,
