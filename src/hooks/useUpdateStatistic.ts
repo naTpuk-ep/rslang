@@ -102,9 +102,7 @@ const useUpdateStatistic = () => {
     const stat = updateStatisticState({ ...statistics });
     const gameStat = stat.optional.today[gameName] as IGameStatisticsData;
     let newStreak = gameStat.streak;
-    if (wrong === 0) {
-      if (streak > gameStat.streak) newStreak = streak;
-    }
+    if (streak > gameStat.streak) newStreak = streak;
     const newGameStat = {
       streak: newStreak,
       wrong: stat.optional.today[gameName].wrong + wrong,
