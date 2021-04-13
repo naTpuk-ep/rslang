@@ -71,7 +71,7 @@ const signUp = (form: { email: string; name: string; password: string }) => {
     } catch (e) {
       unauthorizedHandler(e);
       dispatch({
-        type: AuthActionTypes.SIGN_IN_ERROR,
+        type: AuthActionTypes.SIGN_UP_ERROR,
         payload: "Ошибка регистрации. Проверьте правильность введенных данных",
       });
     }
