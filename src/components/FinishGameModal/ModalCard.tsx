@@ -2,11 +2,11 @@ import { CardContent, Card, IconButton, Typography } from "@material-ui/core";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import useSound from "use-sound";
 import React, { FC } from "react";
-import IWordData from "../../types/words-types";
-import { BACKEND_PATH } from "../../constants/requestParams";
+import IUserWordData from "../../types/user-words-types";
+import { BACKEND_PATH } from "../../constants/request-params";
 
 interface IModalCardProps {
-  word: IWordData;
+  word: IUserWordData;
 }
 
 const ModalCard: FC<IModalCardProps> = ({ word }: IModalCardProps) => {

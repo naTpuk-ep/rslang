@@ -12,9 +12,9 @@ import React, {
   useState,
 } from "react";
 import FinishGameModal from "../../components/FinishGameModal/FinishGameModal";
-import SectionModal from "../../components/SectionModal";
 import useKeyDown from "../../hooks/useKeyDown";
-import IUserWordData from "../../types/userWords-types";
+import { GamesNames } from "../../types/statistics-types";
+import IUserWordData from "../../types/user-words-types";
 import Game from "./Game";
 import "./OwnGame.scss";
 
@@ -28,9 +28,7 @@ type PrevWord = {
 };
 
 const OwnGame: FC<IOwnGameProps> = (props: IOwnGameProps) => {
-  const [wordList, setWordList] = useState<IUserWordData[] | undefined>(
-    props.words
-  );
+  const wordList = useMemo(() => props.words, [props.words]);
   const [game, setGame] = useState<Game | undefined>();
   const [currentWord, setCurrentWord] = useState<IUserWordData | undefined>(); // "any" will be the word interface
   const [inputValue, setInputValue] = useState("");
@@ -129,15 +127,10 @@ const OwnGame: FC<IOwnGameProps> = (props: IOwnGameProps) => {
     [currentWord]
   );
 
-  if (!wordList) {
-    return <SectionModal setWordList={setWordList} />;
-  }
-
   if (isFinish) {
     return (
       <FinishGameModal
-        totalWordCount={totalWordCount.current - 1}
-        numberOfCorrectAnswers={numberOfCorrectAnswers.current}
+        gameName={GamesNames.KnowWords}
         longestSeries={longestSeries.current}
         correctWords={correctWords.current}
         mistakes={mistakes.current}

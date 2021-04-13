@@ -2,29 +2,38 @@ import { Grid, Modal, Typography } from "@material-ui/core";
 import React, { FC, useState } from "react";
 import { Redirect } from "react-router-dom";
 import { MAIN } from "../../constants/routes";
-import IWordData from "../../types/words-types";
 import ModalCard from "./ModalCard";
 import "./FinishGameModal.scss";
+import IUserWordData from "../../types/user-words-types";
+import useUpdateStatistic from "../../hooks/useUpdateStatistic";
+import { GamesNames } from "../../types/statistics-types";
 
 interface IFinishGameModalProps {
-  totalWordCount: number;
-  numberOfCorrectAnswers: number;
+  gameName: GamesNames;
   longestSeries: number;
-  correctWords: IWordData[];
-  mistakes: IWordData[];
+  correctWords: IUserWordData[];
+  mistakes: IUserWordData[];
 }
 
 const FinishGameModal: FC<IFinishGameModalProps> = ({
-  totalWordCount,
-  numberOfCorrectAnswers,
+  gameName,
   longestSeries,
   correctWords,
   mistakes,
 }: IFinishGameModalProps) => {
+  const totalWordCount = correctWords.length + mistakes.length;
   const [open, setOpen] = useState(true);
   const correctAnswersPercent = Math.round(
-    (100 * numberOfCorrectAnswers) / totalWordCount
+    (100 * correctWords.length) / totalWordCount
   );
+  const { updateGameStatistics } = useUpdateStatistic();
+
+  updateGameStatistics(gameName, {
+    streak: longestSeries,
+    wrong: mistakes.length,
+    correct: correctWords.length,
+  });
+
   return !open ? (
     <Redirect to={MAIN} />
   ) : (
