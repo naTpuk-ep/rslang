@@ -1,8 +1,8 @@
 import React from "react";
 import LearningStatistics from "../../components/LearningStatistics";
 
-const StatisticsPage: React.FunctionComponent = () => {
+const Statistics: React.FunctionComponent = () => {
   return <LearningStatistics />;
 };
 
-export default StatisticsPage;
+export default Statistics;
