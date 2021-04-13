@@ -45,7 +45,7 @@ const WordsList: React.FunctionComponent<IWordsListProps> = (
         isPagesFetching={isPagesFetching}
       />
       {isFetching ? (
-        <Box m={2}>
+        <Box mt={2}>
           <LinearProgress />
         </Box>
       ) : (
