@@ -72,6 +72,7 @@ const Registration: React.FunctionComponent = () => {
                 id="email"
                 label="Адрес электронной почты"
                 name="email"
+                autoComplete="email"
                 value={form.email}
                 onChange={changeHandler}
                 validators={["minStringLength:1", "isEmail"]}
@@ -90,6 +91,7 @@ const Registration: React.FunctionComponent = () => {
                 id="nickname"
                 label="Псевдоним"
                 name="nickname"
+                autoComplete="nickname"
                 value={form.nickname}
                 onChange={changeHandler}
                 validators={["minStringLength:1", "maxStringLength:200"]}
@@ -109,6 +111,7 @@ const Registration: React.FunctionComponent = () => {
                 id="name"
                 label="ФИО"
                 name="name"
+                autoComplete="name"
                 value={form.name}
                 onChange={changeHandler}
                 validators={["minStringLength:1", "maxStringLength:200"]}
@@ -128,6 +131,7 @@ const Registration: React.FunctionComponent = () => {
                 label="Пароль"
                 type="password"
                 id="password"
+                autoComplete="current-password"
                 value={form.password}
                 onChange={changeHandler}
                 validators={["minStringLength:8"]}

@@ -18,7 +18,11 @@ import {
   SIGN_IN,
   SIGN_UP,
 } from "../constants/routes";
-import "./App.scss";
+import {
+  GET_USER_DELETED_WORDS_FILTER,
+  GET_USER_HARD_WORDS_FILTER,
+  GET_USER_LEARN_WORDS_FILTER,
+} from "../constants/request-params";
 import Game from "../pages/Game";
 import GameNames from "../constants/game-names";
 import Login from "../pages/Login";
@@ -26,23 +30,14 @@ import Registration from "../pages/Registration";
 import useAuthentication from "../hooks/useAuthentication";
 import UserBook from "../pages/UserBook";
 import Book from "../pages/Book";
+import Dictionary from "../pages/Dictionary";
 import Statistics from "../pages/Statistics";
+
 import "fontsource-roboto";
+import "./App.scss";
 
 // Temporary page templates!
 const Main: React.FunctionComponent = () => {
-  return <></>;
-};
-
-const StudiedWords: React.FunctionComponent = () => {
-  return <></>;
-};
-
-const DifficultWords: React.FunctionComponent = () => {
-  return <></>;
-};
-
-const DeletedWords: React.FunctionComponent = () => {
   return <></>;
 };
 
@@ -60,17 +55,56 @@ const App: React.FunctionComponent = () => {
           <Route path={`${BOOK}/:group/:page`}>
             {loading ? <></> : isAuthenticated ? <UserBook /> : <Book />}
           </Route>
-          <Route path={STUDIED_WORDS}>
-            {isAuthenticated ? <StudiedWords /> : <Redirect to={SIGN_IN} />}
+          <Route path={`${STUDIED_WORDS}/:group/:page`}>
+            {loading ? (
+              <></>
+            ) : isAuthenticated ? (
+              <Dictionary
+                header="Изучаемые слова"
+                route={STUDIED_WORDS}
+                filter={JSON.stringify(GET_USER_LEARN_WORDS_FILTER)}
+                learnCategory
+              />
+            ) : (
+              <Redirect to={SIGN_IN} />
+            )}
           </Route>
-          <Route path={DIFFICULT_WORDS}>
-            {isAuthenticated ? <DifficultWords /> : <Redirect to={SIGN_IN} />}
+          <Route path={`${DIFFICULT_WORDS}/:group/:page`}>
+            {loading ? (
+              <></>
+            ) : isAuthenticated ? (
+              <Dictionary
+                header="Сложные слова"
+                route={DIFFICULT_WORDS}
+                filter={JSON.stringify(GET_USER_HARD_WORDS_FILTER)}
+                difficultCategory
+              />
+            ) : (
+              <Redirect to={SIGN_IN} />
+            )}
           </Route>
-          <Route path={DELETED_WORDS}>
-            {isAuthenticated ? <DeletedWords /> : <Redirect to={SIGN_IN} />}
+          <Route path={`${DELETED_WORDS}/:group/:page`}>
+            {loading ? (
+              <></>
+            ) : isAuthenticated ? (
+              <Dictionary
+                header="Удаленные слова"
+                route={DELETED_WORDS}
+                filter={JSON.stringify(GET_USER_DELETED_WORDS_FILTER)}
+                deletedCategory
+              />
+            ) : (
+              <Redirect to={SIGN_IN} />
+            )}
           </Route>
           <Route path={STATISTICS}>
-            {isAuthenticated ? <Statistics /> : <Redirect to={SIGN_IN} />}
+            {loading ? (
+              <></>
+            ) : isAuthenticated ? (
+              <Statistics />
+            ) : (
+              <Redirect to={SIGN_IN} />
+            )}
           </Route>
           <Route path={SAVANNAH}>
             <Game game={GameNames.Savannah} />

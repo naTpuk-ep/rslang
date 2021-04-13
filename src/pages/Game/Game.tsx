@@ -39,6 +39,7 @@ interface ILocationState {
   page: number;
   filter: string;
   wordsPerPage: number;
+  count: number;
 }
 
 interface IGameProps {
@@ -48,9 +49,9 @@ interface IGameProps {
 const Game: React.FunctionComponent<IGameProps> = ({ game }: IGameProps) => {
   const history = useHistory<ILocationState>();
   const handle = useFullScreenHandle();
-  const { from, group, filter, wordsPerPage } = history.location.state
+  const { from, group, filter, wordsPerPage, count } = history.location.state
     ? history.location.state
-    : { from: "", group: 0, filter: "", wordsPerPage: 0 };
+    : { from: "", group: 0, filter: "", wordsPerPage: 0, count: 0 };
   const { backToPreviousPage } = useBackTo();
   const [openStartDialog, setOpenStartDialog] = useState(
     from === Locations.Menu
@@ -110,7 +111,16 @@ const Game: React.FunctionComponent<IGameProps> = ({ game }: IGameProps) => {
 
   useEffect(() => {
     if (from === Locations.Book && isAuthenticated) {
-      fillGameWords(group, 0, words, filter, wordsPerPage, 20, userId, token);
+      fillGameWords(
+        group,
+        0,
+        words,
+        filter,
+        wordsPerPage,
+        count,
+        userId,
+        token
+      );
     }
   }, []);
 
