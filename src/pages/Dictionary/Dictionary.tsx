@@ -5,12 +5,12 @@ import WordsList from "../../components/WordsList";
 import useUserDictionary from "../../hooks/useUserDictionary";
 import WordsCategories from "../../components/WordsCategories";
 
-export interface IDictionaryPageParams {
+export interface IDictionaryParams {
   group: string;
   page: string;
 }
 
-export interface IDictionaryPageProps {
+export interface IDictionaryProps {
   header: string;
   route: string;
   filter: string;
@@ -19,10 +19,10 @@ export interface IDictionaryPageProps {
   deletedCategory?: boolean;
 }
 
-const DictionaryPage: React.FunctionComponent<IDictionaryPageProps> = (
-  props: IDictionaryPageProps
+const Dictionary: React.FunctionComponent<IDictionaryProps> = (
+  props: IDictionaryProps
 ) => {
-  const { group, page } = useParams<IDictionaryPageParams>();
+  const { group, page } = useParams<IDictionaryParams>();
   const {
     header,
     route,
@@ -59,10 +59,10 @@ const DictionaryPage: React.FunctionComponent<IDictionaryPageProps> = (
   );
 };
 
-DictionaryPage.defaultProps = {
+Dictionary.defaultProps = {
   difficultCategory: false,
   learnCategory: false,
   deletedCategory: false,
 };
 
-export default DictionaryPage;
+export default Dictionary;

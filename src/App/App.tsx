@@ -30,7 +30,7 @@ import Registration from "../pages/Registration";
 import useAuthentication from "../hooks/useAuthentication";
 import UserBook from "../pages/UserBook";
 import Book from "../pages/Book";
-import DictionaryPage from "../pages/DictionaryPage";
+import Dictionary from "../pages/Dictionary";
 import Statistics from "../pages/Statistics";
 
 import "fontsource-roboto";
@@ -57,7 +57,7 @@ const App: React.FunctionComponent = () => {
           </Route>
           <Route path={`${STUDIED_WORDS}/:group/:page`}>
             {isAuthenticated ? (
-              <DictionaryPage
+              <Dictionary
                 header="Изучаемые слова"
                 route={STUDIED_WORDS}
                 filter={JSON.stringify(GET_USER_LEARN_WORDS_FILTER)}
@@ -69,7 +69,7 @@ const App: React.FunctionComponent = () => {
           </Route>
           <Route path={`${DIFFICULT_WORDS}/:group/:page`}>
             {isAuthenticated ? (
-              <DictionaryPage
+              <Dictionary
                 header="Сложные слова"
                 route={DIFFICULT_WORDS}
                 filter={JSON.stringify(GET_USER_HARD_WORDS_FILTER)}
@@ -81,7 +81,7 @@ const App: React.FunctionComponent = () => {
           </Route>
           <Route path={`${DELETED_WORDS}/:group/:page`}>
             {isAuthenticated ? (
-              <DictionaryPage
+              <Dictionary
                 header="Удаленные слова"
                 route={DELETED_WORDS}
                 filter={JSON.stringify(GET_USER_DELETED_WORDS_FILTER)}

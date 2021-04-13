@@ -23,7 +23,7 @@ const useUserDictionary = (
 
   useEffect(() => {
     aggregateUserWords(Number(group), Number(page), filter, userId, token);
-  }, []);
+  }, [group, page, filter, userId]);
 
   return {
     words: aggregatedWords.words,
