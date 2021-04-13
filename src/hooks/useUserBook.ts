@@ -57,19 +57,13 @@ const useUserBook = (props: IUseUserBookProps) => {
 
   useEffect(() => {
     if (pages.length && !isFetching) {
-      const { length } = aggregatedWords.words.filter((word) => {
-        if (word.userWord?.status !== "deleted") return true;
-        return false;
-      });
+      const { length } = aggregatedWords.words;
       changeUserWordsPages(pages[currentPage]._id, length);
     }
   }, [aggregatedWords]);
 
   return {
-    words: aggregatedWords.words.filter((word) => {
-      if (word.userWord?.status !== "deleted") return true;
-      return false;
-    }),
+    words: aggregatedWords.words,
     isFetching,
     isPagesFetching,
     pagesCount: pages.length,
