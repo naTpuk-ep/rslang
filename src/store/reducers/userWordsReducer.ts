@@ -29,6 +29,7 @@ const userWordsReducer = (
     case UserWordsActionTypes.FETCH_USER_WORDS:
       return {
         ...state,
+        aggregatedWords: defaultWords,
         isFetching: true,
         error: null,
       };
@@ -71,7 +72,9 @@ const userWordsReducer = (
           ? { ...word, userWord: action.payload.userWord }
           : word
       );
+      let newTotalCount = state.aggregatedWords.totalCount;
       if (action.payload.remove) {
+        newTotalCount -= 1;
         changeWords = changeWords.filter(
           ({ _id }) => _id !== action.payload.id
         );
@@ -81,7 +84,7 @@ const userWordsReducer = (
         isUpdating: true,
         aggregatedWords: {
           ...state.aggregatedWords,
-          totalCount: changeWords.length,
+          totalCount: newTotalCount,
           words: changeWords,
         },
       };

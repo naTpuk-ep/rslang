@@ -1,5 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
+import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import WordsList from "../../components/WordsList";
 import useUserDictionary from "../../hooks/useUserDictionary";
@@ -39,9 +40,11 @@ const Dictionary: React.FunctionComponent<IDictionaryProps> = (
 
   return (
     <>
-      <Typography variant="h3" gutterBottom>
-        {header}
-      </Typography>
+      <Box marginTop={2}>
+        <Typography variant="h3" component="h2">
+          {header}
+        </Typography>
+      </Box>
       <WordsCategories route={route} />
       <WordsList
         route={route}

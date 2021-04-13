@@ -22,7 +22,15 @@ const useUserDictionary = (
   const { aggregateUserWords } = useActions();
 
   useEffect(() => {
-    aggregateUserWords(Number(group), Number(page), filter, userId, token);
+    const { totalCount } = aggregatedWords;
+    const { length } = aggregatedWords.words;
+    if (page + 1 < Math.ceil(totalCount / 20) && length < 20) {
+      aggregateUserWords(group, page, filter, userId, token);
+    }
+  }, [aggregatedWords.words.length]);
+
+  useEffect(() => {
+    aggregateUserWords(group, page, filter, userId, token);
   }, [group, page, filter, userId]);
 
   return {
