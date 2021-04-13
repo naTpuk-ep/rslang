@@ -7,6 +7,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import Collapse from "@material-ui/core/Collapse";
+import { nanoid } from "nanoid";
 import {
   ExpandLess,
   ExpandMore,
@@ -29,6 +30,41 @@ import {
   STATISTICS,
 } from "../../constants/routes";
 import Locations from "../../constants/locations";
+import useTypedSelector from "../../hooks/useTypeSelector";
+
+const groupsData = [
+  { text: "Раздел 1", link: `${BOOK}/0/0` },
+  { text: "Раздел 2", link: `${BOOK}/1/0` },
+  { text: "Раздел 3", link: `${BOOK}/2/0` },
+  { text: "Раздел 4", link: `${BOOK}/3/0` },
+  { text: "Раздел 5", link: `${BOOK}/4/0` },
+  { text: "Раздел 6", link: `${BOOK}/5/0` },
+];
+
+const gamesData = [
+  {
+    text: "Саванна",
+    link: { pathname: SAVANNAH, state: { from: Locations.Menu } },
+  },
+  {
+    text: "Аудио вызов",
+    link: { pathname: AUDIO_CALL, state: { from: Locations.Menu } },
+  },
+  {
+    text: "Спринт",
+    link: { pathname: SPRINT, state: { from: Locations.Menu } },
+  },
+  {
+    text: "Своя игра",
+    link: { pathname: OWN_GAME, state: { from: Locations.Menu } },
+  },
+];
+
+const dictionaryData = [
+  { text: "Изучаемые слова", link: `${STUDIED_WORDS}/0/0` },
+  { text: "Сложные слова", link: `${DIFFICULT_WORDS}/0/0` },
+  { text: "Удаленные слова", link: `${DELETED_WORDS}/0/0` },
+];
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -54,11 +90,11 @@ const Menu: React.FunctionComponent<IMenuProps> = ({
   open,
   closeMenu,
 }: IMenuProps) => {
-  const isAuthorization = true;
   const classes = useStyles();
   const [openBook, setOpenBook] = useState(false);
   const [openGame, setOpenGame] = useState(false);
   const [openDictionary, setOpenDictionary] = useState(false);
+  const { isAuthenticated } = useTypedSelector((state) => state.auth);
 
   const handleClickBook = () => setOpenBook(!openBook);
   const handleClickGame = () => setOpenGame(!openGame);
@@ -77,54 +113,18 @@ const Menu: React.FunctionComponent<IMenuProps> = ({
           </ListItem>
           <Collapse in={openBook} timeout="auto" unmountOnExit>
             <List component="div" disablePadding onClick={closeMenu(false)}>
-              <LinkContainer to={`${BOOK}/0/0`}>
-                <ListItem button className={classes.nested}>
-                  <ListItemIcon>
-                    <BookmarkTwoTone />
-                  </ListItemIcon>
-                  <ListItemText primary="Раздел 1" />
-                </ListItem>
-              </LinkContainer>
-              <LinkContainer to={`${BOOK}/1/0`}>
-                <ListItem button className={classes.nested}>
-                  <ListItemIcon>
-                    <BookmarkTwoTone />
-                  </ListItemIcon>
-                  <ListItemText primary="Раздел 2" />
-                </ListItem>
-              </LinkContainer>
-              <LinkContainer to={`${BOOK}/2/0`}>
-                <ListItem button className={classes.nested}>
-                  <ListItemIcon>
-                    <BookmarkTwoTone />
-                  </ListItemIcon>
-                  <ListItemText primary="Раздел 3" />
-                </ListItem>
-              </LinkContainer>
-              <LinkContainer to={`${BOOK}/3/0`}>
-                <ListItem button className={classes.nested}>
-                  <ListItemIcon>
-                    <BookmarkTwoTone />
-                  </ListItemIcon>
-                  <ListItemText primary="Раздел 4" />
-                </ListItem>
-              </LinkContainer>
-              <LinkContainer to={`${BOOK}/4/0`}>
-                <ListItem button className={classes.nested}>
-                  <ListItemIcon>
-                    <BookmarkTwoTone />
-                  </ListItemIcon>
-                  <ListItemText primary="Раздел 5" />
-                </ListItem>
-              </LinkContainer>
-              <LinkContainer to={`${BOOK}/5/0`}>
-                <ListItem button className={classes.nested}>
-                  <ListItemIcon>
-                    <BookmarkTwoTone />
-                  </ListItemIcon>
-                  <ListItemText primary="Раздел 6" />
-                </ListItem>
-              </LinkContainer>
+              {groupsData.map((item) => {
+                return (
+                  <LinkContainer key={nanoid()} to={item.link}>
+                    <ListItem button className={classes.nested}>
+                      <ListItemIcon>
+                        <BookmarkTwoTone />
+                      </ListItemIcon>
+                      <ListItemText primary={item.text} />
+                    </ListItem>
+                  </LinkContainer>
+                );
+              })}
             </List>
           </Collapse>
 
@@ -137,50 +137,22 @@ const Menu: React.FunctionComponent<IMenuProps> = ({
           </ListItem>
           <Collapse in={openGame} timeout="auto" unmountOnExit>
             <List component="div" disablePadding onClick={closeMenu(false)}>
-              <LinkContainer
-                to={{ pathname: SAVANNAH, state: { from: Locations.Menu } }}
-              >
-                <ListItem button className={classes.nested}>
-                  <ListItemIcon>
-                    <GamesTwoTone />
-                  </ListItemIcon>
-                  <ListItemText primary="Саванна" />
-                </ListItem>
-              </LinkContainer>
-              <LinkContainer
-                to={{ pathname: AUDIO_CALL, state: { from: Locations.Menu } }}
-              >
-                <ListItem button className={classes.nested}>
-                  <ListItemIcon>
-                    <GamesTwoTone />
-                  </ListItemIcon>
-                  <ListItemText primary="Аудио вызов" />
-                </ListItem>
-              </LinkContainer>
-              <LinkContainer
-                to={{ pathname: SPRINT, state: { from: Locations.Menu } }}
-              >
-                <ListItem button className={classes.nested}>
-                  <ListItemIcon>
-                    <GamesTwoTone />
-                  </ListItemIcon>
-                  <ListItemText primary="Спринт" />
-                </ListItem>
-              </LinkContainer>
-              <LinkContainer
-                to={{ pathname: OWN_GAME, state: { from: Locations.Menu } }}
-              >
-                <ListItem button className={classes.nested}>
-                  <ListItemIcon>
-                    <GamesTwoTone />
-                  </ListItemIcon>
-                  <ListItemText primary="Своя игра" />
-                </ListItem>
-              </LinkContainer>
+              {gamesData.map((item) => {
+                return (
+                  <LinkContainer key={nanoid()} to={item.link}>
+                    <ListItem button className={classes.nested}>
+                      <ListItemIcon>
+                        <GamesTwoTone />
+                      </ListItemIcon>
+                      <ListItemText primary={item.text} />
+                    </ListItem>
+                  </LinkContainer>
+                );
+              })}
             </List>
           </Collapse>
 
-          {isAuthorization && (
+          {isAuthenticated && (
             <>
               <ListItem button onClick={handleClickDictionary}>
                 <ListItemIcon>
@@ -191,30 +163,18 @@ const Menu: React.FunctionComponent<IMenuProps> = ({
               </ListItem>
               <Collapse in={openDictionary} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding onClick={closeMenu(false)}>
-                  <LinkContainer to={STUDIED_WORDS}>
-                    <ListItem button className={classes.nested}>
-                      <ListItemIcon>
-                        <BookmarkTwoTone />
-                      </ListItemIcon>
-                      <ListItemText primary="Изучаемые слова" />
-                    </ListItem>
-                  </LinkContainer>
-                  <LinkContainer to={DIFFICULT_WORDS}>
-                    <ListItem button className={classes.nested}>
-                      <ListItemIcon>
-                        <BookmarkTwoTone />
-                      </ListItemIcon>
-                      <ListItemText primary="Сложные слова" />
-                    </ListItem>
-                  </LinkContainer>
-                  <LinkContainer to={DELETED_WORDS}>
-                    <ListItem button className={classes.nested}>
-                      <ListItemIcon>
-                        <BookmarkTwoTone />
-                      </ListItemIcon>
-                      <ListItemText primary="Удаленные слова" />
-                    </ListItem>
-                  </LinkContainer>
+                  {dictionaryData.map((item) => {
+                    return (
+                      <LinkContainer key={nanoid()} to={item.link}>
+                        <ListItem button className={classes.nested}>
+                          <ListItemIcon>
+                            <BookmarkTwoTone />
+                          </ListItemIcon>
+                          <ListItemText primary={item.text} />
+                        </ListItem>
+                      </LinkContainer>
+                    );
+                  })}
                 </List>
               </Collapse>
 

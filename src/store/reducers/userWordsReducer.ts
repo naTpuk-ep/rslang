@@ -66,11 +66,16 @@ const userWordsReducer = (
     case UserWordsActionTypes.UPDATE_USER_WORD:
       return { ...state, isUpdating: true, error: null };
     case UserWordsActionTypes.UPDATE_USER_WORD_SUCCESS: {
-      const changeWords = state.aggregatedWords.words.map((word) =>
+      let changeWords = state.aggregatedWords.words.map((word) =>
         word._id === action.payload.id
           ? { ...word, userWord: action.payload.userWord }
           : word
       );
+      if (action.payload.remove) {
+        changeWords = changeWords.filter(
+          ({ _id }) => _id !== action.payload.id
+        );
+      }
       return {
         ...state,
         isUpdating: true,
@@ -94,12 +99,12 @@ const userWordsReducer = (
           )
           .filter((page) => page.count > 0),
       };
-    case UserWordsActionTypes.CLEAR_GAME_WORDS:
+    case UserWordsActionTypes.SET_IS_FETCHING:
       return {
         ...state,
-        aggregatedWords: defaultWords,
-        isFetching: true,
-        error: null,
+        pages: [],
+        isPagesFetching: true,
+        isFetching: action.payload,
       };
     default:
       return state;

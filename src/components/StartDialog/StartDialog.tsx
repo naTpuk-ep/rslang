@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import Dialog from "@material-ui/core/Dialog";
 import Button from "@material-ui/core/Button";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import { makeStyles, createStyles, Theme } from "@material-ui/core";
 import { BookmarkTwoTone } from "@material-ui/icons";
+import Backdrop from "@material-ui/core/Backdrop";
 import "./StartDialog.scss";
 
 const groups = [
@@ -44,7 +44,7 @@ const StartDialog: React.FunctionComponent<IStartDialogProps> = (
   };
 
   return (
-    <Dialog aria-labelledby="simple-dialog-title" open={open}>
+    <Backdrop open={open}>
       <div className="dialog">
         {groups.map((item, index) => (
           <Button
@@ -67,7 +67,7 @@ const StartDialog: React.FunctionComponent<IStartDialogProps> = (
           </Button>
         ))}
       </div>
-    </Dialog>
+    </Backdrop>
   );
 };
 
