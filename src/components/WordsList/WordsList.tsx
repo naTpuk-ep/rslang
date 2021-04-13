@@ -3,13 +3,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
 import LinearProgress from "@material-ui/core/LinearProgress";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import WordCard from "../WordCard";
 import Paginator from "../Paginator";
 import IUserWordData from "../../types/user-words-types";
-import "./WordList.scss";
-import { BOOK, OWN_GAME } from "../../constants/routes";
+import { OWN_GAME } from "../../constants/routes";
 import Locations from "../../constants/locations";
+import "./WordList.scss";
+import useSwitchParams from "./useSwitchParams";
 
 interface IWordsListProps {
   route: string;
@@ -33,47 +34,33 @@ const WordsList: React.FunctionComponent<IWordsListProps> = (
     isFetching,
     isPagesFetching,
   } = props;
-  const history = useHistory();
 
-  let filter = "";
-
-  if (history.location.pathname.includes(BOOK)) {
-    filter = JSON.stringify({
-      $or: [
-        {
-          $and: [
-            { "userWord.status": { $ne: "deleted" }, page: { $lt: page } },
-          ],
-        },
-        { $and: [{ userWord: null, page: { $lt: page } }] },
-      ],
-    });
-  }
+  const { filter, wordsPerPage, count } = useSwitchParams(page);
 
   return (
-    <div id="body">
-      <div id="head">
-        <Link
-          to={{
-            pathname: OWN_GAME,
-            state: {
-              from: Locations.Book,
-              group,
-              page,
-              filter,
-            },
-          }}
-        >
-          GAME
-        </Link>
-        <Paginator
-          route={`${route}/${group}`}
-          currentPage={page + 1}
-          pageCount={pagesCount}
-          isPagesFetching={isPagesFetching}
-        />
-      </div>
-      <div id="content" className="word-list">
+    <>
+      <Link
+        to={{
+          pathname: OWN_GAME,
+          state: {
+            from: Locations.Book,
+            group,
+            page,
+            filter,
+            wordsPerPage,
+            count,
+          },
+        }}
+      >
+        GAME
+      </Link>
+      <Paginator
+        route={`${route}/${group}`}
+        currentPage={page + 1}
+        pageCount={pagesCount}
+        isPagesFetching={isPagesFetching}
+      />
+      <div className="word-list">
         {isFetching ? (
           <LinearProgress />
         ) : (
@@ -84,15 +71,13 @@ const WordsList: React.FunctionComponent<IWordsListProps> = (
           </>
         )}
       </div>
-      <div id="foot">
-        <Paginator
-          route={`${route}/${group}`}
-          currentPage={page + 1}
-          pageCount={pagesCount}
-          isPagesFetching={isPagesFetching}
-        />
-      </div>
-    </div>
+      <Paginator
+        route={`${route}/${group}`}
+        currentPage={page + 1}
+        pageCount={pagesCount}
+        isPagesFetching={isPagesFetching}
+      />
+    </>
   );
 };
 
