@@ -33,7 +33,7 @@ const OwnGame: FC<IOwnGameProps> = (props: IOwnGameProps) => {
   const [game, setGame] = useState<Game | undefined>();
   const [currentWord, setCurrentWord] = useState<IUserWordData | undefined>(); // "any" will be the word interface
   const [inputValue, setInputValue] = useState("");
-  const numberOfSeconds = useMemo(() => 20, []);
+  const numberOfSeconds = useMemo(() => -1, []);
   const [timer, setTimer] = useState<number>(numberOfSeconds);
   const [isFinish, setIsFinish] = useState(false);
   const totalWordCount = useRef(0);
@@ -128,17 +128,6 @@ const OwnGame: FC<IOwnGameProps> = (props: IOwnGameProps) => {
     [currentWord]
   );
 
-  // if (isFinish) {
-  //   return (
-  //     <FinishGameModal
-  //       gameName={GamesNames.KnowWords}
-  //       longestSeries={longestSeries.current}
-  //       correctWords={correctWords.current}
-  //       mistakes={mistakes.current}
-  //     />
-  //   );
-  // }
-
   return (
     <>
       <div className="own-game__background" />
@@ -175,28 +164,35 @@ const OwnGame: FC<IOwnGameProps> = (props: IOwnGameProps) => {
             <Typography component="h5" variant="h5">
               {separateText?.[0]}{" "}
               <input
-                className={
+                className={`${
                   !inputValue
                     ? ""
                     : game?.startsWith(inputValue)
                     ? "correct"
                     : "wrong"
-                }
+                } own-game__input ${
+                  separateText?.[0] ? "" : "own-game__input__capitalize"
+                }`}
                 type="text"
                 onChange={changeHandler}
                 value={inputValue}
-                placeholder={`Starts with ${currentWord?.word[0].toUpperCase()}`}
+                placeholder={`starts with "${currentWord?.word[0].toUpperCase()}"`}
               />
               {separateText?.[1]}
             </Typography>
-            <Button
-              variant="contained"
-              color="primary"
-              type="button"
-              onClick={skipHandler}
-            >
-              Skip
-            </Button>
+            <div className="btn-container">
+              <Button
+                variant="contained"
+                color="primary"
+                type="button"
+                onClick={skipHandler}
+              >
+                Skip
+              </Button>
+              <Typography variant="h6" component="h6">
+                &nbsp;&nbsp;&nbsp; or press &quot;space&quot;
+              </Typography>
+            </div>
           </div>
           <div className="own-game__words">
             {prevWords.map((word, i) => (
