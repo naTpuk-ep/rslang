@@ -17,30 +17,27 @@ import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import PresentToAllIcon from "@material-ui/icons/PresentToAll";
 import React from "react";
-import IUserWordData from "../../types/userWords-types";
+import IUserWordData from "../../types/user-words-types";
 import useWordCard from "../../hooks/useWordCard";
-import {
-  NO_STATUS,
-  STATUS_DELETED,
-  STATUS_HARD,
-} from "../../constants/requestParams";
+import useTypedSelector from "../../hooks/useTypeSelector";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      width: "450px",
+      width: "100%",
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
     },
     details: {
-      width: "340px",
+      width: "100%",
       display: "flex",
       flexDirection: "column",
       background: "#ececec",
     },
     content: {
       flex: "1 0 auto",
+      padding: theme.spacing(1),
     },
     cover: {
       width: 120,
@@ -53,9 +50,12 @@ const useStyles = makeStyles((theme: Theme) =>
       paddingLeft: theme.spacing(1),
       paddingBottom: theme.spacing(1),
     },
+    playButton: {
+      padding: theme.spacing(1),
+    },
     playIcon: {
-      height: 38,
-      width: 38,
+      height: 32,
+      width: 32,
     },
     button: {
       margin: theme.spacing(1),
@@ -72,15 +72,14 @@ interface IWordsCardProps {
 
 const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
   const classes = useStyles();
+  const { word, difficultCategory, learnCategory, deletedCategory } = props;
+  const { isAuthenticated } = useTypedSelector((state) => state.auth);
   const {
-    word,
-    difficultCategory: hardCategory,
-    learnCategory,
-    deletedCategory,
-  } = props;
-  const { wordAudio, createClickHandler, updateClickHandler } = useWordCard(
-    word
-  );
+    wordAudio,
+    changeHardStatusHandler,
+    changeDeletedStatusHandler,
+    changeNoStatusHandler,
+  } = useWordCard(word);
 
   const renderButtons = () => {
     const buttons = (
@@ -94,9 +93,7 @@ const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
             size="small"
             className={classes.button}
             startIcon={<AddCircleOutlineIcon />}
-            onClick={() => {
-              createClickHandler(STATUS_HARD, true);
-            }}
+            onClick={changeHardStatusHandler}
           >
             Сложное
           </Button>
@@ -107,9 +104,7 @@ const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
           size="small"
           className={classes.button}
           startIcon={<DeleteIcon />}
-          onClick={() => {
-            createClickHandler(STATUS_DELETED, false);
-          }}
+          onClick={changeDeletedStatusHandler}
         >
           Удалить
         </Button>
@@ -118,7 +113,7 @@ const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
     switch (true) {
       case deletedCategory === false &&
         learnCategory === false &&
-        hardCategory === false:
+        difficultCategory === false:
         return buttons;
       case deletedCategory === true:
         return (
@@ -128,14 +123,12 @@ const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
             size="small"
             className={classes.button}
             startIcon={<PresentToAllIcon />}
-            onClick={() => {
-              updateClickHandler(NO_STATUS, false);
-            }}
+            onClick={changeNoStatusHandler}
           >
             восстановить
           </Button>
         );
-      case hardCategory === true:
+      case difficultCategory === true:
         return (
           <Button
             variant="contained"
@@ -143,9 +136,7 @@ const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
             size="small"
             className={classes.button}
             startIcon={<PresentToAllIcon />}
-            onClick={() => {
-              updateClickHandler(NO_STATUS, true);
-            }}
+            onClick={changeNoStatusHandler}
           >
             восстановить
           </Button>
@@ -158,7 +149,7 @@ const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
   return (
     <Card
       className={`word-card group-${word.group + 1}${
-        word.userWord?.status ? " hard" : ""
+        word.userWord?.status === "hard" ? " hard" : ""
       }`}
     >
       <CardMedia
@@ -191,6 +182,7 @@ const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
         </CardContent>
         <div className={classes.controls}>
           <IconButton
+            className={classes.playButton}
             aria-label="play/pause"
             onClick={() => {
               wordAudio.play();
@@ -198,7 +190,7 @@ const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
           >
             <PlayArrowIcon className={classes.playIcon} />
           </IconButton>
-          {renderButtons()}
+          {isAuthenticated ? <>{renderButtons()}</> : ""}
         </div>
       </div>
     </Card>

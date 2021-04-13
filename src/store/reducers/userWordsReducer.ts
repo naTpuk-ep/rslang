@@ -3,7 +3,7 @@ import {
   UserWordsAction,
   UserWordsActionTypes,
   UserWordsState,
-} from "../../types/userWords-types";
+} from "../../types/user-words-types";
 
 const defaultWords = {
   words: [],
@@ -31,7 +31,6 @@ const userWordsReducer = (
         ...state,
         isFetching: true,
         error: null,
-        aggregatedWords: defaultWords,
       };
     case UserWordsActionTypes.FETCH_USER_WORDS_SUCCESS:
       return {
@@ -45,55 +44,14 @@ const userWordsReducer = (
         ...state,
         isFetching: false,
         error: action.payload,
-        aggregatedWords: defaultWords,
       };
-    case UserWordsActionTypes.SET_USER_WORDS_PAGE:
-      return { ...state, page: action.payload };
-    case UserWordsActionTypes.CREATE_USER_WORD:
-      return { ...state, isUpdating: true, error: null };
-    case UserWordsActionTypes.CREATE_USER_WORD_SUCCESS: {
-      const changeWords = state.aggregatedWords.words
-        .map((word) =>
-          word._id === action.payload.id
-            ? { ...word, userWord: action.payload.userWord }
-            : word
-        )
-        .filter((word) => {
-          if (word.userWord) {
-            if (word.userWord.status === "deleted") {
-              return false;
-            }
-            return true;
-          }
-          return true;
-        });
-      return {
-        ...state,
-        isUpdating: false,
-        pages: state.pages
-          .map((page) =>
-            page._id === action.payload.page
-              ? { ...page, count: changeWords.length }
-              : page
-          )
-          .filter((page) => page.count > 0),
-        aggregatedWords: {
-          ...state.aggregatedWords,
-          totalCount: changeWords.length,
-          words: changeWords,
-        },
-      };
-    }
-    case UserWordsActionTypes.CREATE_USER_WORD_ERROR:
-      return { ...state, isUpdating: false, error: action.payload };
-
     case UserWordsActionTypes.GET_USER_WORDS_PAGES:
       return {
         ...state,
         isPagesFetching: true,
+        isFetching: true,
         error: null,
         pages: [],
-        aggregatedWords: defaultWords,
         page: 0,
       };
     case UserWordsActionTypes.GET_USER_WORDS_PAGES_SUCCESS:
@@ -108,11 +66,16 @@ const userWordsReducer = (
     case UserWordsActionTypes.UPDATE_USER_WORD:
       return { ...state, isUpdating: true, error: null };
     case UserWordsActionTypes.UPDATE_USER_WORD_SUCCESS: {
-      const changeWords = state.aggregatedWords.words.map((word) =>
+      let changeWords = state.aggregatedWords.words.map((word) =>
         word._id === action.payload.id
           ? { ...word, userWord: action.payload.userWord }
           : word
       );
+      if (action.payload.remove) {
+        changeWords = changeWords.filter(
+          ({ _id }) => _id !== action.payload.id
+        );
+      }
       return {
         ...state,
         isUpdating: true,
@@ -125,6 +88,24 @@ const userWordsReducer = (
     }
     case UserWordsActionTypes.UPDATE_USER_WORD_ERROR:
       return { ...state, isUpdating: false, error: action.payload };
+    case UserWordsActionTypes.CHANGE_USER_WORDS_PAGES:
+      return {
+        ...state,
+        pages: state.pages
+          .map((page) =>
+            page._id === action.payload.page
+              ? { ...page, count: action.payload.count }
+              : page
+          )
+          .filter((page) => page.count > 0),
+      };
+    case UserWordsActionTypes.SET_IS_FETCHING:
+      return {
+        ...state,
+        pages: [],
+        isPagesFetching: true,
+        isFetching: action.payload,
+      };
     default:
       return state;
   }

@@ -1,20 +1,22 @@
 /* eslint-disable react/jsx-props-no-spreading */
+import Box from "@material-ui/core/Box";
+import Typography from "@material-ui/core/Typography";
 import React from "react";
 import { useParams } from "react-router-dom";
 import WordsCategories from "../../components/WordsCategories";
 import WordsList from "../../components/WordsList";
 import { BOOK } from "../../constants/routes";
-import useUserBook from "../../hooks/useUserBook";
+import useBook from "../../hooks/useBook";
 
 export interface IBookParams {
   group: string;
   page: string;
 }
 
-const BookPage: React.FunctionComponent = () => {
+const Book: React.FunctionComponent = () => {
   const { group, page } = useParams<IBookParams>();
 
-  const { words, pagesCount, isFetching, isPagesFetching } = useUserBook({
+  const { words, isFetching } = useBook({
     group: Number(group),
     page: Number(page),
   });
@@ -24,20 +26,22 @@ const BookPage: React.FunctionComponent = () => {
     group: Number(group),
     page: Number(page),
     words,
-    pagesCount,
+    pagesCount: 30,
     isFetching,
-    isPagesFetching,
+    isPagesFetching: false,
   };
 
   return (
     <>
-      <h1>
-        Book Group: {group} Page: {page}
-        <WordsCategories route={BOOK} />
-        <WordsList {...props} />
-      </h1>
+      <Box marginTop={2}>
+        <Typography variant="h3" component="h2">
+          Учебник
+        </Typography>
+      </Box>
+      <WordsCategories route={BOOK} />
+      <WordsList {...props} />
     </>
   );
 };
 
-export default BookPage;
+export default Book;

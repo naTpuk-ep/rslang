@@ -2,9 +2,9 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable react-hooks/exhaustive-deps */
 
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { GET_USER_BOOK_PAGE_FILTER } from "../constants/requestParams";
+import { GET_USER_BOOK_PAGE_FILTER } from "../constants/request-params";
 import { BOOK } from "../constants/routes";
 import useActions from "./useActions";
 import useTypedSelector from "./useTypeSelector";
@@ -22,11 +22,20 @@ const useUserBook = (props: IUseUserBookProps) => {
     isFetching,
     isPagesFetching,
   } = useTypedSelector((state) => state.userWords);
+  const { userId, token } = useTypedSelector((state) => state.auth);
   const history = useHistory();
-  const { aggregateUserWords, setUserWordsPage, fetchPages } = useActions();
+  const {
+    aggregateUserWords,
+    fetchPages,
+    changeUserWordsPages,
+    setIsFetching,
+  } = useActions();
 
   useEffect(() => {
-    fetchPages(group);
+    fetchPages(group, userId, token);
+    return () => {
+      setIsFetching(true);
+    };
   }, [group]);
 
   useEffect(() => {
@@ -39,23 +48,24 @@ const useUserBook = (props: IUseUserBookProps) => {
         group,
         pages[currentPage]._id,
         JSON.stringify(GET_USER_BOOK_PAGE_FILTER),
+        userId,
+        token,
         1
       );
     }
   }, [pages.length, currentPage]);
 
-  const onPageChangeHandler = (
-    event: React.ChangeEvent<unknown>,
-    page: number
-  ) => {
-    setUserWordsPage(page - 1);
-  };
+  useEffect(() => {
+    if (pages.length && !isFetching) {
+      const { length } = aggregatedWords.words;
+      changeUserWordsPages(pages[currentPage]._id, length);
+    }
+  }, [aggregatedWords]);
 
   return {
     words: aggregatedWords.words,
     isFetching,
     isPagesFetching,
-    onPageChangeHandler,
     pagesCount: pages.length,
   };
 };
