@@ -19,7 +19,6 @@ const useSwitchParams = (page: number) => {
 
   let filter = "";
   let wordsPerPage = 0;
-  let count = 0;
 
   if (pathname.includes(BOOK)) {
     filter = JSON.stringify({
@@ -33,22 +32,18 @@ const useSwitchParams = (page: number) => {
       ],
     });
     wordsPerPage = 20;
-    count = 20;
   } else if (pathname.includes(STUDIED_WORDS)) {
     filter = JSON.stringify(GET_USER_LEARN_WORDS_FILTER);
     wordsPerPage = page * 20;
-    count = 20;
   } else if (pathname.includes(DIFFICULT_WORDS)) {
     filter = JSON.stringify(GET_USER_HARD_WORDS_FILTER);
     wordsPerPage = page * 20;
-    count = 20;
   } else if (pathname.includes(DELETED_WORDS)) {
     filter = JSON.stringify(GET_USER_DELETED_WORDS_FILTER);
     wordsPerPage = page * 20;
-    count = 20;
   }
 
-  return { filter, wordsPerPage, count };
+  return { filter, wordsPerPage };
 };
 
 export default useSwitchParams;
