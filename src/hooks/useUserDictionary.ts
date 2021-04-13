@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from "react";
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import IUserWordData from "../types/user-words-types";
 import useActions from "./useActions";
 import useTypedSelector from "./useTypeSelector";
