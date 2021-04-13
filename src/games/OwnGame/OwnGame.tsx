@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable no-nested-ternary */
 import { Button, Typography } from "@material-ui/core";
@@ -32,7 +33,7 @@ const OwnGame: FC<IOwnGameProps> = (props: IOwnGameProps) => {
   const [game, setGame] = useState<Game | undefined>();
   const [currentWord, setCurrentWord] = useState<IUserWordData | undefined>(); // "any" will be the word interface
   const [inputValue, setInputValue] = useState("");
-  const numberOfSeconds = useMemo(() => 90, []);
+  const numberOfSeconds = useMemo(() => 20, []);
   const [timer, setTimer] = useState<number>(numberOfSeconds);
   const [isFinish, setIsFinish] = useState(false);
   const totalWordCount = useRef(0);
@@ -103,7 +104,7 @@ const OwnGame: FC<IOwnGameProps> = (props: IOwnGameProps) => {
   );
 
   const skipHandler = useCallback(() => {
-    if (currentWord) {
+    if (currentWord && !isFinish) {
       if (longestSeries.current < series.current) {
         longestSeries.current = series.current;
       }
@@ -118,7 +119,7 @@ const OwnGame: FC<IOwnGameProps> = (props: IOwnGameProps) => {
       ]);
       setNext();
     }
-  }, [currentWord, setNext]);
+  }, [currentWord, isFinish, setNext]);
 
   useKeyDown("Space", skipHandler);
 
@@ -127,80 +128,93 @@ const OwnGame: FC<IOwnGameProps> = (props: IOwnGameProps) => {
     [currentWord]
   );
 
-  if (isFinish) {
-    return (
-      <FinishGameModal
-        gameName={GamesNames.KnowWords}
-        longestSeries={longestSeries.current}
-        correctWords={correctWords.current}
-        mistakes={mistakes.current}
-      />
-    );
-  }
+  // if (isFinish) {
+  //   return (
+  //     <FinishGameModal
+  //       gameName={GamesNames.KnowWords}
+  //       longestSeries={longestSeries.current}
+  //       correctWords={correctWords.current}
+  //       mistakes={mistakes.current}
+  //     />
+  //   );
+  // }
 
   return (
-    <div className="own-game">
+    <>
       <div className="own-game__background" />
-      <div className="own-game__content">
-        <div className="own-game__timer-container">
-          <div
-            className="own-game__timer"
-            style={{
-              boxShadow: `inset 0px 0px ${
-                (numberOfSeconds - timer) / 4
-              }px 0px rgb(233, 0, 0, 0.7)`,
-              border: `2px solid rgb(150, ${timer * 1.67}, ${timer * 1.67})`,
-            }}
-          >
-            {(timer ?? numberOfSeconds) <= 6 ? (
-              <div className="own-game__timer-animate" />
-            ) : null}
-            <Typography component="h4" variant="h4">
-              {timer < 10 ? `0${timer}` : timer}
+      {isFinish ? (
+        <FinishGameModal
+          gameName={GamesNames.KnowWords}
+          longestSeries={longestSeries.current}
+          correctWords={correctWords.current}
+          mistakes={mistakes.current}
+        />
+      ) : (
+        <div className="own-game">
+          <div className="own-game__content">
+            <div className="own-game__timer-container">
+              <div
+                className="own-game__timer"
+                style={{
+                  boxShadow: `inset 0px 0px ${
+                    (numberOfSeconds - timer) / 4
+                  }px 0px rgb(233, 0, 0, 0.7)`,
+                  border: `2px solid rgb(150, ${timer * 1.67}, ${
+                    timer * 1.67
+                  })`,
+                }}
+              >
+                {(timer ?? numberOfSeconds) <= 6 ? (
+                  <div className="own-game__timer-animate" />
+                ) : null}
+                <Typography component="h4" variant="h4">
+                  {timer < 10 ? `0${timer}` : timer}
+                </Typography>
+              </div>
+            </div>
+            <Typography component="h5" variant="h5">
+              {separateText?.[0]}{" "}
+              <input
+                className={
+                  !inputValue
+                    ? ""
+                    : game?.startsWith(inputValue)
+                    ? "correct"
+                    : "wrong"
+                }
+                type="text"
+                onChange={changeHandler}
+                value={inputValue}
+                placeholder={`Starts with ${currentWord?.word[0].toUpperCase()}`}
+              />
+              {separateText?.[1]}
             </Typography>
+            <Button
+              variant="contained"
+              color="primary"
+              type="button"
+              onClick={skipHandler}
+            >
+              Skip
+            </Button>
+          </div>
+          <div className="own-game__words">
+            {prevWords.map((word, i) => (
+              <div key={i} className="own-game__words_item">
+                {word.isCorrect ? (
+                  <Check className="correct" />
+                ) : (
+                  <Close className="wrong" />
+                )}
+                <Typography component="h6" variant="h6">
+                  {word.word}
+                </Typography>
+              </div>
+            ))}
           </div>
         </div>
-        <Typography component="h5" variant="h5">
-          {separateText?.[0]}{" "}
-          <input
-            className={
-              !inputValue
-                ? ""
-                : game?.startsWith(inputValue)
-                ? "correct"
-                : "wrong"
-            }
-            type="text"
-            onChange={changeHandler}
-            value={inputValue}
-            placeholder={`Starts with ${currentWord?.word[0].toUpperCase()}`}
-          />
-          {separateText?.[1]}
-        </Typography>
-        <Button
-          variant="contained"
-          color="primary"
-          type="button"
-          onClick={skipHandler}
-        >
-          Skip
-        </Button>
-      </div>
-      <div className="own-game__words">
-        {prevWords.map((word) => (
-          <div className="own-game__words_item">
-            {word.isCorrect ? (
-              <Check className="correct" />
-            ) : (
-              <Close className="wrong" />
-            )}
-            <Typography component="h6" variant="h6">
-              {word.word}
-            </Typography>
-          </div>
-        ))}
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 

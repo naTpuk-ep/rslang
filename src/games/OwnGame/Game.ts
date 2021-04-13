@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 
-import IUserWordData from "../../types/userWords-types";
+import IUserWordData from "../../types/user-words-types";
 
 /* eslint-disable @typescript-eslint/lines-between-class-members */
 export default class Game {

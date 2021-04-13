@@ -1,3 +1,7 @@
+.modal {
+  display: flex;
+}
+
 .modal-words {
   overflow-y: scroll;
 }
@@ -12,7 +16,7 @@
 
 .finish-modal-words {
   overflow-y: overlay;
-  height: 30vh;
+  max-height: 30vh;
   margin: 0 !important;
   width: 100% !important;
   &__correct > * {
@@ -34,6 +38,7 @@
     text-transform: capitalize;
     & span {
       color: #818181;
+      text-transform: none;
     }
   }
 }
@@ -45,4 +50,12 @@
     padding: 0 !important;
   }
   margin: 10px 0;
+}
+
+.modal-paper {
+  height: fit-content;
+  padding: 20px;
+  margin: auto;
+  width: 640px;
+  outline: none;
 }

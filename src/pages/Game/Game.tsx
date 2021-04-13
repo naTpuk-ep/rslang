@@ -16,6 +16,7 @@ import useBackTo from "./useBackTo";
 import { MAIN } from "../../constants/routes";
 import { GET_USER_BOOK_PAGE_FILTER } from "../../constants/request-params";
 import "./Game.scss";
+import OwnGame from "../../games/OwnGame";
 
 interface ITemplateGameProps {
   words: IUserWordData[];
@@ -168,7 +169,7 @@ const Game: React.FunctionComponent<IGameProps> = ({ game }: IGameProps) => {
               <TemplateGame words={finishWords} />
             )}
             {game === GameNames.Sprint && <TemplateGame words={finishWords} />}
-            {game === GameNames.OwnGame && <TemplateGame words={finishWords} />}
+            {game === GameNames.OwnGame && <OwnGame words={finishWords} />}
           </>
         )}
       </FullScreen>
