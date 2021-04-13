@@ -3,12 +3,25 @@ import axios from "axios";
 import { Dispatch } from "react";
 import { STORAGE_NAME } from "../../constants/request-params";
 import { AuthAction, AuthActionTypes } from "../../types/auth-types";
+import {
+  StatisticsAction,
+  StatisticsActionTypes,
+} from "../../types/statistics-types";
 
 const setLoading = (loading: boolean) => {
   return (dispatch: Dispatch<AuthAction>) => {
     dispatch({
       type: AuthActionTypes.SET_LOADING,
       payload: loading,
+    });
+  };
+};
+
+const setIsUpdated = (isUpdated: boolean) => {
+  return (dispatch: Dispatch<StatisticsAction>) => {
+    dispatch({
+      type: StatisticsActionTypes.SET_IS_UPDATED,
+      payload: isUpdated,
     });
   };
 };
@@ -25,6 +38,7 @@ const logout = () => {
 const unauthorizedHandler = (e: { response: { status: number } }) => {
   if (e.response.status === 401) {
     logout();
+    setIsUpdated(false);
   }
 };
 
@@ -111,4 +125,5 @@ export {
   logout,
   unauthorizedHandler,
   setLoading,
+  setIsUpdated,
 };

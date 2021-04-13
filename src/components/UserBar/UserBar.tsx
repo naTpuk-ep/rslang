@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import { Button, MenuItem, Avatar, Menu } from "@material-ui/core";
 import { Link } from "react-router-dom";
@@ -24,7 +24,7 @@ const UserBar: React.FunctionComponent = () => {
   const { isAuthenticated, name, userImage, loading } = useTypedSelector(
     (state) => state.auth
   );
-  const { logout } = useActions();
+  const { logout, setIsUpdated } = useActions();
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const show = Boolean(anchorEl);
@@ -81,6 +81,7 @@ const UserBar: React.FunctionComponent = () => {
                 <MenuItem
                   onClick={() => {
                     logout();
+                    setIsUpdated(false);
                     setAnchorEl(null);
                   }}
                 >
