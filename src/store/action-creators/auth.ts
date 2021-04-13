@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import axios from "axios";
 import { Dispatch } from "react";
-import { STORAGE_NAME } from "../../constants/request-params";
 import { AuthAction, AuthActionTypes } from "../../types/auth-types";
 
 const setLoading = (loading: boolean) => {
@@ -15,7 +14,6 @@ const setLoading = (loading: boolean) => {
 
 const logout = () => {
   return (dispatch: Dispatch<AuthAction>) => {
-    localStorage.removeItem(STORAGE_NAME);
     dispatch({
       type: AuthActionTypes.LOGOUT,
     });

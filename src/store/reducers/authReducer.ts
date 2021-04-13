@@ -1,4 +1,6 @@
+import { STORAGE_AUTH_NAME } from "../../constants/request-params";
 import { AuthState, AuthAction, AuthActionTypes } from "../../types/auth-types";
+import { loadFromLocalStorage } from "../action-creators/saveLocalStorage";
 
 const defaultState: AuthState = {
   password: "",
@@ -17,7 +19,12 @@ const defaultState: AuthState = {
   signUpError: null,
 };
 
-const authReducer = (state = defaultState, action: AuthAction): AuthState => {
+const defaultUserData = loadFromLocalStorage(STORAGE_AUTH_NAME);
+
+const authReducer = (
+  state = { ...defaultState, ...defaultUserData },
+  action: AuthAction
+): AuthState => {
   switch (action.type) {
     case AuthActionTypes.SIGN_IN:
       return {

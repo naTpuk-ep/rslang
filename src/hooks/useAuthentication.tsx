@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from "react";
-import { STORAGE_NAME } from "../constants/request-params";
 import useActions from "./useActions";
 import useTypedSelector from "./useTypeSelector";
 import useUpdateStatistic from "./useUpdateStatistic";
@@ -31,9 +30,8 @@ const useAuthentication = () => {
   const { updateStatisticState } = useUpdateStatistic();
 
   useEffect(() => {
-    const data = JSON.parse(localStorage.getItem(STORAGE_NAME) || "{}");
-    if (data && data.refreshToken && data.userId) {
-      refreshTokens(data.userId, data.refreshToken);
+    if (userId && refreshToken && token && name) {
+      refreshTokens(userId, refreshToken);
     } else {
       setLoading(false);
     }
@@ -41,14 +39,6 @@ const useAuthentication = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      localStorage.setItem(
-        STORAGE_NAME,
-        JSON.stringify({
-          refreshToken,
-          userId,
-          name,
-        })
-      );
       getStatistics(userId, token);
     }
     if (isRegistered && isAuthenticated) {
