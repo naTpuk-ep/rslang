@@ -32,12 +32,13 @@ type PrevWord = {
 const OwnGame: FC<IOwnGameProps> = (props: IOwnGameProps) => {
   const wordList = useMemo(() => props.words, [props.words]);
   const [game, setGame] = useState<Game | undefined>();
-  const [currentWord, setCurrentWord] = useState<IUserWordData | undefined>(); // "any" will be the word interface
+  const [currentWord, setCurrentWord] = useState<
+    IUserWordData | undefined | null
+  >(null); // "any" will be the word interface
   const [inputValue, setInputValue] = useState("");
-  const numberOfSeconds = useMemo(() => 100, []);
+  const numberOfSeconds = useMemo(() => -1, []);
   const [timer, setTimer] = useState<number>(numberOfSeconds);
   const [isFinish, setIsFinish] = useState(false);
-  const totalWordCount = useRef(0);
   const numberOfCorrectAnswers = useRef(0);
   const series = useRef(0);
   const longestSeries = useRef(0);
@@ -48,7 +49,6 @@ const OwnGame: FC<IOwnGameProps> = (props: IOwnGameProps) => {
 
   const setNext = useCallback(() => {
     setCurrentWord(game?.nextWord());
-    totalWordCount.current += 1;
     setInputValue("");
   }, [game]);
 
@@ -64,6 +64,20 @@ const OwnGame: FC<IOwnGameProps> = (props: IOwnGameProps) => {
       setNext();
     }
   }, [game, setNext]);
+
+  useEffect(() => {
+    if (typeof currentWord === "undefined") {
+      setIsFinish(true);
+    }
+  }, [currentWord, game]);
+
+  useEffect(() => {
+    return () => {
+      if (isFinish) {
+        setCurrentWord(null);
+      }
+    };
+  }, [isFinish]);
 
   useEffect(() => {
     let timeOut: NodeJS.Timeout;
@@ -175,7 +189,9 @@ const OwnGame: FC<IOwnGameProps> = (props: IOwnGameProps) => {
                     ? "correct"
                     : "wrong"
                 } own-game__input ${
-                  separateText?.[0] ? "" : "own-game__input__capitalize"
+                  separateText?.[0]
+                    ? "own-game__input_lower"
+                    : "own-game__input_capitalize"
                 }`}
                 type="text"
                 onChange={changeHandler}
