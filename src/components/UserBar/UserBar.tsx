@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import { Button, MenuItem, Avatar, Menu } from "@material-ui/core";
 import { Link } from "react-router-dom";
