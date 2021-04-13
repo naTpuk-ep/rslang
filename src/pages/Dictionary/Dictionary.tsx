@@ -1,10 +1,9 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import Box from "@material-ui/core/Box";
-import Typography from "@material-ui/core/Typography";
 import WordsList from "../../components/WordsList";
 import useUserDictionary from "../../hooks/useUserDictionary";
 import WordsCategories from "../../components/WordsCategories";
+import BookHeader from "../../components/BookHeader";
 
 export interface IDictionaryParams {
   group: string;
@@ -40,11 +39,7 @@ const Dictionary: React.FunctionComponent<IDictionaryProps> = (
 
   return (
     <>
-      <Box marginTop={2}>
-        <Typography variant="h3" component="h2">
-          {header}
-        </Typography>
-      </Box>
+      <BookHeader name={header} group={+group} />
       <WordsCategories route={route} />
       <WordsList
         route={route}

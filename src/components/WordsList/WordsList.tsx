@@ -89,9 +89,7 @@ const WordsList: React.FunctionComponent<IWordsListProps> = (
             </>
           ) : (
             <Box mt={2}>
-              <Alert severity="warning">{`В раделе ${
-                group + 1
-              } нет слов!`}</Alert>
+              <Alert severity="warning">В разделе нет слов!</Alert>
             </Box>
           )}
         </>
