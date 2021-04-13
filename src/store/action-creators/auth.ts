@@ -23,7 +23,7 @@ const logout = () => {
 };
 
 const unauthorizedHandler = (e: { response: { status: number } }) => {
-  if (e.response.status === 401) {
+  if (e.response?.status === 401) {
     logout();
   }
 };

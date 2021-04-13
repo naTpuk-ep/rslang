@@ -3,10 +3,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
 import LinearProgress from "@material-ui/core/LinearProgress";
+import { Box } from "@material-ui/core";
 import WordCard from "../WordCard";
 import Paginator from "../Paginator";
 import IUserWordData from "../../types/user-words-types";
 import "./WordList.scss";
+import useSwitchParams from "./useSwitchParams";
+import LinksGames from "../LinksGames";
 
 interface IWordsListProps {
   route: string;
@@ -31,36 +34,48 @@ const WordsList: React.FunctionComponent<IWordsListProps> = (
     isPagesFetching,
   } = props;
 
+  const { filter, wordsPerPage } = useSwitchParams(page);
+
   return (
-    <div id="body">
-      <div id="head">
-        <Paginator
-          route={`${route}/${group}`}
-          currentPage={page + 1}
-          pageCount={pagesCount}
-          isPagesFetching={isPagesFetching}
-        />
-      </div>
-      <div id="content" className="word-list">
-        {isFetching ? (
+    <>
+      <Paginator
+        route={`${route}/${group}`}
+        currentPage={page + 1}
+        pageCount={pagesCount}
+        isPagesFetching={isPagesFetching}
+      />
+      {isFetching ? (
+        <Box mt={2}>
           <LinearProgress />
-        ) : (
-          <>
+        </Box>
+      ) : (
+        <>
+          <LinksGames
+            group={group}
+            page={page}
+            filter={filter}
+            wordsPerPage={wordsPerPage}
+          />
+          <div className="word-list">
             {words.map((word) => {
               return <WordCard key={word._id} word={word} />;
             })}
-          </>
-        )}
-      </div>
-      <div id="foot">
-        <Paginator
-          route={`${route}/${group}`}
-          currentPage={page + 1}
-          pageCount={pagesCount}
-          isPagesFetching={isPagesFetching}
-        />
-      </div>
-    </div>
+          </div>
+          <LinksGames
+            group={group}
+            page={page}
+            filter={filter}
+            wordsPerPage={wordsPerPage}
+          />
+        </>
+      )}
+      <Paginator
+        route={`${route}/${group}`}
+        currentPage={page + 1}
+        pageCount={pagesCount}
+        isPagesFetching={isPagesFetching}
+      />
+    </>
   );
 };
 

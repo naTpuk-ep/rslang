@@ -118,10 +118,6 @@ const changeUserWordsPages = (page: number, count: number): UserWordsAction => {
   };
 };
 
-const clearGameWords = (): UserWordsAction => {
-  return { type: UserWordsActionTypes.CLEAR_GAME_WORDS };
-};
-
 const setIsFetching = (isFetching: boolean): UserWordsAction => {
   return {
     type: UserWordsActionTypes.SET_IS_FETCHING,
@@ -134,6 +130,5 @@ export {
   fetchPages,
   updateUserWord,
   changeUserWordsPages,
-  clearGameWords,
   setIsFetching,
 };

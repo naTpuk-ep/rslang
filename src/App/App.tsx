@@ -26,7 +26,7 @@ import Registration from "../pages/Registration";
 import useAuthentication from "../hooks/useAuthentication";
 import UserBook from "../pages/UserBook";
 import Book from "../pages/Book";
-import StatisticsPage from "../pages/StatisticsPage";
+import Statistics from "../pages/Statistics";
 import "fontsource-roboto";
 
 // Temporary page templates!
@@ -70,7 +70,7 @@ const App: React.FunctionComponent = () => {
             {isAuthenticated ? <DeletedWords /> : <Redirect to={SIGN_IN} />}
           </Route>
           <Route path={STATISTICS}>
-            {isAuthenticated ? <StatisticsPage /> : <Redirect to={SIGN_IN} />}
+            {isAuthenticated ? <Statistics /> : <Redirect to={SIGN_IN} />}
           </Route>
           <Route path={SAVANNAH}>
             <Game game={GameNames.Savannah} />

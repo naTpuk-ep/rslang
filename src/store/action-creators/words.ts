@@ -105,8 +105,7 @@ const fillGameWords = (
   wordsPerPage: number,
   count = 20,
   id: string,
-  token: string,
-  book?: number
+  token: string
 ) => {
   return async (
     dispatch: (arg0: {
@@ -124,13 +123,13 @@ const fillGameWords = (
           headers: {
             authorization: `Bearer ${token}`,
           },
-          params: { group, page, count, wordsPerPage, filter, book },
+          params: { group, page, count, wordsPerPage, filter },
         }
       );
       dispatch({
-        type: UserWordsActionTypes.FETCH_USER_WORDS_SUCCESS,
+        type: UserWordsActionTypes.FILL_GAME_WORDS_SUCCESS,
         payload: {
-          fillWords: response.data,
+          fillWords: response.data[0].paginatedResults,
           existWords: words,
         },
       });
@@ -143,4 +142,14 @@ const fillGameWords = (
   };
 };
 
-export { fetchWords, fetchGameWords, fetchAggregatedGameWords, fillGameWords };
+const clearGameWords = (): UserWordsAction => {
+  return { type: UserWordsActionTypes.CLEAR_GAME_WORDS };
+};
+
+export {
+  fetchWords,
+  fetchGameWords,
+  fetchAggregatedGameWords,
+  fillGameWords,
+  clearGameWords,
+};

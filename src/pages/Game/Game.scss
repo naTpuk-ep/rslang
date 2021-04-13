@@ -4,12 +4,22 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: white;
-  z-index: 1100 !important;
+  background: white;
+  z-index: 1100 !important; 
+
+  & > .fullscreen-enabled {
+    background: white;
+  }
 
   &__button-close {
-    position: fixed;
+    position: fixed !important;
     top: 0.5rem;
-    right: calc(40px - 100% + 0.5rem);  
+    right: 0.5rem;
+  }
+
+  &__button-fullscreen {
+    position: fixed !important;
+    top: calc(1rem + 40px);
+    right: 0.5rem;
   }
 }
