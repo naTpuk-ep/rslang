@@ -3,14 +3,14 @@ import React, { useEffect, useState } from "react";
 import Countdown from "react-countdown";
 import { nanoid } from "nanoid";
 import "./GameSavannah.scss";
-import { GlobalHotKeys, HotKeys } from "react-hotkeys";
-import IWordData from "../../models/word-model";
+import { GlobalHotKeys } from "react-hotkeys";
 import crystal from "../../assets/savannah-crystal.png";
 import heart from "../../assets/heart.png";
 import emptyHeart from "../../assets/empty-heart.png";
+import IUserWordData from "../../types/user-words-types";
 
 interface IGameSavannahParams {
-  words: IWordData[];
+  words: IUserWordData[];
 }
 
 const GameSavannah: React.FunctionComponent<IGameSavannahParams> = (
@@ -20,7 +20,7 @@ const GameSavannah: React.FunctionComponent<IGameSavannahParams> = (
   const [index, setIndex] = useState(0);
   const [guessWord, setGuessWord] = useState(words[0]);
   const [animated, setAnimated] = useState(nanoid());
-  const [options, setOptions] = useState<IWordData[]>([]);
+  const [options, setOptions] = useState<IUserWordData[]>([]);
   const [isStarted, setIsStarted] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
   const [attempts, setAttempts] = useState(5);
@@ -56,7 +56,7 @@ const GameSavannah: React.FunctionComponent<IGameSavannahParams> = (
       setAttempts(attempts - 1);
     }
   };
-  const guessClickHandler = (word: IWordData) => {
+  const guessClickHandler = (word: IUserWordData) => {
     if (word.wordTranslate === guessWord.wordTranslate) {
       setIndex(index + 1);
     } else {
