@@ -4,6 +4,7 @@ import Countdown from "react-countdown";
 import { nanoid } from "nanoid";
 import "./GameSavannah.scss";
 import { GlobalHotKeys } from "react-hotkeys";
+import { Howl } from "howler";
 import crystal from "../../assets/savannah-crystal.png";
 import heart from "../../assets/heart.png";
 import emptyHeart from "../../assets/empty-heart.png";
@@ -26,6 +27,20 @@ const GameSavannah: React.FunctionComponent<IGameSavannahParams> = (
   const [attempts, setAttempts] = useState(5);
   const [crystalWidth, setCrystalWidth] = useState(100);
   const [animateCrystal, setAnimateCrystal] = useState(nanoid());
+
+  const gameMusic = new Howl({
+    src: ["static/audio/savannah-back.mp3"],
+    volume: 0.2,
+    loop: true,
+  });
+  const wrongSound = new Howl({
+    src: ["static/audio/wrong.wav"],
+    volume: 0.3,
+  });
+  const correctSound = new Howl({
+    src: ["static/audio/correct.mp3"],
+    volume: 0.3,
+  });
 
   useEffect(() => {
     if (isStarted && !isFinished) {
@@ -56,6 +71,7 @@ const GameSavannah: React.FunctionComponent<IGameSavannahParams> = (
     if (e.animationName === "moveword") {
       setIndex(index + 1);
       setAttempts(attempts - 1);
+      wrongSound.play();
     }
   };
   const guessClickHandler = (word: IUserWordData) => {
@@ -63,9 +79,11 @@ const GameSavannah: React.FunctionComponent<IGameSavannahParams> = (
       setIndex(index + 1);
       setCrystalWidth(crystalWidth + 2);
       setAnimateCrystal(nanoid());
+      correctSound.play();
     } else {
       setAttempts(attempts - 1);
       setIndex(index + 1);
+      wrongSound.play();
     }
   };
   const countdownCompleteHandler = () => {
