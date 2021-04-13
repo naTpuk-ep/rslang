@@ -47,7 +47,7 @@ const FinishGameModal: FC<IFinishGameModalProps> = ({
           <Grid className="finish-modal-content__title" container spacing={3}>
             <Grid item xs={6}>
               <Typography className="finish-modal-words__correct" variant="h4">
-                Знаю&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                Знаю&nbsp;&nbsp;&nbsp;&nbsp;
                 <div className="finish-modal-words__summarize">
                   {correctWords.length}
                 </div>
@@ -55,7 +55,7 @@ const FinishGameModal: FC<IFinishGameModalProps> = ({
             </Grid>
             <Grid item xs={6}>
               <Typography className="finish-modal-words__mistake" variant="h4">
-                Не знаю&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                Не знаю&nbsp;&nbsp;&nbsp;&nbsp;
                 <div className="finish-modal-words__summarize">
                   {mistakes.length}
                 </div>

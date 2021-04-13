@@ -59,3 +59,39 @@
   width: 640px;
   outline: none;
 }
+
+@media (max-width: 896px) {
+  .finish-modal-words {
+    height: 150px !important;
+    &__summarize {
+      width: 30px !important;
+      height: 30px !important;
+    }
+    & .MuiGrid-item {
+      padding: 5px !important;
+    }
+  }
+
+  .finish-modal-content {
+    & h4 {
+      font-size: 20px !important;
+      display: flex !important;
+    }
+    & h5 {
+      font-size: 20px !important;
+    }
+    & button {
+      padding: 5px !important;
+    }
+  }
+
+  .finish-modal-card__content {
+    & h5 {
+      font-size: 15px !important;
+    }
+  }
+
+  .modal-paper {
+    padding: 0;
+  }
+}
