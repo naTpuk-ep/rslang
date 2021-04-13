@@ -4,6 +4,7 @@
 import React from "react";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import { Box } from "@material-ui/core";
+import Alert from "@material-ui/lab/Alert";
 import WordCard from "../WordCard";
 import Paginator from "../Paginator";
 import IUserWordData from "../../types/user-words-types";
@@ -87,7 +88,11 @@ const WordsList: React.FunctionComponent<IWordsListProps> = (
               />
             </>
           ) : (
-            "not words"
+            <Box mt={2}>
+              <Alert severity="warning">{`В раделе ${
+                group + 1
+              } нет слов!`}</Alert>
+            </Box>
           )}
         </>
       )}
