@@ -51,7 +51,7 @@ const useUpdateStatistic = () => {
     stat.optional.today.correctAnswers += correct;
     stat.optional.today.wrongAnswers += wrong;
     if (isLearn) {
-      if (moment(word.userWord.optional.learned).isBefore(now, "day")) {
+      if (moment(word.userWord.optional.lastLearn).isBefore(now, "day")) {
         stat.optional.today.dayLearns += 1;
       }
       const userWord = { ...word.userWord };
