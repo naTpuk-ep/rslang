@@ -26,6 +26,9 @@ const useWordCard = (word: IUserWordData) => {
     new Howl({
       src: [`${BACKEND_PATH}${word.audioExample}`],
       volume: 0.5,
+      onend: () => {
+        setPlaySound(false);
+      },
     })
   );
   const [audioMeaning] = useState(

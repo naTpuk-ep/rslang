@@ -98,15 +98,15 @@ const GameSavannah: React.FunctionComponent<IGameSavannahParams> = (
   };
   const guessClickHandler = (word: IUserWordData) => {
     if (word.wordTranslate === guessWord.wordTranslate) {
+      updateWordInGame(guessWord, 0, 1);
       setIndex(index + 1);
       setCrystalWidth(crystalWidth + 2);
       setAnimateCrystal(nanoid());
-      updateWordInGame(guessWord, 0, 1);
       correctSound.play();
     } else {
-      setAttempts(attempts - 1);
       updateWordInGame(guessWord, 1, 0);
       setIndex(index + 1);
+      setAttempts(attempts - 1);
       wrongSound.play();
     }
   };
