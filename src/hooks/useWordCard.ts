@@ -1,8 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Howl } from "howler";
 import moment from "moment";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   BACKEND_PATH,
   NO_STATUS,
@@ -11,45 +12,101 @@ import {
 } from "../constants/request-params";
 import IUserWordData from "../types/user-words-types";
 import useActions from "./useActions";
+import useTypedSelector from "./useTypeSelector";
 import useUpdateStatistic from "./useUpdateStatistic";
 
 const useWordCard = (word: IUserWordData) => {
   const { updateUserWord } = useActions();
-  const { updateDayLearnsStatistic, updateLearnedWords } = useUpdateStatistic();
-  const [wordAudio] = useState(
+  const { updateLearnedWords } = useUpdateStatistic();
+  const { userId, token } = useTypedSelector((state) => state.auth);
+
+  const [playSound, setPlaySound] = useState(false);
+
+  const [audioExample] = useState(
     new Howl({
-      src: [
-        `${BACKEND_PATH}${word.audio}`,
-        `${BACKEND_PATH}${word.audioExample}`,
-        `${BACKEND_PATH}${word.audioMeaning}`,
-      ],
+      src: [`${BACKEND_PATH}${word.audioExample}`],
       volume: 0.5,
+      onend: () => {
+        setPlaySound(false);
+      },
     })
   );
+  const [audioMeaning] = useState(
+    new Howl({
+      src: [`${BACKEND_PATH}${word.audioMeaning}`],
+      volume: 0.5,
+      onend: () => {
+        audioExample.play();
+      },
+    })
+  );
+  const [wordAudio] = useState(
+    new Howl({
+      src: [`${BACKEND_PATH}${word.audio}`],
+      volume: 0.5,
+      onend: () => {
+        audioMeaning.play();
+      },
+    })
+  );
+
+  useEffect(() => {
+    if (!playSound) {
+      wordAudio.stop();
+      audioMeaning.stop();
+      audioExample.stop();
+    } else if (
+      !wordAudio.playing() &&
+      !audioMeaning.playing() &&
+      !audioExample.playing()
+    )
+      wordAudio.play();
+  }, [playSound]);
+
+  useEffect(() => {
+    return () => {
+      audioExample.stop();
+      wordAudio.stop();
+      audioMeaning.stop();
+    };
+  }, []);
+
+  const handelMuteButtonClick = () => {
+    setPlaySound(!playSound);
+  };
 
   const changeHardStatusHandler = () => {
     const isLearn = word.userWord?.isLearn;
     const now = moment();
     const yesterday = moment().subtract(1, "days");
-    updateDayLearnsStatistic(1, 2);
     if (!isLearn) {
-      updateUserWord("605d826946051229947e4eb3", word._id, {
-        status: STATUS_HARD,
-        isLearn: true,
-        optional: {
-          lastLearn: new Date(yesterday.format("YYYY-MM-DD")),
-          learned: new Date(now.format("YYYY-MM-DD")),
-          wrongAnswers: 0,
-          correctAnswers: 0,
+      updateUserWord(
+        word._id,
+        {
+          status: STATUS_HARD,
+          isLearn: true,
+          optional: {
+            lastLearn: new Date(yesterday.format("YYYY-MM-DD")),
+            learned: new Date(now.format("YYYY-MM-DD")),
+            wrongAnswers: 0,
+            correctAnswers: 0,
+          },
         },
-      });
+        userId,
+        token
+      );
       updateLearnedWords(1, 1);
     } else {
-      updateUserWord("605d826946051229947e4eb3", word._id, {
-        ...word.userWord,
-        status: STATUS_HARD,
-        isLearn: true,
-      });
+      updateUserWord(
+        word._id,
+        {
+          ...word.userWord,
+          status: STATUS_HARD,
+          isLearn: true,
+        },
+        userId,
+        token
+      );
     }
   };
 
@@ -59,11 +116,17 @@ const useWordCard = (word: IUserWordData) => {
     if (status === STATUS_HARD) {
       isLearn = true;
     }
-    updateUserWord("605d826946051229947e4eb3", word._id, {
-      ...word.userWord,
-      status: NO_STATUS,
-      isLearn,
-    });
+    updateUserWord(
+      word._id,
+      {
+        ...word.userWord,
+        status: NO_STATUS,
+        isLearn,
+      },
+      userId,
+      token,
+      true
+    );
   };
 
   const changeDeletedStatusHandler = () => {
@@ -75,30 +138,43 @@ const useWordCard = (word: IUserWordData) => {
       } else {
         updateLearnedWords(-1);
       }
-      updateUserWord("605d826946051229947e4eb3", word._id, {
-        ...word.userWord,
-        optional: {
-          ...word.userWord.optional,
-          correctAnswers: 0,
-          wrongAnswers: 0,
+      updateUserWord(
+        word._id,
+        {
+          ...word.userWord,
+          optional: {
+            ...word.userWord.optional,
+            correctAnswers: 0,
+            wrongAnswers: 0,
+          },
+          status: STATUS_DELETED,
+          isLearn: false,
         },
-        status: STATUS_DELETED,
-        isLearn: false,
-      });
+        userId,
+        token,
+        true
+      );
     } else {
-      updateUserWord("605d826946051229947e4eb3", word._id, {
-        ...word.userWord,
-        status: STATUS_DELETED,
-        isLearn: false,
-      });
+      updateUserWord(
+        word._id,
+        {
+          ...word.userWord,
+          status: STATUS_DELETED,
+          isLearn: false,
+        },
+        userId,
+        token,
+        true
+      );
     }
   };
 
   return {
-    wordAudio,
+    handelMuteButtonClick,
     changeHardStatusHandler,
     changeDeletedStatusHandler,
     changeNoStatusHandler,
+    playSound,
   };
 };
 

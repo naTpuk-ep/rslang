@@ -6,19 +6,17 @@ import {
   StatisticsAction,
   StatisticsActionTypes,
 } from "../../types/statistics-types";
+import { unauthorizedHandler } from "./auth";
 
-const token =
-  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwNWQ4MjY5NDYwNTEyMjk5NDdlNGViMyIsImlhdCI6MTYxODA0NDA1MSwiZXhwIjoxNjE4NTA0ODUxfQ.vsICxs1HaHcT_A59xj36r9SuBiTEEvZ3ZAYQg3pExG8";
-
-const getStatistics = () => {
+const getStatistics = (id: string, token: string) => {
   return async (dispatch: Dispatch<StatisticsAction>) => {
     try {
       dispatch({ type: StatisticsActionTypes.GET_STATISTICS });
       const response = await axios.get(
-        `https://rnovikov-rs-lang-back.herokuapp.com/users/605d826946051229947e4eb3/statistics`,
+        `https://rnovikov-rs-lang-back.herokuapp.com/users/${id}/statistics`,
         {
           headers: {
-            authorization: token,
+            authorization: `Bearer ${token}`,
           },
         }
       );
@@ -30,6 +28,7 @@ const getStatistics = () => {
         },
       });
     } catch (e) {
+      unauthorizedHandler(e);
       dispatch({
         type: StatisticsActionTypes.GET_STATISTICS_ERROR,
         payload: "Произошла ошибка при загрузке статистики",
@@ -38,17 +37,24 @@ const getStatistics = () => {
   };
 };
 
-const updateStatisticsAction = (data: IStatisticsData) => {
+const updateStatisticsAction = (
+  data: IStatisticsData,
+  id: string,
+  token: string,
+  learnedWords = 0,
+  learnedWordsToday = 0
+) => {
   return async (dispatch: Dispatch<StatisticsAction>) => {
     try {
       dispatch({ type: StatisticsActionTypes.UPDATE_STATISTICS });
       const response = await axios.put(
-        `https://rnovikov-rs-lang-back.herokuapp.com/users/605d826946051229947e4eb3/statistics`,
+        `https://rnovikov-rs-lang-back.herokuapp.com/users/${id}/statistics`,
         data,
         {
           headers: {
-            authorization: token,
+            authorization: `Bearer ${token}`,
           },
+          params: { lw: learnedWords, tlw: learnedWordsToday },
         }
       );
       dispatch({
@@ -59,6 +65,7 @@ const updateStatisticsAction = (data: IStatisticsData) => {
         },
       });
     } catch (e) {
+      unauthorizedHandler(e);
       dispatch({
         type: StatisticsActionTypes.UPDATE_STATISTICS_ERROR,
         payload: "Произошла ошибка при обновлении статистики",
@@ -67,4 +74,13 @@ const updateStatisticsAction = (data: IStatisticsData) => {
   };
 };
 
-export { getStatistics, updateStatisticsAction };
+const setIsUpdated = (isUpdated: boolean) => {
+  return (dispatch: Dispatch<StatisticsAction>) => {
+    dispatch({
+      type: StatisticsActionTypes.SET_IS_UPDATED,
+      payload: isUpdated,
+    });
+  };
+};
+
+export { getStatistics, updateStatisticsAction, setIsUpdated };

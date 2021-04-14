@@ -58,6 +58,13 @@ export enum UserWordsActionTypes {
   GET_USER_WORDS_PAGES_ERROR = "GET_USER_WORDS_PAGES_ERROR",
   CHANGE_USER_WORDS_PAGES = "CHANGE_USER_WORDS_PAGES",
   CLEAR_GAME_WORDS = "CLEAR_GAME_WORDS",
+  SET_IS_FETCHING = "SET_IS_FETCHING",
+  FETCH_GAME_WORDS = "FETCH_GAME_WORDS",
+  FETCH_GAME_WORDS_SUCCESS = "FETCH_GAME_WORDS_SUCCESS",
+  FETCH_GAME_WORDS_ERROR = "FETCH_GAME_WORDS_ERROR",
+  FILL_GAME_WORDS = "FILL_GAME_WORDS",
+  FILL_GAME_WORDS_SUCCESS = "FILL_GAME_WORDS_SUCCESS",
+  FILL_GAME_WORDS_ERROR = "FETCH_GAME_WORDS_ERROR",
 }
 
 interface FetchUserWordsAction {
@@ -80,7 +87,7 @@ interface UpdateUserWordAction {
 
 interface UpdateUserWordSuccessAction {
   type: UserWordsActionTypes.UPDATE_USER_WORD_SUCCESS;
-  payload: { id: string; userWord: IUserWordOptions };
+  payload: { id: string; userWord: IUserWordOptions; remove: boolean };
 }
 
 interface UpdateUserWordErrorAction {
@@ -111,6 +118,11 @@ interface ClearGameWordsAction {
   type: UserWordsActionTypes.CLEAR_GAME_WORDS;
 }
 
+interface SetIsFetchingAction {
+  type: UserWordsActionTypes.SET_IS_FETCHING;
+  payload: boolean;
+}
+
 export type UserWordsAction =
   | FetchUserWordsAction
   | FetchUserWordsSuccessAction
@@ -122,6 +134,7 @@ export type UserWordsAction =
   | UpdateUserWordSuccessAction
   | UpdateUserWordErrorAction
   | ChangeUserWordsPagesAction
-  | ClearGameWordsAction;
+  | ClearGameWordsAction
+  | SetIsFetchingAction;
 
 export default IUserWordData;

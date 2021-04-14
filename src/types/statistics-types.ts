@@ -55,6 +55,7 @@ export const defaultState: StatisticsState = {
       allTime: [],
     },
   },
+  isUpdated: false,
   isFetching: true,
   error: null,
 };
@@ -68,6 +69,7 @@ export interface IGameStatisticsData {
 export interface StatisticsState {
   statistics: IStatisticsData;
   isFetching: boolean;
+  isUpdated: boolean;
   error: null | string;
 }
 
@@ -78,6 +80,8 @@ export enum StatisticsActionTypes {
   UPDATE_STATISTICS = "UPDATE_STATISTICS",
   UPDATE_STATISTICS_SUCCESS = "UPDATE_STATISTICS_SUCCESS",
   UPDATE_STATISTICS_ERROR = "UPDATE_STATISTICS_ERROR",
+  SET_IS_UPDATED = "SET_IS_UPDATED",
+  RESET_STAT = "CLEAR_STAT",
 }
 
 interface GetStatisticsAction {
@@ -108,10 +112,21 @@ interface UpdateStatisticsErrorAction {
   payload: string;
 }
 
+interface SetIsUpdatedAction {
+  type: StatisticsActionTypes.SET_IS_UPDATED;
+  payload: boolean;
+}
+
+interface ResetStatAction {
+  type: StatisticsActionTypes.RESET_STAT;
+}
+
 export type StatisticsAction =
   | GetStatisticsAction
   | GetStatisticsSuccessAction
   | GetStatisticsErrorAction
   | UpdateStatisticsAction
   | UpdateStatisticsSuccessAction
-  | UpdateStatisticsErrorAction;
+  | UpdateStatisticsErrorAction
+  | SetIsUpdatedAction
+  | ResetStatAction;

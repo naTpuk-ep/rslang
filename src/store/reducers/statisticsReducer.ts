@@ -48,7 +48,15 @@ const statisticsReducer = (
         isFetching: false,
         error: action.payload,
       };
-
+    case StatisticsActionTypes.SET_IS_UPDATED:
+      return {
+        ...state,
+        isUpdated: action.payload,
+      };
+    case StatisticsActionTypes.RESET_STAT:
+      return {
+        ...defaultState,
+      };
     default:
       return state;
   }
