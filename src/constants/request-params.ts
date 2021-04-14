@@ -18,14 +18,17 @@ const GET_USER_DELETED_WORDS_FILTER = { "userWord.status": "deleted" };
 const GET_USER_HARD_WORDS_FILTER = { "userWord.status": "hard" };
 
 const BACKEND_PATH = "https://rnovikov-rs-lang-back.herokuapp.com/";
-const STORAGE_NAME = "userData";
+
+const STORAGE_AUTH_NAME = "auth";
+const STORAGE_SETTING_NAME = "settings";
 
 export {
   NO_STATUS,
   STATUS_DELETED,
   STATUS_HARD,
   BACKEND_PATH,
-  STORAGE_NAME,
+  STORAGE_AUTH_NAME,
+  STORAGE_SETTING_NAME,
   GET_USER_GAME_WORDS_FILTER,
   GET_USER_BOOK_PAGE_FILTER,
   GET_USER_LEARN_WORDS_FILTER,
