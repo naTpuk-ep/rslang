@@ -88,8 +88,8 @@ const useWordCard = (word: IUserWordData) => {
           optional: {
             lastLearn: new Date(yesterday.format("YYYY-MM-DD")),
             learned: new Date(now.format("YYYY-MM-DD")),
-            wrongAnswers: word.userWord?.optional?.wrongAnswers || 0,
-            correctAnswers: word.userWord?.optional?.correctAnswers || 0,
+            wrongAnswers: 0,
+            correctAnswers: 0,
           },
         },
         userId,
