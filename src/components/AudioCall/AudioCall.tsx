@@ -3,8 +3,10 @@ import AudioBlock from "./AudioBlock";
 import AnswerBlock from "./AnswerBlock";
 import useUpdateStatistic from "../../hooks/useUpdateStatistic";
 import IUserWordData from "../../types/user-words-types";
+import useTypedSelector from "../../hooks/useTypeSelector";
 
 import "./AudioCall.scss";
+import { STATUS_DELETED } from "../../constants/request-params";
 
 interface IAudioCallParams {
   words: IUserWordData[];
@@ -28,6 +30,7 @@ const AudioCall: React.FunctionComponent<IAudioCallParams> = ({
   const [isAnswer, setIsAnswer] = useState(false);
   // const [isFinish, setIsFinish] = useState(false);
   const { updateWordInGame /* updateGameStatistics */ } = useUpdateStatistic();
+  const { isAuthenticated } = useTypedSelector((state) => state.auth);
 
   useEffect(() => {
     let imageStr = "";
@@ -95,14 +98,25 @@ const AudioCall: React.FunctionComponent<IAudioCallParams> = ({
   const changeAnswerBlock = (status: boolean) => {
     if (status) {
       correctWordsArray.push(words[currentIndex]);
-      updateWordInGame(words[currentIndex], 1, 0);
+      if (
+        isAuthenticated &&
+        words[currentIndex].userWord?.status !== STATUS_DELETED
+      ) {
+        updateWordInGame(words[currentIndex], 0, 1);
+      }
+
       currentChainLength += 1;
       if (currentChainLength > maxChainLength) {
         maxChainLength = currentChainLength;
       }
     } else {
       wrongWordsArray.push(words[currentIndex]);
-      updateWordInGame(words[currentIndex], 1, 0);
+      if (
+        isAuthenticated &&
+        words[currentIndex].userWord?.status !== STATUS_DELETED
+      ) {
+        updateWordInGame(words[currentIndex], 1, 0);
+      }
       currentChainLength = 0;
     }
     setIsAnswer(true);
