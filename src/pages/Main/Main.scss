@@ -1,85 +1,42 @@
-.abilities {
-  &__container {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 50px !important;
-  }
-}
-
-.ability-content {
-  &__icon {
-    font-size: 2.1875rem !important;
-    height: 100% !important;
-    border-right: 1px solid #bfbfbf !important;
-    width: 25% !important;
-    padding-right: 7px !important;
-  }
-  text-align: left;
-  height: 100px;
-  width: 220px;
-  padding: 10px !important;
-  display: flex;
-  align-items: center;
-  & p {
-    font-size: 1rem;
-    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-    line-height: 1.2;
-    letter-spacing: 0.00938em;
-    margin-left: 10px;
-  }
-}
-
-.ability-item {
-  margin-bottom: 10px !important;
-}
-
 .main-page {
-  text-align: center;
-  &__title {
-    color: white;
-    text-shadow: -5px 0px 5px #00000087, 0px -5px 5px #00000087,
-      5px 0px 5px #00000087, 0px 5px 5px #00000087;
-    margin-bottom: 5px;
-
-  }
-  & h4 {
-    margin: 20px 0 0 !important;
-    min-height: 64px;
-    vertical-align: bottom;
-    & a {
-      color: rgb(255, 154, 154);
-      text-decoration: underline;
-    }
-  }
-  & h3 {
-    margin-top: 30px;
-  }
-}
-
-.video {
-  &__card {
-    width: 100% !important;
-    height: 320px !important;
-    margin: 0 auto 100px;
-  }
-}
-
-.team {
-  width: 300px;
   display: flex;
   flex-direction: column;
-  margin: auto;
-  & p {
-    font-size: 14px;
+
+  &__info-cards {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    align-items: center;
+
+    &_card {
+      margin: 0.5rem;
+      padding: 0.5rem;
+      display: flex;
+      align-items: center;
+      width: 16rem;
+      height: 6rem;
+
+      & hr {
+        margin: 0 0.5rem;
+      }
+    }
+  }
+
+  &__team-cards {    
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    align-items: center;
+
+    &_card {
+      margin: 0.5rem;
+      padding: 0.5rem;
+      width: 16rem;
+    }
+  }
+
+  & h1, h2, h3, h4, h5, h6 {
+    text-align: center;    
+    text-shadow: 0px 2px 2px #282828;
   }
 }
-
-// @media screen (max-width: 896px) {
-//   .video {
-//     &__card {
-//       width: 100%;
-//       height: auto;
-//       margin: 0 auto;
-//     }
-//   }
-// }
