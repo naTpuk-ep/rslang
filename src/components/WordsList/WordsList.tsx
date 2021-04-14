@@ -11,7 +11,6 @@ import IUserWordData from "../../types/user-words-types";
 import "./WordList.scss";
 import useSwitchParams from "./useSwitchParams";
 import LinksGames from "../LinksGames";
-import BookSettings from "../Settings";
 
 interface IWordsListProps {
   route: string;
@@ -46,7 +45,6 @@ const WordsList: React.FunctionComponent<IWordsListProps> = (
 
   return (
     <>
-      <BookSettings />
       <Paginator
         route={`${route}/${group}`}
         currentPage={page + 1}
