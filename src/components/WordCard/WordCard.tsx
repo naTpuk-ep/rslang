@@ -16,7 +16,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import PresentToAllIcon from "@material-ui/icons/PresentToAll";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import IUserWordData from "../../types/user-words-types";
 import useWordCard from "../../hooks/useWordCard";
 import useTypedSelector from "../../hooks/useTypeSelector";
@@ -74,6 +74,19 @@ const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
   const classes = useStyles();
   const { word, difficultCategory, learnCategory, deletedCategory } = props;
   const { isAuthenticated } = useTypedSelector((state) => state.auth);
+  const { bookSettings } = useTypedSelector((state) => state.settings);
+  const { isFetching, error } = useTypedSelector((state) => state.statistics);
+  const { isUpdating, error: wordError } = useTypedSelector(
+    (state) => state.userWords
+  );
+
+  const [disable, setDisable] = useState(false);
+
+  useEffect(() => {
+    if (isFetching || error || isUpdating || wordError) setDisable(true);
+    else setDisable(false);
+  }, [isFetching, error, isUpdating, wordError]);
+
   const {
     wordAudio,
     changeHardStatusHandler,
@@ -94,6 +107,7 @@ const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
             className={classes.button}
             startIcon={<AddCircleOutlineIcon />}
             onClick={changeHardStatusHandler}
+            disabled={disable}
           >
             Сложное
           </Button>
@@ -105,6 +119,7 @@ const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
           className={classes.button}
           startIcon={<DeleteIcon />}
           onClick={changeDeletedStatusHandler}
+          disabled={disable}
         >
           Удалить
         </Button>
@@ -124,6 +139,7 @@ const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
             className={classes.button}
             startIcon={<PresentToAllIcon />}
             onClick={changeNoStatusHandler}
+            disabled={disable}
           >
             восстановить
           </Button>
@@ -137,20 +153,19 @@ const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
             className={classes.button}
             startIcon={<PresentToAllIcon />}
             onClick={changeNoStatusHandler}
+            disabled={disable}
           >
             восстановить
           </Button>
         );
       default:
-        return <></>;
+        return buttons;
     }
   };
 
   return (
     <Card
-      className={`word-card group-${word.group + 1}${
-        word.userWord?.status === "hard" ? " hard" : ""
-      }`}
+      className={`word-card group-${word.group + 1} ${word.userWord?.status}`}
     >
       <CardMedia
         className={classes.cover}
@@ -162,21 +177,35 @@ const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
           <Typography component="h6" variant="h6">
             {word.word} {word.transcription}
           </Typography>
-          <Typography component="h6" variant="h6">
-            {word.wordTranslate}
-          </Typography>
+          {bookSettings.isWordTranslate ? (
+            <>
+              <Typography component="h6" variant="h6">
+                {word.wordTranslate}
+              </Typography>
+            </>
+          ) : (
+            ""
+          )}
           <Typography
             variant="subtitle1"
             color="textSecondary"
             dangerouslySetInnerHTML={{
-              __html: `${word.textMeaning}(${word.textMeaningTranslate})`,
+              __html: `${word.textMeaning}${
+                bookSettings.isSentenceTranslate
+                  ? `(${word.textMeaningTranslate})`
+                  : ""
+              }`,
             }}
           />
           <Typography
             variant="subtitle1"
             color="textSecondary"
             dangerouslySetInnerHTML={{
-              __html: `${word.textExample}(${word.textExampleTranslate})`,
+              __html: `${word.textExample}${
+                bookSettings.isSentenceTranslate
+                  ? `(${word.textExampleTranslate})`
+                  : ""
+              }`,
             }}
           />
         </CardContent>
@@ -190,7 +219,11 @@ const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
           >
             <PlayArrowIcon className={classes.playIcon} />
           </IconButton>
-          {isAuthenticated ? <>{renderButtons()}</> : ""}
+          {bookSettings.isButtons ? (
+            <>{isAuthenticated ? <>{renderButtons()}</> : ""}</>
+          ) : (
+            ""
+          )}
         </div>
       </div>
     </Card>

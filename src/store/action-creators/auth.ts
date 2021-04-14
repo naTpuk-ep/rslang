@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import axios from "axios";
 import { Dispatch } from "react";
-import { STORAGE_NAME } from "../../constants/request-params";
 import { AuthAction, AuthActionTypes } from "../../types/auth-types";
 import {
   StatisticsAction,
@@ -26,9 +25,16 @@ const setIsUpdated = (isUpdated: boolean) => {
   };
 };
 
+const resetStat = () => {
+  return (dispatch: Dispatch<StatisticsAction>) => {
+    dispatch({
+      type: StatisticsActionTypes.RESET_STAT,
+    });
+  };
+};
+
 const logout = () => {
   return (dispatch: Dispatch<AuthAction>) => {
-    localStorage.removeItem(STORAGE_NAME);
     dispatch({
       type: AuthActionTypes.LOGOUT,
     });
@@ -39,6 +45,7 @@ const unauthorizedHandler = (e: { response: { status: number } }) => {
   if (e.response?.status === 401) {
     logout();
     setIsUpdated(false);
+    resetStat();
   }
 };
 
@@ -126,4 +133,5 @@ export {
   unauthorizedHandler,
   setLoading,
   setIsUpdated,
+  resetStat,
 };

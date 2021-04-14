@@ -53,6 +53,10 @@ const statisticsReducer = (
         ...state,
         isUpdated: action.payload,
       };
+    case StatisticsActionTypes.RESET_STAT:
+      return {
+        ...defaultState,
+      };
     default:
       return state;
   }

@@ -24,7 +24,7 @@ const UserBar: React.FunctionComponent = () => {
   const { isAuthenticated, name, userImage, loading } = useTypedSelector(
     (state) => state.auth
   );
-  const { logout, setIsUpdated } = useActions();
+  const { logout, setIsUpdated, resetStat } = useActions();
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const show = Boolean(anchorEl);
@@ -82,6 +82,7 @@ const UserBar: React.FunctionComponent = () => {
                   onClick={() => {
                     logout();
                     setIsUpdated(false);
+                    resetStat();
                     setAnchorEl(null);
                   }}
                 >

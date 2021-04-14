@@ -48,6 +48,8 @@ const useUpdateStatistic = () => {
     const isLearn = word.userWord?.isLearn;
     const now = moment();
     const stat = updateStatisticState({ ...statistics });
+    stat.optional.today.correctAnswers += correct;
+    stat.optional.today.wrongAnswers += wrong;
     if (isLearn) {
       if (moment(word.userWord.optional.learned).isBefore(now, "day")) {
         stat.optional.today.dayLearns += 1;
@@ -75,17 +77,19 @@ const useUpdateStatistic = () => {
       userId,
       token
     );
-    stat.learnedWords += 1;
-    stat.optional.today.learnedWordsToday += 1;
     stat.optional.today.dayLearns += 1;
-    updateStatisticsAction(stat, userId, token);
+    updateStatisticsAction(stat, userId, token, 1, 1);
   };
 
   const updateLearnedWords = (learnedWords: number, learnedWordsToday = 0) => {
     const stat = updateStatisticState({ ...statistics });
-    stat.learnedWords += learnedWords;
-    stat.optional.today.learnedWordsToday += learnedWordsToday;
-    updateStatisticsAction(stat, userId, token);
+    updateStatisticsAction(
+      stat,
+      userId,
+      token,
+      learnedWords,
+      learnedWordsToday
+    );
   };
 
   const updateDayLearnsStatistic = (wrong: number, correct: number) => {
@@ -102,9 +106,7 @@ const useUpdateStatistic = () => {
     const stat = updateStatisticState({ ...statistics });
     const gameStat = stat.optional.today[gameName] as IGameStatisticsData;
     let newStreak = gameStat.streak;
-    if (wrong === 0) {
-      if (streak > gameStat.streak) newStreak = streak;
-    }
+    if (streak > gameStat.streak) newStreak = streak;
     const newGameStat = {
       streak: newStreak,
       wrong: stat.optional.today[gameName].wrong + wrong,
