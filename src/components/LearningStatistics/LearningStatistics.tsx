@@ -1,5 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import moment from "moment";
+import { nanoid } from "nanoid";
 import React from "react";
 import {
   BarChart,
@@ -13,16 +15,19 @@ import {
   AreaChart,
 } from "recharts";
 import useLearningStatistics from "../../hooks/useLearningStatistics";
+import useTypedSelector from "../../hooks/useTypeSelector";
 import { GamesNames } from "../../types/statistics-types";
 
 const LearningStatistics: React.FunctionComponent = () => {
   const {
-    isFetching,
-    statistics,
     dayPercentage,
     gamePercentage,
     formatXAxis,
   } = useLearningStatistics();
+
+  const { statistics, isFetching } = useTypedSelector(
+    (state) => state.statistics
+  );
 
   return (
     <div>
@@ -37,14 +42,17 @@ const LearningStatistics: React.FunctionComponent = () => {
           <div>
             Сегодня изучено слов: {statistics.optional.today.learnedWordsToday}
           </div>
-          <div>Процент правильных ответов за день: {dayPercentage()}</div>
+          <div>
+            Процент правильных ответов за день:{" "}
+            {dayPercentage(statistics.optional.today)}
+          </div>
           <div>
             Саванна: серия правильных ответов:{" "}
             {statistics.optional.today.savanna.streak}
           </div>
           <div>
             Саванна: процент правильных ответов:{" "}
-            {gamePercentage(GamesNames.Savanna)}
+            {gamePercentage(statistics.optional.today, GamesNames.Savanna)}
           </div>
           <div>
             Спринт: серия правильных ответов:{" "}
@@ -52,7 +60,7 @@ const LearningStatistics: React.FunctionComponent = () => {
           </div>
           <div>
             Спринт: процент правильных ответов:{" "}
-            {gamePercentage(GamesNames.Sprint)}
+            {gamePercentage(statistics.optional.today, GamesNames.Sprint)}
           </div>
           <div>
             Аудиовызов: серия правильных ответов:{" "}
@@ -60,7 +68,7 @@ const LearningStatistics: React.FunctionComponent = () => {
           </div>
           <div>
             Аудиовызов: процент правильных ответов:{" "}
-            {gamePercentage(GamesNames.AudioCall)}
+            {gamePercentage(statistics.optional.today, GamesNames.AudioCall)}
           </div>
           <div>
             Угадай слово: серия правильных ответов:{" "}
@@ -68,7 +76,7 @@ const LearningStatistics: React.FunctionComponent = () => {
           </div>
           <div>
             Угадай слово: процент правильных ответов:{" "}
-            {gamePercentage(GamesNames.KnowWords)}
+            {gamePercentage(statistics.optional.today, GamesNames.KnowWords)}
           </div>
           {statistics.optional.allTime.length ? (
             <>
@@ -102,6 +110,49 @@ const LearningStatistics: React.FunctionComponent = () => {
                   stroke="#8884d8"
                 />
               </AreaChart>
+              Подробная статистика по дням:
+              {statistics.optional.allTime.map((s) => {
+                return (
+                  <div key={nanoid()}>
+                    <div>{moment(s.date).format("YYYY-MM-DD")}:</div>
+                    <div>В этот день изучалось слов: {s.dayLearns}</div>
+                    <div>В этот день изучено слов: {s.learnedWordsToday}</div>
+                    <div>
+                      Процент правильных ответов за день: {dayPercentage(s)}
+                    </div>
+                    <div>
+                      Саванна: серия правильных ответов: {s.savanna.streak}
+                    </div>
+                    <div>
+                      Саванна: процент правильных ответов:{" "}
+                      {gamePercentage(s, GamesNames.Savanna)}
+                    </div>
+                    <div>
+                      Спринт: серия правильных ответов: {s.sprint.streak}
+                    </div>
+                    <div>
+                      Спринт: процент правильных ответов:{" "}
+                      {gamePercentage(s, GamesNames.Sprint)}
+                    </div>
+                    <div>
+                      Аудиовызов: серия правильных ответов: {s.audioCall.streak}
+                    </div>
+                    <div>
+                      Аудиовызов: процент правильных ответов:{" "}
+                      {gamePercentage(s, GamesNames.AudioCall)}
+                    </div>
+                    <div>
+                      Угадай слово: серия правильных ответов:{" "}
+                      {s.knowWords.streak}
+                    </div>
+                    <div>
+                      Угадай слово: процент правильных ответов:{" "}
+                      {gamePercentage(s, GamesNames.KnowWords)}
+                    </div>
+                  </div>
+                );
+              })}
+              ;
             </>
           ) : (
             "Данные за период обучения на данный момент отсутствуют"
