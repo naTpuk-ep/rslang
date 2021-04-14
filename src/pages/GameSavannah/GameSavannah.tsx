@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Countdown from "react-countdown";
 import { nanoid } from "nanoid";
 import "./GameSavannah.scss";
@@ -12,6 +12,7 @@ import crystal from "../../assets/savannah-crystal.png";
 import heart from "../../assets/heart.png";
 import emptyHeart from "../../assets/empty-heart.png";
 import IUserWordData from "../../types/user-words-types";
+import useUpdateStatistic from "../../hooks/useUpdateStatistic";
 
 interface IGameSavannahParams {
   words: IUserWordData[];
@@ -21,6 +22,7 @@ const GameSavannah: React.FunctionComponent<IGameSavannahParams> = (
   props: IGameSavannahParams
 ) => {
   const { words } = props;
+  const { updateWordInGame, updateGameStatistics } = useUpdateStatistic();
   const [index, setIndex] = useState(0);
   const [guessWord, setGuessWord] = useState(words[0]);
   const [animated, setAnimated] = useState(nanoid());
@@ -40,14 +42,18 @@ const GameSavannah: React.FunctionComponent<IGameSavannahParams> = (
       loop: true,
     })
   );
-  const wrongSound = new Howl({
-    src: ["static/audio/wrong.wav"],
-    volume: 0.3,
-  });
-  const correctSound = new Howl({
-    src: ["static/audio/correct.mp3"],
-    volume: 0.3,
-  });
+  const [wrongSound] = useState(
+    new Howl({
+      src: ["static/audio/wrong.wav"],
+      volume: 0.3,
+    })
+  );
+  const [correctSound] = useState(
+    new Howl({
+      src: ["static/audio/correct.mp3"],
+      volume: 0.3,
+    })
+  );
 
   useEffect(() => {
     if (isStarted && !isFinished) {
@@ -84,6 +90,7 @@ const GameSavannah: React.FunctionComponent<IGameSavannahParams> = (
     e: React.AnimationEvent<HTMLDivElement>
   ) => {
     if (e.animationName === "moveword") {
+      updateWordInGame(guessWord, 1, 0);
       setIndex(index + 1);
       setAttempts(attempts - 1);
       wrongSound.play();
@@ -94,9 +101,11 @@ const GameSavannah: React.FunctionComponent<IGameSavannahParams> = (
       setIndex(index + 1);
       setCrystalWidth(crystalWidth + 2);
       setAnimateCrystal(nanoid());
+      updateWordInGame(guessWord, 0, 1);
       correctSound.play();
     } else {
       setAttempts(attempts - 1);
+      updateWordInGame(guessWord, 1, 0);
       setIndex(index + 1);
       wrongSound.play();
     }
@@ -116,7 +125,6 @@ const GameSavannah: React.FunctionComponent<IGameSavannahParams> = (
 
   useEffect(() => {
     if (!playMusic) {
-      console.log("stop");
       gameMusic.stop();
     } else if (!gameMusic.playing()) gameMusic.play();
   }, [playMusic]);
@@ -198,9 +206,8 @@ const GameSavannah: React.FunctionComponent<IGameSavannahParams> = (
               <div className="game-container--buttons">
                 {options.map((option, id) => {
                   return (
-                    <>
+                    <div key={nanoid()}>
                       <GlobalHotKeys
-                        key={nanoid()}
                         keyMap={{
                           GUESS: ["1", "2", "3", "4"],
                         }}
@@ -222,7 +229,7 @@ const GameSavannah: React.FunctionComponent<IGameSavannahParams> = (
                           !langSwitchState ? option.word : option.wordTranslate
                         }`}
                       </button>
-                    </>
+                    </div>
                   );
                 })}
               </div>

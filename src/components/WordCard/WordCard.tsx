@@ -14,6 +14,7 @@ import {
 import "./WordCard.scss";
 import DeleteIcon from "@material-ui/icons/Delete";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
+import StopIcon from "@material-ui/icons/Stop";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import PresentToAllIcon from "@material-ui/icons/PresentToAll";
 import React, { useEffect, useState } from "react";
@@ -88,7 +89,8 @@ const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
   }, [isFetching, error, isUpdating, wordError]);
 
   const {
-    wordAudio,
+    playSound,
+    handelMuteButtonClick,
     changeHardStatusHandler,
     changeDeletedStatusHandler,
     changeNoStatusHandler,
@@ -213,11 +215,14 @@ const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
           <IconButton
             className={classes.playButton}
             aria-label="play/pause"
-            onClick={() => {
-              wordAudio.play();
-            }}
+            onClick={handelMuteButtonClick}
           >
-            <PlayArrowIcon className={classes.playIcon} />
+            {" "}
+            {playSound ? (
+              <StopIcon className={classes.playIcon} />
+            ) : (
+              <PlayArrowIcon className={classes.playIcon} />
+            )}
           </IconButton>
           {bookSettings.isButtons ? (
             <>{isAuthenticated ? <>{renderButtons()}</> : ""}</>
