@@ -5,10 +5,18 @@ import {
 } from "../../types/settings-types";
 import { loadFromLocalStorage } from "../action-creators/saveLocalStorage";
 
-const defaultState = loadFromLocalStorage(STORAGE_SETTING_NAME);
+const localStorageState = loadFromLocalStorage(STORAGE_SETTING_NAME);
+
+const defaultState = {
+  bookSettings: {
+    isButtons: true,
+    isWordTranslate: true,
+    isSentenceTranslate: true,
+  },
+};
 
 const settingsReducer = (
-  state = defaultState,
+  state = localStorageState || defaultState,
   action: {
     type: SettingsActionsTypes;
     payload: {
