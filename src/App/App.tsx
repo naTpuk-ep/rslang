@@ -35,6 +35,7 @@ import Dictionary from "../pages/Dictionary";
 import Statistics from "../pages/Statistics";
 import "fontsource-roboto";
 import "./App.scss";
+import Footer from "../components/Footer";
 
 const App: React.FunctionComponent = () => {
   const { isAuthenticated, loading } = useAuthentication();
@@ -121,6 +122,7 @@ const App: React.FunctionComponent = () => {
           </Route>
         </Switch>
       </Container>
+      <Footer />
     </>
   );
 };
