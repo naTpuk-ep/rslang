@@ -40,7 +40,9 @@ const getStatistics = (id: string, token: string) => {
 const updateStatisticsAction = (
   data: IStatisticsData,
   id: string,
-  token: string
+  token: string,
+  learnedWords = 0,
+  learnedWordsToday = 0
 ) => {
   return async (dispatch: Dispatch<StatisticsAction>) => {
     try {
@@ -52,6 +54,7 @@ const updateStatisticsAction = (
           headers: {
             authorization: `Bearer ${token}`,
           },
+          params: { lw: learnedWords, tlw: learnedWordsToday },
         }
       );
       dispatch({
