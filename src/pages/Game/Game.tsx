@@ -17,6 +17,7 @@ import { MAIN } from "../../constants/routes";
 import { GET_USER_BOOK_PAGE_FILTER } from "../../constants/request-params";
 import "./Game.scss";
 import GameSavannah from "../GameSavannah";
+import AudioCall from "../../components/AudioCall";
 
 interface ITemplateGameProps {
   words: IUserWordData[];
@@ -175,9 +176,7 @@ const Game: React.FunctionComponent<IGameProps> = ({ game }: IGameProps) => {
             {game === GameNames.Savannah && (
               <GameSavannah words={finishWords} />
             )}
-            {game === GameNames.AudioCall && (
-              <TemplateGame words={finishWords} />
-            )}
+            {game === GameNames.AudioCall && <AudioCall words={finishWords} />}
             {game === GameNames.Sprint && <TemplateGame words={finishWords} />}
             {game === GameNames.OwnGame && <TemplateGame words={finishWords} />}
           </>
