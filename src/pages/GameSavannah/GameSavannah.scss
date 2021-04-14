@@ -1,0 +1,193 @@
+body {
+  margin: 0;
+}
+.animation {
+  animation: moveword 4s infinite, fade 4s infinite;
+  animation-timing-function: linear;
+}
+@keyframes fade {
+  0% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes moveword {
+  0% {
+    top: 5%;
+  }
+  100% {
+    top: 60%;
+  }
+}
+@keyframes scaleIn {
+  from {
+    transform: scale(0.5, 0.5);
+    opacity: 0.5;
+  }
+  to {
+    transform: scale(2.5, 2.5);
+    opacity: 0;
+  }
+}
+.game-container {
+  width: 100vw;
+  height: 100vh;
+  background: url("../../assets/savannah-background.jpg") no-repeat center
+    center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  color: #ffffff;
+
+  &--guess-word {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    font-size: 26px;
+    background: #ffa1a1c5;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2));
+    position: absolute;
+    border-radius: 5px;
+    border: solid 1px black;
+    top: 5%;
+    z-index: 2;
+  }
+
+  &--buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    column-gap: 10px;
+    row-gap: 10px;
+
+    &-button {
+      font-size: 24px;
+      padding: 10px 25px;
+      color: #ffffff;
+      background: #a7a5a57c;
+      background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2));
+      border-radius: 5px;
+      border: solid 1px black;
+
+      &:hover {
+        cursor: pointer;
+        transform: translateY(-5px);
+        transition: transform 0.5s;
+      }
+    }
+  }
+
+  .crystal {
+    width: 100px;
+    height: auto;
+    position: absolute;
+    bottom: 5%;
+    border-radius: 100px;
+    animation: translate 1s ease-in infinite, pulse 2s;
+    animation-direction: alternate-reverse;
+  }
+  @keyframes translate {
+    100% {
+      transform: translateY(5px);
+    }
+  }
+  @keyframes pulse {
+    20% {
+      transform: scale(1);
+    }
+    40% {
+      transform: scale(0.75);
+    }
+    60% {
+      transform: scale(1);
+    }
+    80% {
+      transform: scale(0.75);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+}
+
+.timer {
+  width: 300px;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  font-size: 70px;
+  color: white;
+  font-weight: bold;
+  border: 1px solid #e6e5e5;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2));
+
+  &--time {
+    z-index: 100;
+    padding: 5px;
+  }
+
+  &-animate {
+    border-radius: 50%;
+    background-color: rgb(106, 218, 255);
+    width: 150px;
+    height: 150px;
+    position: absolute;
+    opacity: 0;
+    animation: scaleIn 1s infinite cubic-bezier(0.36, 0.11, 0.89, 0.32);
+  }
+}
+
+.game-info-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: absolute;
+  top: 1%;
+  left: 2%;
+  row-gap: 5px;
+  padding: 3px;
+}
+
+.hearts {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  column-gap: 5px;
+  padding: 5px;
+  border: solid 1px black;
+  background: #a7a5a57c;
+  border-radius: 5px;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2));
+
+  &--heart {
+    width: 35px;
+    height: 35px;
+  }
+}
+
+.game-settings {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  column-gap: 5px;
+  padding: 3px;
+  border: solid 1px black;
+  background: #a7a5a57c;
+  border-radius: 5px;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2));
+}
