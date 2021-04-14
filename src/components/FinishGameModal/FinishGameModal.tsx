@@ -37,7 +37,7 @@ const FinishGameModal: FC<IFinishGameModalProps> = ({
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isAuthenticated]);
 
   return (
     <Backdrop open>

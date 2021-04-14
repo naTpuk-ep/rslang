@@ -12,6 +12,7 @@ import React, {
   useRef,
   useState,
 } from "react";
+import useSound from "use-sound";
 import FinishGameModal from "../../components/FinishGameModal/FinishGameModal";
 import { STATUS_DELETED } from "../../constants/request-params";
 import useKeyDown from "../../hooks/useKeyDown";
@@ -49,6 +50,8 @@ const OwnGame: FC<IOwnGameProps> = (props: IOwnGameProps) => {
   const [prevWords, setPrevWords] = useState<PrevWord[]>([]);
   const { updateWordInGame } = useUpdateStatistic();
   const { isAuthenticated } = useTypedSelector((state) => state.auth);
+  const [correctSound] = useSound("static/audio/correct.mp3", { volume: 0.3 });
+  const [wrongSound] = useSound("static/audio/wrong.wav", { volume: 0.3 });
 
   const setNext = useCallback(() => {
     setCurrentWord(game?.nextWord());
@@ -121,11 +124,19 @@ const OwnGame: FC<IOwnGameProps> = (props: IOwnGameProps) => {
           ) {
             updateWordInGame(currentWord, 0, 1);
           }
+          correctSound();
           setNext();
         }
       }
     },
-    [currentWord, game, isAuthenticated, setNext, updateWordInGame]
+    [
+      correctSound,
+      currentWord,
+      game,
+      isAuthenticated,
+      setNext,
+      updateWordInGame,
+    ]
   );
 
   const skipHandler = useCallback(() => {
@@ -145,9 +156,17 @@ const OwnGame: FC<IOwnGameProps> = (props: IOwnGameProps) => {
       if (isAuthenticated && currentWord.userWord?.status !== STATUS_DELETED) {
         updateWordInGame(currentWord, 1, 0);
       }
+      wrongSound();
       setNext();
     }
-  }, [currentWord, isAuthenticated, isFinish, setNext, updateWordInGame]);
+  }, [
+    currentWord,
+    isAuthenticated,
+    isFinish,
+    setNext,
+    updateWordInGame,
+    wrongSound,
+  ]);
 
   useKeyDown("Space", skipHandler);
 
