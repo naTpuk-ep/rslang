@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable react-hooks/exhaustive-deps */
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import { GET_USER_BOOK_PAGE_FILTER } from "../constants/request-params";
 import { BOOK } from "../constants/routes";
@@ -22,15 +22,25 @@ const useUserBook = (props: IUseUserBookProps) => {
     isFetching,
     isPagesFetching,
   } = useTypedSelector((state) => state.userWords);
+  const { userId, token } = useTypedSelector((state) => state.auth);
   const history = useHistory();
-  const { aggregateUserWords, fetchPages, changeUserWordsPages } = useActions();
+  const initialRender = useRef(true);
+  const {
+    aggregateUserWords,
+    fetchPages,
+    changeUserWordsPages,
+    setIsFetching,
+  } = useActions();
 
   useEffect(() => {
-    fetchPages(group);
+    initialRender.current = true;
+    fetchPages(group, userId, token);
   }, [group]);
 
   useEffect(() => {
-    if (pages.length) {
+    if (initialRender.current) {
+      initialRender.current = false;
+    } else if (!isPagesFetching && pages.length) {
       if (!pages[currentPage]) {
         history.push(`${BOOK}/${group}/0`);
         return;
@@ -39,27 +49,24 @@ const useUserBook = (props: IUseUserBookProps) => {
         group,
         pages[currentPage]._id,
         JSON.stringify(GET_USER_BOOK_PAGE_FILTER),
+        userId,
+        token,
         1
       );
+    } else if (!isPagesFetching && !pages.length) {
+      setIsFetching(false);
     }
-  }, [pages.length, currentPage]);
+  }, [isPagesFetching, pages.length, currentPage]);
 
   useEffect(() => {
     if (pages.length && !isFetching) {
-      const { length } = aggregatedWords.words.filter((word) => {
-        if (word.userWord?.status !== "deleted") return true;
-        return false;
-      });
+      const { length } = aggregatedWords.words;
       changeUserWordsPages(pages[currentPage]._id, length);
     }
   }, [aggregatedWords]);
 
   return {
-    words:
-      aggregatedWords.words /* .filter((word) => {
-      if (word.userWord?.status !== "deleted") return true;
-      return false;
-    }), */,
+    words: aggregatedWords.words,
     isFetching,
     isPagesFetching,
     pagesCount: pages.length,

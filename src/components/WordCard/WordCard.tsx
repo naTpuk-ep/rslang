@@ -1,62 +1,39 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable react-hooks/exhaustive-deps */
 import {
-  Card,
-  CardContent,
   Typography,
   IconButton,
-  CardMedia,
-  createStyles,
-  makeStyles,
-  Theme,
   Button,
+  Paper,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
 } from "@material-ui/core";
 import "./WordCard.scss";
 import DeleteIcon from "@material-ui/icons/Delete";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
+import StopIcon from "@material-ui/icons/Stop";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import PresentToAllIcon from "@material-ui/icons/PresentToAll";
-import React from "react";
+import {
+  AddTwoTone,
+  AllInclusiveTwoTone,
+  RemoveTwoTone,
+} from "@material-ui/icons";
+import React, { useEffect, useState } from "react";
 import IUserWordData from "../../types/user-words-types";
 import useWordCard from "../../hooks/useWordCard";
+import useTypedSelector from "../../hooks/useTypeSelector";
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      width: "450px",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-    },
-    details: {
-      width: "340px",
-      display: "flex",
-      flexDirection: "column",
-      background: "#ececec",
-    },
-    content: {
-      flex: "1 0 auto",
-    },
-    cover: {
-      width: 120,
-      height: 120,
-      borderRadius: 300,
-    },
-    controls: {
-      display: "flex",
-      alignItems: "center",
-      paddingLeft: theme.spacing(1),
-      paddingBottom: theme.spacing(1),
-    },
-    playIcon: {
-      height: 38,
-      width: 38,
-    },
-    button: {
-      margin: theme.spacing(1),
-    },
-  })
-);
+const useWordStatistics = (word: IUserWordData) => {
+  const { correctAnswers: correct, wrongAnswers: wrong } = word?.userWord
+    ?.optional
+    ? word.userWord.optional
+    : { wrongAnswers: 0, correctAnswers: 0 };
+
+  return { all: correct + wrong, correct, wrong };
+};
 
 interface IWordsCardProps {
   word: IUserWordData;
@@ -66,10 +43,25 @@ interface IWordsCardProps {
 }
 
 const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
-  const classes = useStyles();
   const { word, difficultCategory, learnCategory, deletedCategory } = props;
+  const { all, correct, wrong } = useWordStatistics(word);
+  const { isAuthenticated } = useTypedSelector((state) => state.auth);
+  const { bookSettings } = useTypedSelector((state) => state.settings);
+  const { isFetching, error } = useTypedSelector((state) => state.statistics);
+  const { isUpdating, error: wordError } = useTypedSelector(
+    (state) => state.userWords
+  );
+
+  const [disable, setDisable] = useState(false);
+
+  useEffect(() => {
+    if (isFetching || error || isUpdating || wordError) setDisable(true);
+    else setDisable(false);
+  }, [isFetching, error, isUpdating, wordError]);
+
   const {
-    wordAudio,
+    playSound,
+    handelMuteButtonClick,
     changeHardStatusHandler,
     changeDeletedStatusHandler,
     changeNoStatusHandler,
@@ -85,9 +77,9 @@ const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
             variant="contained"
             color="primary"
             size="small"
-            className={classes.button}
             startIcon={<AddCircleOutlineIcon />}
             onClick={changeHardStatusHandler}
+            disabled={disable}
           >
             Сложное
           </Button>
@@ -96,9 +88,9 @@ const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
           variant="contained"
           color="secondary"
           size="small"
-          className={classes.button}
           startIcon={<DeleteIcon />}
           onClick={changeDeletedStatusHandler}
+          disabled={disable}
         >
           Удалить
         </Button>
@@ -115,9 +107,9 @@ const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
             variant="contained"
             color="secondary"
             size="small"
-            className={classes.button}
             startIcon={<PresentToAllIcon />}
             onClick={changeNoStatusHandler}
+            disabled={disable}
           >
             восстановить
           </Button>
@@ -128,65 +120,99 @@ const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
             variant="contained"
             color="secondary"
             size="small"
-            className={classes.button}
             startIcon={<PresentToAllIcon />}
             onClick={changeNoStatusHandler}
+            disabled={disable}
           >
             восстановить
           </Button>
         );
       default:
-        return <></>;
+        return buttons;
     }
   };
 
   return (
-    <Card
-      className={`word-card group-${word.group + 1}${
-        word.userWord?.status === "hard" ? " hard" : ""
-      }`}
+    <Paper
+      className={`word-card group-${word.group + 1} ${word.userWord?.status}`}
     >
-      <CardMedia
-        className={classes.cover}
-        image={`https://rnovikov-rs-lang-back.herokuapp.com/${word.image}`}
-        title={word.word}
+      <div
+        className="word-card__media"
+        style={{
+          backgroundImage: `url(https://rnovikov-rs-lang-back.herokuapp.com/${word.image})`,
+        }}
       />
-      <div className={classes.details}>
-        <CardContent className={classes.content}>
-          <Typography component="h6" variant="h6">
-            {word.word} {word.transcription}
-          </Typography>
-          <Typography component="h6" variant="h6">
-            {word.wordTranslate}
-          </Typography>
-          <Typography
-            variant="subtitle1"
-            color="textSecondary"
-            dangerouslySetInnerHTML={{
-              __html: `${word.textMeaning}(${word.textMeaningTranslate})`,
-            }}
-          />
-          <Typography
-            variant="subtitle1"
-            color="textSecondary"
-            dangerouslySetInnerHTML={{
-              __html: `${word.textExample}(${word.textExampleTranslate})`,
-            }}
-          />
-        </CardContent>
-        <div className={classes.controls}>
-          <IconButton
-            aria-label="play/pause"
-            onClick={() => {
-              wordAudio.play();
-            }}
-          >
-            <PlayArrowIcon className={classes.playIcon} />
+      <div className="word-card__content">
+        <Typography component="h6" variant="h6">
+          {word.word} {word.transcription}
+        </Typography>
+        {bookSettings.isWordTranslate ? (
+          <>
+            <Typography component="h6" variant="h6">
+              {word.wordTranslate}
+            </Typography>
+          </>
+        ) : (
+          ""
+        )}
+        <Typography
+          variant="subtitle1"
+          color="textSecondary"
+          dangerouslySetInnerHTML={{
+            __html: `${word.textMeaning}${
+              bookSettings.isSentenceTranslate
+                ? `(${word.textMeaningTranslate})`
+                : ""
+            }`,
+          }}
+        />
+        <Typography
+          variant="subtitle1"
+          color="textSecondary"
+          dangerouslySetInnerHTML={{
+            __html: `${word.textExample}${
+              bookSettings.isSentenceTranslate
+                ? `(${word.textExampleTranslate})`
+                : ""
+            }`,
+          }}
+        />
+        <div className="word-card__content_buttons">
+          <IconButton aria-label="play/pause" onClick={handelMuteButtonClick}>
+            <>{playSound ? <StopIcon /> : <PlayArrowIcon />}</>
           </IconButton>
-          {renderButtons()}
+          {bookSettings.isButtons ? (
+            <>{isAuthenticated ? <>{renderButtons()}</> : ""}</>
+          ) : (
+            <></>
+          )}
         </div>
       </div>
-    </Card>
+      {isAuthenticated && (
+        <div className="word-card__statistics">
+          <List>
+            <ListItem>
+              <ListItemIcon>
+                <AllInclusiveTwoTone />
+              </ListItemIcon>
+              <ListItemText primary={all} />
+            </ListItem>
+            <ListItem>
+              <ListItemIcon>
+                <AddTwoTone />
+              </ListItemIcon>
+              <ListItemText primary={correct} />
+            </ListItem>
+            <ListItem>
+              <ListItemIcon>
+                <RemoveTwoTone />
+              </ListItemIcon>
+              <ListItemText primary={wrong} />
+            </ListItem>
+          </List>
+        </div>
+      )}
+    </Paper>
   );
 };
 

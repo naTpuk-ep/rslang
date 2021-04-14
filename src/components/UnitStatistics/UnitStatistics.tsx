@@ -1,31 +1,35 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from "react";
-import { GET_USER_LEARN_WORDS_FILTER } from "../../constants/request-params";
-import useActions from "../../hooks/useActions";
-import useTypedSelector from "../../hooks/useTypeSelector";
+import React from "react";
+import { Paper, Typography } from "@material-ui/core";
+import { UnitStatistics as IUnitStatistics } from "../../types/unitStatistics-types";
+import "./UnitStatistics.scss";
 
-interface UnitStatisticsParams {
+interface IUnitStatisticsParams {
   group: number;
+  unit: IUnitStatistics;
 }
 
-const UnitStatistics: React.FunctionComponent<UnitStatisticsParams> = (
-  props: UnitStatisticsParams
-) => {
-  const { group: unitNumber } = props;
-  const { unit, isFetching } = useTypedSelector(
-    (state) => state.unitStatistics
+const UnitStatistics: React.FunctionComponent<IUnitStatisticsParams> = ({
+  group,
+  unit,
+}: IUnitStatisticsParams) => {
+  const { count, correctAnswers: correct, wrongAnswers: wrong } = unit;
+
+  return (
+    <Paper className={`unit-statistics group-${group + 1}`}>
+      <Typography variant="body1" gutterBottom>
+        {`Раздел: ${group + 1}`}
+      </Typography>
+      <Typography variant="body1" gutterBottom>
+        {`Кол-во: ${count}`}
+      </Typography>
+      <Typography variant="body1" gutterBottom>
+        {`Верно: ${correct}`}
+      </Typography>
+      <Typography variant="body1" gutterBottom>
+        {`Не верно: ${wrong}`}
+      </Typography>
+    </Paper>
   );
-  const { aggregatedWords } = useTypedSelector((state) => state.userWords);
-  const { getUnitStatisticsAction } = useActions();
-
-  useEffect(() => {
-    getUnitStatisticsAction(
-      unitNumber,
-      JSON.stringify(GET_USER_LEARN_WORDS_FILTER)
-    );
-  }, [aggregatedWords]);
-
-  return <>{isFetching ? "LOAD" : <>{unit.count}</>}</>;
 };
 
 export default UnitStatistics;

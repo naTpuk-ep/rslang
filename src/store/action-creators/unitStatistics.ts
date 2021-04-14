@@ -6,19 +6,22 @@ import {
   UnitStatisticsAction,
   UnitStatisticsActionTypes,
 } from "../../types/unitStatistics-types";
+import { unauthorizedHandler } from "./auth";
 
-const token =
-  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwNWQ4MjY5NDYwNTEyMjk5NDdlNGViMyIsImlhdCI6MTYxODA0NDA1MSwiZXhwIjoxNjE4NTA0ODUxfQ.vsICxs1HaHcT_A59xj36r9SuBiTEEvZ3ZAYQg3pExG8";
-
-const getUnitStatisticsAction = (group = 0, filter?: string) => {
+const getUnitStatisticsAction = (
+  group = 0,
+  id: string,
+  token: string,
+  filter?: string
+) => {
   return async (dispatch: Dispatch<UnitStatisticsAction>) => {
     try {
       dispatch({ type: UnitStatisticsActionTypes.GET_UNIT_STATISTICS });
       const response = await axios.get(
-        `https://rnovikov-rs-lang-back.herokuapp.com/users/605d826946051229947e4eb3/aggregatedWords/stat`,
+        `https://rnovikov-rs-lang-back.herokuapp.com/users/${id}/aggregatedWords/stat`,
         {
           headers: {
-            authorization: token,
+            authorization: `Bearer ${token}`,
           },
           params: { group, filter },
         }
@@ -33,6 +36,7 @@ const getUnitStatisticsAction = (group = 0, filter?: string) => {
         },
       });
     } catch (e) {
+      unauthorizedHandler(e);
       dispatch({
         type: UnitStatisticsActionTypes.GET_UNIT_STATISTICS_ERROR,
         payload: "Произошла ошибка при загрузке статистики раздела",

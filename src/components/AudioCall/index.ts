@@ -1,3 +1,3 @@
-import AudioCallComponent from "./audio-call";
+import AudioCall from "./AudioCall";
 
-export default AudioCallComponent;
+export default AudioCall;

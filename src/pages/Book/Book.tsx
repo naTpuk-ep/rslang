@@ -1,12 +1,11 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from "react";
-import { Link, useParams } from "react-router-dom";
-import UnitStatistics from "../../components/UnitStatistics/UnitStatistics";
+import { useParams } from "react-router-dom";
+import BookHeader from "../../components/BookHeader";
 import WordsCategories from "../../components/WordsCategories";
 import WordsList from "../../components/WordsList";
-import Locations from "../../constants/locations";
-import { BOOK, SAVANNAH } from "../../constants/routes";
-import useUserBook from "../../hooks/useUserBook";
+import { BOOK } from "../../constants/routes";
+import useBook from "../../hooks/useBook";
 
 export interface IBookParams {
   group: string;
@@ -16,7 +15,7 @@ export interface IBookParams {
 const Book: React.FunctionComponent = () => {
   const { group, page } = useParams<IBookParams>();
 
-  const { words, pagesCount, isFetching, isPagesFetching } = useUserBook({
+  const { words, isFetching } = useBook({
     group: Number(group),
     page: Number(page),
   });
@@ -26,22 +25,16 @@ const Book: React.FunctionComponent = () => {
     group: Number(group),
     page: Number(page),
     words,
-    pagesCount,
+    pagesCount: 30,
     isFetching,
-    isPagesFetching,
+    isPagesFetching: false,
   };
 
   return (
     <>
-      <h1>
-        Book Group: {group} Page: {page}
-        <UnitStatistics group={Number(group)} />
-        <WordsCategories route={BOOK} />
-        <Link to={{ pathname: SAVANNAH, state: { from: Locations.Book } }}>
-          GAME
-        </Link>
-        <WordsList {...props} />
-      </h1>
+      <BookHeader name="Учебник" group={+group} />
+      <WordsCategories route={BOOK} />
+      <WordsList {...props} />
     </>
   );
 };

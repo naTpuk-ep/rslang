@@ -1,3 +1,3 @@
-import AudioBlock from "./audio-block";
+import AudioBlock from "./AudioBlock";
 
 export default AudioBlock;
