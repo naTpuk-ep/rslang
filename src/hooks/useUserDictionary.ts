@@ -1,6 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import { GET_USER_LEARN_WORDS_FILTER } from "../constants/request-params";
+import { UnitStatistics } from "../types/unitStatistics-types";
 import IUserWordData from "../types/user-words-types";
 import useActions from "./useActions";
 import useTypedSelector from "./useTypeSelector";
@@ -13,15 +15,32 @@ interface IUseUserDictionaryProps {
 
 const useUserDictionary = (
   props: IUseUserDictionaryProps
-): { words: IUserWordData[]; pagesCount: number; isFetching: boolean } => {
+): {
+  words: IUserWordData[];
+  pagesCount: number;
+  isFetching: boolean;
+  unitStatistics: UnitStatistics;
+  isFetchingUnit: boolean;
+} => {
   const history = useHistory();
   const { group, page, filter } = props;
+  const { userId, token } = useTypedSelector((state) => state.auth);
   const { aggregatedWords, isFetching } = useTypedSelector(
     (state) => state.userWords
   );
-  const { userId, token } = useTypedSelector((state) => state.auth);
+  const { unit, isFetching: isFetchingUnit } = useTypedSelector(
+    (state) => state.unitStatistics
+  );
+  const { aggregateUserWords, getUnitStatisticsAction } = useActions();
 
-  const { aggregateUserWords } = useActions();
+  useEffect(() => {
+    getUnitStatisticsAction(
+      group,
+      userId,
+      token,
+      JSON.stringify(GET_USER_LEARN_WORDS_FILTER)
+    );
+  }, [group]);
 
   useEffect(() => {
     const { totalCount } = aggregatedWords;
@@ -44,6 +63,8 @@ const useUserDictionary = (
     words: aggregatedWords.words,
     pagesCount: Math.ceil(aggregatedWords.totalCount / 20),
     isFetching,
+    unitStatistics: unit,
+    isFetchingUnit,
   };
 };
 
