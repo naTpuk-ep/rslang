@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable react-hooks/exhaustive-deps */
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import { GET_USER_BOOK_PAGE_FILTER } from "../constants/request-params";
 import { BOOK } from "../constants/routes";
@@ -24,6 +24,7 @@ const useUserBook = (props: IUseUserBookProps) => {
   } = useTypedSelector((state) => state.userWords);
   const { userId, token } = useTypedSelector((state) => state.auth);
   const history = useHistory();
+  const initialRender = useRef(true);
   const {
     aggregateUserWords,
     fetchPages,
@@ -32,14 +33,14 @@ const useUserBook = (props: IUseUserBookProps) => {
   } = useActions();
 
   useEffect(() => {
+    initialRender.current = true;
     fetchPages(group, userId, token);
-    return () => {
-      setIsFetching(true);
-    };
   }, [group]);
 
   useEffect(() => {
-    if (pages.length) {
+    if (initialRender.current) {
+      initialRender.current = false;
+    } else if (!isPagesFetching && pages.length) {
       if (!pages[currentPage]) {
         history.push(`${BOOK}/${group}/0`);
         return;
@@ -52,8 +53,10 @@ const useUserBook = (props: IUseUserBookProps) => {
         token,
         1
       );
+    } else if (!isPagesFetching && !pages.length) {
+      setIsFetching(false);
     }
-  }, [pages.length, currentPage]);
+  }, [isPagesFetching, pages.length, currentPage]);
 
   useEffect(() => {
     if (pages.length && !isFetching) {
