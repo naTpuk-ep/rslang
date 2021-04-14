@@ -4,7 +4,7 @@
   display: grid;
   width: 100%;
   height: auto;
-  grid-template-columns: 10rem auto 10rem;
+  grid-template-columns: max-content auto max-content;
   align-items: center;
 
   &__media {
@@ -36,9 +36,28 @@
   }
 
   &__statistics {
-    padding: 0.5rem;
     width: 10rem;
     height: 100%;
+    display: flex;
+    align-items: center;
+
+    & ul {
+      padding: 0.5rem;
+      width: 100%;
+
+      & span {
+        font-weight: bold;
+      }
+    }
+
+    @media (max-width: 768px) {
+      width: 100%;
+
+      & ul {
+        display: flex;
+        justify-content: space-between;
+      }
+    }
   }
 
   @media (max-width: 768px) {

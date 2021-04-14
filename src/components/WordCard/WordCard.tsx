@@ -1,15 +1,38 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Typography, IconButton, Button, Paper } from "@material-ui/core";
+import {
+  Typography,
+  IconButton,
+  Button,
+  Paper,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+} from "@material-ui/core";
 import "./WordCard.scss";
 import DeleteIcon from "@material-ui/icons/Delete";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import PresentToAllIcon from "@material-ui/icons/PresentToAll";
 import React from "react";
+import {
+  AddTwoTone,
+  AllInclusiveTwoTone,
+  RemoveTwoTone,
+} from "@material-ui/icons";
 import IUserWordData from "../../types/user-words-types";
 import useWordCard from "../../hooks/useWordCard";
 import useTypedSelector from "../../hooks/useTypeSelector";
+
+const useWordStatistics = (word: IUserWordData) => {
+  const { correctAnswers: correct, wrongAnswers: wrong } = word?.userWord
+    ?.optional
+    ? word.userWord.optional
+    : { wrongAnswers: 0, correctAnswers: 0 };
+
+  return { all: correct + wrong, correct, wrong };
+};
 
 interface IWordsCardProps {
   word: IUserWordData;
@@ -19,8 +42,8 @@ interface IWordsCardProps {
 }
 
 const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
-  // const classes = useStyles();
   const { word, difficultCategory, learnCategory, deletedCategory } = props;
+  const { all, correct, wrong } = useWordStatistics(word);
   const { isAuthenticated } = useTypedSelector((state) => state.auth);
   const {
     wordAudio,
@@ -133,7 +156,30 @@ const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
           {isAuthenticated ? <>{renderButtons()}</> : ""}
         </div>
       </div>
-      <div className="word-card__statistics" />
+      {isAuthenticated && (
+        <div className="word-card__statistics">
+          <List>
+            <ListItem>
+              <ListItemIcon>
+                <AllInclusiveTwoTone />
+              </ListItemIcon>
+              <ListItemText primary={all} />
+            </ListItem>
+            <ListItem>
+              <ListItemIcon>
+                <AddTwoTone />
+              </ListItemIcon>
+              <ListItemText primary={correct} />
+            </ListItem>
+            <ListItem>
+              <ListItemIcon>
+                <RemoveTwoTone />
+              </ListItemIcon>
+              <ListItemText primary={wrong} />
+            </ListItem>
+          </List>
+        </div>
+      )}
     </Paper>
   );
 };
