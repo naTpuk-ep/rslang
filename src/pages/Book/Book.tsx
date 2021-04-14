@@ -32,8 +32,8 @@ const Book: React.FunctionComponent = () => {
 
   return (
     <>
-      <BookHeader name="Учебник" group={+group} />
       <WordsCategories route={BOOK} />
+      <BookHeader name="Учебник" group={+group} />
       <WordsList {...props} />
     </>
   );
