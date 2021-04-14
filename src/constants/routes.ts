@@ -8,6 +8,8 @@ const AUDIO_CALL = "/game/audio-call";
 const SPRINT = "/game/sprint";
 const OWN_GAME = "/game/own-game";
 const STATISTICS = "/statistics";
+const SIGN_IN = "/signIn";
+const SIGN_UP = "/signUp";
 
 export {
   MAIN,
@@ -20,4 +22,6 @@ export {
   SPRINT,
   OWN_GAME,
   STATISTICS,
+  SIGN_IN,
+  SIGN_UP,
 };

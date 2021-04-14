@@ -1,11 +1,13 @@
-@import "./reset.scss";
+@import "./scss/reset.scss";
 
 html, body {
-  height: 100vh;
+  height: 100vh;  
 }
 
 #root {
+  height: 100vh;
   display: flex;
   flex-direction: column;
   min-height: 100%;
+  position: relative;
 }
