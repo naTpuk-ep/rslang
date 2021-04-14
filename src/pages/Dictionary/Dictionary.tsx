@@ -1,9 +1,13 @@
 import React from "react";
 import { useParams } from "react-router-dom";
+import { Box, LinearProgress } from "@material-ui/core";
 import WordsList from "../../components/WordsList";
 import useUserDictionary from "../../hooks/useUserDictionary";
 import WordsCategories from "../../components/WordsCategories";
 import BookHeader from "../../components/BookHeader";
+import PageStatistics from "../../components/PageStatistics";
+import UnitStatistics from "../../components/UnitStatistics";
+import "./Dictionary.scss";
 
 export interface IDictionaryParams {
   group: string;
@@ -31,7 +35,13 @@ const Dictionary: React.FunctionComponent<IDictionaryProps> = (
     learnCategory,
     deletedCategory,
   } = props;
-  const { words, pagesCount, isFetching } = useUserDictionary({
+  const {
+    words,
+    pagesCount,
+    isFetching,
+    unitStatistics,
+    isFetchingUnit,
+  } = useUserDictionary({
     group: Number(group),
     page: Number(page),
     filter,
@@ -40,6 +50,18 @@ const Dictionary: React.FunctionComponent<IDictionaryProps> = (
   return (
     <>
       <BookHeader name={header} group={+group} />
+      {learnCategory && (
+        <Box mt={2}>
+          {!isFetchingUnit ? (
+            <div className="dictionary-statistics">
+              <UnitStatistics group={+group} unit={unitStatistics} />
+              <PageStatistics group={+group} page={+page} words={words} />
+            </div>
+          ) : (
+            <LinearProgress />
+          )}
+        </Box>
+      )}
       <WordsCategories route={route} />
       <WordsList
         route={route}

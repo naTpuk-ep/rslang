@@ -81,7 +81,8 @@ const userWordsReducer = (
       }
       return {
         ...state,
-        isUpdating: true,
+        isUpdating: false,
+        error: null,
         aggregatedWords: {
           ...state.aggregatedWords,
           totalCount: newTotalCount,
@@ -106,7 +107,8 @@ const userWordsReducer = (
       return {
         ...state,
         pages: [],
-        isPagesFetching: true,
+        aggregatedWords: defaultWords,
+        error: null,
         isFetching: action.payload,
       };
     default:
