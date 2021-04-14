@@ -16,7 +16,9 @@ let currentChainLength = 0;
 let maxChainLength = 0;
 
 // eslint-disable-next-line
-const AudioCall: React.FunctionComponent<IAudioCallParams> = ({ words }: IAudioCallParams) => {
+const AudioCall: React.FunctionComponent<IAudioCallParams> = ({
+  words,
+}: IAudioCallParams) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [wordsTranslations, setWordsTranslations] = useState([""]);
   const [image, setImage] = useState("");
@@ -24,8 +26,8 @@ const AudioCall: React.FunctionComponent<IAudioCallParams> = ({ words }: IAudioC
   const [wordTranslate, setWordTranslate] = useState("");
   const [word, setWord] = useState("");
   const [isAnswer, setIsAnswer] = useState(false);
-  const [isFinish, setIsFinish] = useState(false);
-  const { updateWordInGame, updateGameStatistics } = useUpdateStatistic();
+  // const [isFinish, setIsFinish] = useState(false);
+  const { updateWordInGame /* updateGameStatistics */ } = useUpdateStatistic();
 
   useEffect(() => {
     let imageStr = "";
@@ -65,10 +67,13 @@ const AudioCall: React.FunctionComponent<IAudioCallParams> = ({ words }: IAudioC
   }, [words, currentIndex, wordTranslate]);
 
   const finishGame = () => {
-    setIsFinish(true);
+    // setIsFinish(true);
     // Окончание игры вызов модалки maxChainLength - цепочка максимальная,
     // correctWordsArray - верные слова, wrongWordsArray - неверные слова
     /* console.log("Finish Game");
+    if(isFinish) {
+      // end game
+    }
     updateGameStatistics(GameNames.AudioCall, {
       streak: 5,
       wrong: 5,
