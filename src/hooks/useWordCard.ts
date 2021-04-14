@@ -16,7 +16,7 @@ import useUpdateStatistic from "./useUpdateStatistic";
 
 const useWordCard = (word: IUserWordData) => {
   const { updateUserWord } = useActions();
-  const { updateDayLearnsStatistic, updateLearnedWords } = useUpdateStatistic();
+  const { updateLearnedWords } = useUpdateStatistic();
   const { userId, token } = useTypedSelector((state) => state.auth);
   const [wordAudio] = useState(
     new Howl({
@@ -33,7 +33,6 @@ const useWordCard = (word: IUserWordData) => {
     const isLearn = word.userWord?.isLearn;
     const now = moment();
     const yesterday = moment().subtract(1, "days");
-    updateDayLearnsStatistic(1, 2);
     if (!isLearn) {
       updateUserWord(
         word._id,
