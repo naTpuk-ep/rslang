@@ -26,8 +26,6 @@ import {
 import Game from "../pages/Game";
 import GameNames from "../constants/game-names";
 import Main from "../pages/Main";
-
-// Temporary page templates!
 import Login from "../pages/Login";
 import Registration from "../pages/Registration";
 import useAuthentication from "../hooks/useAuthentication";
@@ -35,7 +33,6 @@ import UserBook from "../pages/UserBook";
 import Book from "../pages/Book";
 import Dictionary from "../pages/Dictionary";
 import Statistics from "../pages/Statistics";
-
 import "fontsource-roboto";
 import "./App.scss";
 
@@ -45,6 +42,7 @@ const App: React.FunctionComponent = () => {
   return (
     <>
       <Header />
+      <div className="main-img" />
       <Container className="main">
         <Switch>
           <Route exact path={MAIN}>
