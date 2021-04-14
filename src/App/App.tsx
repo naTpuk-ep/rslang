@@ -42,7 +42,6 @@ const App: React.FunctionComponent = () => {
   return (
     <>
       <Header />
-      <div className="main-img" />
       <Container className="main">
         <Switch>
           <Route exact path={MAIN}>
