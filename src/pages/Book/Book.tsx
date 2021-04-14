@@ -1,8 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import Box from "@material-ui/core/Box";
-import Typography from "@material-ui/core/Typography";
 import React from "react";
 import { useParams } from "react-router-dom";
+import BookHeader from "../../components/BookHeader";
 import WordsCategories from "../../components/WordsCategories";
 import WordsList from "../../components/WordsList";
 import { BOOK } from "../../constants/routes";
@@ -33,11 +32,7 @@ const Book: React.FunctionComponent = () => {
 
   return (
     <>
-      <Box marginTop={2}>
-        <Typography variant="h3" component="h2">
-          Учебник
-        </Typography>
-      </Box>
+      <BookHeader name="Учебник" group={+group} />
       <WordsCategories route={BOOK} />
       <WordsList {...props} />
     </>
