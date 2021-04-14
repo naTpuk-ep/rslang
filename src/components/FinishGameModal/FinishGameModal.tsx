@@ -6,6 +6,7 @@ import "./FinishGameModal.scss";
 import IUserWordData from "../../types/user-words-types";
 import useUpdateStatistic from "../../hooks/useUpdateStatistic";
 import { GamesNames } from "../../types/statistics-types";
+import useTypedSelector from "../../hooks/useTypeSelector";
 
 interface IFinishGameModalProps {
   gameName: GamesNames;
@@ -25,13 +26,16 @@ const FinishGameModal: FC<IFinishGameModalProps> = ({
     (100 * correctWords.length) / totalWordCount
   );
   const { updateGameStatistics } = useUpdateStatistic();
+  const { isAuthenticated } = useTypedSelector((state) => state.auth);
 
   useEffect(() => {
-    updateGameStatistics(gameName, {
-      streak: longestSeries,
-      wrong: mistakes.length,
-      correct: correctWords.length,
-    });
+    if (isAuthenticated) {
+      updateGameStatistics(gameName, {
+        streak: longestSeries,
+        wrong: mistakes.length,
+        correct: correctWords.length,
+      });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
