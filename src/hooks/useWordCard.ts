@@ -16,16 +16,31 @@ import useUpdateStatistic from "./useUpdateStatistic";
 
 const useWordCard = (word: IUserWordData) => {
   const { updateUserWord } = useActions();
-  const { updateDayLearnsStatistic, updateLearnedWords } = useUpdateStatistic();
+  const { updateLearnedWords } = useUpdateStatistic();
   const { userId, token } = useTypedSelector((state) => state.auth);
+
+  const [audioExample] = useState(
+    new Howl({
+      src: [`${BACKEND_PATH}${word.audioExample}`],
+      volume: 0.5,
+    })
+  );
+  const [audioMeaning] = useState(
+    new Howl({
+      src: [`${BACKEND_PATH}${word.audioMeaning}`],
+      volume: 0.5,
+      onend: () => {
+        audioExample.play();
+      },
+    })
+  );
   const [wordAudio] = useState(
     new Howl({
-      src: [
-        `${BACKEND_PATH}${word.audio}`,
-        `${BACKEND_PATH}${word.audioExample}`,
-        `${BACKEND_PATH}${word.audioMeaning}`,
-      ],
+      src: [`${BACKEND_PATH}${word.audio}`],
       volume: 0.5,
+      onend: () => {
+        audioMeaning.play();
+      },
     })
   );
 
@@ -33,7 +48,6 @@ const useWordCard = (word: IUserWordData) => {
     const isLearn = word.userWord?.isLearn;
     const now = moment();
     const yesterday = moment().subtract(1, "days");
-    updateDayLearnsStatistic(1, 2);
     if (!isLearn) {
       updateUserWord(
         word._id,
