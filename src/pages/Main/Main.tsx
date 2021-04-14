@@ -60,6 +60,7 @@ const Main: React.FunctionComponent = () => {
           )}
         </Typography>
         <Grid
+          className="ability"
           container
           direction="row"
           justify="space-around"
@@ -138,7 +139,7 @@ const Main: React.FunctionComponent = () => {
         <List className={classes.root}>
           {team.map((member, i) => {
             return (
-              <Card className={classes.card}>
+              <Card raised className={classes.card}>
                 <ListItem key={i} alignItems="flex-start">
                   <ListItemAvatar>
                     <Avatar alt={member.name} src={member.cover} />
