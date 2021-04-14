@@ -1,18 +1,6 @@
-.main {
+.main {  
   padding-top: 4rem;
   height: 100%;
   flex: 1 0 auto;
   position: relative;
-}
-
-.main-img {
-  background-image: url("../assets/main.jpg");
-  position: absolute;
-  height: 100%;
-  right: 0;
-  left: 0;
-  width: 100%;
-  z-index: -2;
-  background-position-y: center;
-  background-size: cover;
 }

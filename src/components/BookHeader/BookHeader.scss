@@ -1,5 +1,11 @@
 @import "../../scss/color-variables.scss";
 
+.book-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .group-action {
   &-level-1 {
     background: $group-1-color !important;
