@@ -13,7 +13,9 @@ import React, {
   useState,
 } from "react";
 import FinishGameModal from "../../components/FinishGameModal/FinishGameModal";
+import { STATUS_DELETED } from "../../constants/request-params";
 import useKeyDown from "../../hooks/useKeyDown";
+import useTypedSelector from "../../hooks/useTypeSelector";
 import useUpdateStatistic from "../../hooks/useUpdateStatistic";
 import { GamesNames } from "../../types/statistics-types";
 import IUserWordData from "../../types/user-words-types";
@@ -46,6 +48,7 @@ const OwnGame: FC<IOwnGameProps> = (props: IOwnGameProps) => {
   const mistakes = useRef<IUserWordData[]>([]);
   const [prevWords, setPrevWords] = useState<PrevWord[]>([]);
   const { updateWordInGame } = useUpdateStatistic();
+  const { isAuthenticated } = useTypedSelector((state) => state.auth);
 
   const setNext = useCallback(() => {
     setCurrentWord(game?.nextWord());
@@ -112,12 +115,17 @@ const OwnGame: FC<IOwnGameProps> = (props: IOwnGameProps) => {
               isCorrect: true,
             },
           ]);
-          updateWordInGame(currentWord, 0, 1);
+          if (
+            isAuthenticated &&
+            currentWord.userWord?.status !== STATUS_DELETED
+          ) {
+            updateWordInGame(currentWord, 0, 1);
+          }
           setNext();
         }
       }
     },
-    [currentWord, game, setNext, updateWordInGame]
+    [currentWord, game, isAuthenticated, setNext, updateWordInGame]
   );
 
   const skipHandler = useCallback(() => {
@@ -134,10 +142,12 @@ const OwnGame: FC<IOwnGameProps> = (props: IOwnGameProps) => {
           isCorrect: false,
         },
       ]);
-      updateWordInGame(currentWord, 1, 0);
+      if (isAuthenticated && currentWord.userWord?.status !== STATUS_DELETED) {
+        updateWordInGame(currentWord, 1, 0);
+      }
       setNext();
     }
-  }, [currentWord, isFinish, setNext, updateWordInGame]);
+  }, [currentWord, isAuthenticated, isFinish, setNext, updateWordInGame]);
 
   useKeyDown("Space", skipHandler);
 
