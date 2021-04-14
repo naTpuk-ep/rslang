@@ -14,10 +14,10 @@ export interface IStatisticsData {
     allTime: AllTimeStatistic[];
   };
 }
-interface AllTimeStatistic extends IDayStatistics {
+export interface AllTimeStatistic extends IDayStatistics {
   learnedWords: number;
 }
-interface IDayStatistics {
+export interface IDayStatistics {
   date: Date;
   dayLearns: number;
   learnedWordsToday: number;

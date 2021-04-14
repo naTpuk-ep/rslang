@@ -49,6 +49,7 @@ const Dictionary: React.FunctionComponent<IDictionaryProps> = (
 
   return (
     <>
+      <WordsCategories route={route} />
       <BookHeader name={header} group={+group} />
       {learnCategory && (
         <Box mt={2}>
@@ -62,7 +63,6 @@ const Dictionary: React.FunctionComponent<IDictionaryProps> = (
           )}
         </Box>
       )}
-      <WordsCategories route={route} />
       <WordsList
         route={route}
         group={Number(group)}

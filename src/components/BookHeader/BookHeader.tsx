@@ -4,6 +4,7 @@ import Typography from "@material-ui/core/Typography";
 
 import "./BookHeader.scss";
 import { Paper } from "@material-ui/core";
+import BookSettings from "../Settings";
 
 interface IBookHeaderProps {
   name: string;
@@ -16,10 +17,15 @@ const BookHeader: React.FunctionComponent<IBookHeaderProps> = ({
 }: IBookHeaderProps) => {
   return (
     <Paper elevation={3} className={`group-action-level-${group + 1}`}>
-      <Box marginTop={2} padding={2}>
-        <Typography variant="h4" component="h2">
-          {`${name} > Раздел ${group + 1}`}
-        </Typography>
+      <Box className="book-header" marginTop={2} padding={2}>
+        <Box>
+          <Typography variant="h4" component="h2">
+            {`${name} > Раздел ${group + 1}`}
+          </Typography>
+        </Box>
+        <Box>
+          <BookSettings />
+        </Box>
       </Box>
     </Paper>
   );

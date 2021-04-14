@@ -11,7 +11,7 @@ const linksData = [
   { name: "Саванна", route: SAVANNAH },
   { name: "Аудио вызов", route: AUDIO_CALL },
   { name: "Спринт", route: SPRINT },
-  { name: "Своя игра", route: OWN_GAME },
+  { name: "Угадай слово", route: OWN_GAME },
 ];
 
 interface ILinksGamesProps {

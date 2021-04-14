@@ -3,8 +3,9 @@ import FormControl from "@material-ui/core/FormControl";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
-import SettingsIcon from "@material-ui/icons/Settings";
+import { SettingsTwoTone } from "@material-ui/icons";
 import {
+  Box,
   Button,
   createStyles,
   IconButton,
@@ -21,16 +22,13 @@ const useStyles = makeStyles((theme: Theme) =>
     typography: {
       padding: theme.spacing(2),
     },
-    margin: {
-      margin: theme.spacing(1),
-    },
     popover: {
-      padding: 40,
+      padding: theme.spacing(2),
     },
     form: {
       display: "flex",
       flexDirection: "column",
-      rowGap: 10,
+      rowGap: theme.spacing(1),
     },
   })
 );
@@ -62,12 +60,8 @@ const BookSettings: React.FunctionComponent = () => {
 
   return (
     <>
-      <IconButton
-        aria-label="settings"
-        className={classes.margin}
-        onClick={handleClick}
-      >
-        <SettingsIcon fontSize="large" />
+      <IconButton aria-label="settings" onClick={handleClick}>
+        <SettingsTwoTone fontSize="large" />
       </IconButton>
       <Popover
         id={id}
@@ -85,7 +79,9 @@ const BookSettings: React.FunctionComponent = () => {
       >
         <div className={classes.popover}>
           <FormControl component="fieldset">
-            <Typography component="legend">Настройки учебника:</Typography>
+            <Box mt={1} mb={1}>
+              <Typography variant="h6">Настройки учебника:</Typography>
+            </Box>
             <FormGroup className={classes.form}>
               <FormControlLabel
                 control={
@@ -95,7 +91,7 @@ const BookSettings: React.FunctionComponent = () => {
                     name="isWordTranslate"
                   />
                 }
-                label="Отображать в списке слов перевод изучаемого слова"
+                label="Отображать перевод изучаемого слова"
               />
               <FormControlLabel
                 control={
@@ -105,7 +101,7 @@ const BookSettings: React.FunctionComponent = () => {
                     name="isSentenceTranslate"
                   />
                 }
-                label="Отображать в списке слов перевод предложений"
+                label="Отображать перевод предложений"
               />
               <FormControlLabel
                 control={
@@ -115,12 +111,18 @@ const BookSettings: React.FunctionComponent = () => {
                     name="isButtons"
                   />
                 }
-                label="Отображать возле каждого слова кнопки"
+                label="Отображать кнопки"
               />
             </FormGroup>
-            <Button variant="contained" color="primary" onClick={resetSettings}>
-              Сброс настроек
-            </Button>
+            <Box mt={2}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={resetSettings}
+              >
+                Сброс настроек
+              </Button>
+            </Box>
           </FormControl>
         </div>
       </Popover>
