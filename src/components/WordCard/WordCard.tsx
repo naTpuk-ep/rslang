@@ -1,16 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable react-hooks/exhaustive-deps */
-import {
-  Card,
-  CardContent,
-  Typography,
-  IconButton,
-  CardMedia,
-  createStyles,
-  makeStyles,
-  Theme,
-  Button,
-} from "@material-ui/core";
+import { Typography, IconButton, Button, Paper } from "@material-ui/core";
 import "./WordCard.scss";
 import DeleteIcon from "@material-ui/icons/Delete";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
@@ -21,48 +11,6 @@ import IUserWordData from "../../types/user-words-types";
 import useWordCard from "../../hooks/useWordCard";
 import useTypedSelector from "../../hooks/useTypeSelector";
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      width: "100%",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-    },
-    details: {
-      width: "100%",
-      display: "flex",
-      flexDirection: "column",
-      background: "#ececec",
-    },
-    content: {
-      flex: "1 0 auto",
-      padding: theme.spacing(1),
-    },
-    cover: {
-      width: 120,
-      height: 120,
-      borderRadius: 300,
-    },
-    controls: {
-      display: "flex",
-      alignItems: "center",
-      paddingLeft: theme.spacing(1),
-      paddingBottom: theme.spacing(1),
-    },
-    playButton: {
-      padding: theme.spacing(1),
-    },
-    playIcon: {
-      height: 32,
-      width: 32,
-    },
-    button: {
-      margin: theme.spacing(1),
-    },
-  })
-);
-
 interface IWordsCardProps {
   word: IUserWordData;
   difficultCategory?: boolean;
@@ -71,7 +19,7 @@ interface IWordsCardProps {
 }
 
 const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
-  const classes = useStyles();
+  // const classes = useStyles();
   const { word, difficultCategory, learnCategory, deletedCategory } = props;
   const { isAuthenticated } = useTypedSelector((state) => state.auth);
   const {
@@ -91,7 +39,6 @@ const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
             variant="contained"
             color="primary"
             size="small"
-            className={classes.button}
             startIcon={<AddCircleOutlineIcon />}
             onClick={changeHardStatusHandler}
           >
@@ -102,7 +49,6 @@ const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
           variant="contained"
           color="secondary"
           size="small"
-          className={classes.button}
           startIcon={<DeleteIcon />}
           onClick={changeDeletedStatusHandler}
         >
@@ -121,7 +67,6 @@ const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
             variant="contained"
             color="secondary"
             size="small"
-            className={classes.button}
             startIcon={<PresentToAllIcon />}
             onClick={changeNoStatusHandler}
           >
@@ -134,7 +79,6 @@ const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
             variant="contained"
             color="secondary"
             size="small"
-            className={classes.button}
             startIcon={<PresentToAllIcon />}
             onClick={changeNoStatusHandler}
           >
@@ -147,51 +91,50 @@ const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
   };
 
   return (
-    <Card
+    <Paper
       className={`word-card group-${word.group + 1} ${word.userWord?.status}`}
     >
-      <CardMedia
-        className={classes.cover}
-        image={`https://rnovikov-rs-lang-back.herokuapp.com/${word.image}`}
-        title={word.word}
+      <div
+        className="word-card__media"
+        style={{
+          backgroundImage: `url(https://rnovikov-rs-lang-back.herokuapp.com/${word.image})`,
+        }}
       />
-      <div className={classes.details}>
-        <CardContent className={classes.content}>
-          <Typography component="h6" variant="h6">
-            {word.word} {word.transcription}
-          </Typography>
-          <Typography component="h6" variant="h6">
-            {word.wordTranslate}
-          </Typography>
-          <Typography
-            variant="subtitle1"
-            color="textSecondary"
-            dangerouslySetInnerHTML={{
-              __html: `${word.textMeaning}(${word.textMeaningTranslate})`,
-            }}
-          />
-          <Typography
-            variant="subtitle1"
-            color="textSecondary"
-            dangerouslySetInnerHTML={{
-              __html: `${word.textExample}(${word.textExampleTranslate})`,
-            }}
-          />
-        </CardContent>
-        <div className={classes.controls}>
+      <div className="word-card__content">
+        <Typography component="h6" variant="h6">
+          {word.word} {word.transcription}
+        </Typography>
+        <Typography component="h6" variant="h6">
+          {word.wordTranslate}
+        </Typography>
+        <Typography
+          variant="subtitle1"
+          color="textSecondary"
+          dangerouslySetInnerHTML={{
+            __html: `${word.textMeaning}(${word.textMeaningTranslate})`,
+          }}
+        />
+        <Typography
+          variant="subtitle1"
+          color="textSecondary"
+          dangerouslySetInnerHTML={{
+            __html: `${word.textExample}(${word.textExampleTranslate})`,
+          }}
+        />
+        <div className="word-card__content_buttons">
           <IconButton
-            className={classes.playButton}
             aria-label="play/pause"
             onClick={() => {
               wordAudio.play();
             }}
           >
-            <PlayArrowIcon className={classes.playIcon} />
+            <PlayArrowIcon />
           </IconButton>
           {isAuthenticated ? <>{renderButtons()}</> : ""}
         </div>
       </div>
-    </Card>
+      <div className="word-card__statistics" />
+    </Paper>
   );
 };
 
