@@ -15,12 +15,12 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import PresentToAllIcon from "@material-ui/icons/PresentToAll";
-import React from "react";
 import {
   AddTwoTone,
   AllInclusiveTwoTone,
   RemoveTwoTone,
 } from "@material-ui/icons";
+import React, { useEffect, useState } from "react";
 import IUserWordData from "../../types/user-words-types";
 import useWordCard from "../../hooks/useWordCard";
 import useTypedSelector from "../../hooks/useTypeSelector";
@@ -45,6 +45,19 @@ const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
   const { word, difficultCategory, learnCategory, deletedCategory } = props;
   const { all, correct, wrong } = useWordStatistics(word);
   const { isAuthenticated } = useTypedSelector((state) => state.auth);
+  const { bookSettings } = useTypedSelector((state) => state.settings);
+  const { isFetching, error } = useTypedSelector((state) => state.statistics);
+  const { isUpdating, error: wordError } = useTypedSelector(
+    (state) => state.userWords
+  );
+
+  const [disable, setDisable] = useState(false);
+
+  useEffect(() => {
+    if (isFetching || error || isUpdating || wordError) setDisable(true);
+    else setDisable(false);
+  }, [isFetching, error, isUpdating, wordError]);
+
   const {
     wordAudio,
     changeHardStatusHandler,
@@ -64,6 +77,7 @@ const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
             size="small"
             startIcon={<AddCircleOutlineIcon />}
             onClick={changeHardStatusHandler}
+            disabled={disable}
           >
             Сложное
           </Button>
@@ -74,6 +88,7 @@ const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
           size="small"
           startIcon={<DeleteIcon />}
           onClick={changeDeletedStatusHandler}
+          disabled={disable}
         >
           Удалить
         </Button>
@@ -92,6 +107,7 @@ const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
             size="small"
             startIcon={<PresentToAllIcon />}
             onClick={changeNoStatusHandler}
+            disabled={disable}
           >
             восстановить
           </Button>
@@ -104,12 +120,13 @@ const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
             size="small"
             startIcon={<PresentToAllIcon />}
             onClick={changeNoStatusHandler}
+            disabled={disable}
           >
             восстановить
           </Button>
         );
       default:
-        return <></>;
+        return buttons;
     }
   };
 
@@ -127,21 +144,35 @@ const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
         <Typography component="h6" variant="h6">
           {word.word} {word.transcription}
         </Typography>
-        <Typography component="h6" variant="h6">
-          {word.wordTranslate}
-        </Typography>
+        {bookSettings.isWordTranslate ? (
+          <>
+            <Typography component="h6" variant="h6">
+              {word.wordTranslate}
+            </Typography>
+          </>
+        ) : (
+          ""
+        )}
         <Typography
           variant="subtitle1"
           color="textSecondary"
           dangerouslySetInnerHTML={{
-            __html: `${word.textMeaning}(${word.textMeaningTranslate})`,
+            __html: `${word.textMeaning}${
+              bookSettings.isSentenceTranslate
+                ? `(${word.textMeaningTranslate})`
+                : ""
+            }`,
           }}
         />
         <Typography
           variant="subtitle1"
           color="textSecondary"
           dangerouslySetInnerHTML={{
-            __html: `${word.textExample}(${word.textExampleTranslate})`,
+            __html: `${word.textExample}${
+              bookSettings.isSentenceTranslate
+                ? `(${word.textExampleTranslate})`
+                : ""
+            }`,
           }}
         />
         <div className="word-card__content_buttons">
@@ -153,7 +184,11 @@ const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
           >
             <PlayArrowIcon />
           </IconButton>
-          {isAuthenticated ? <>{renderButtons()}</> : ""}
+          {bookSettings.isButtons ? (
+            <>{isAuthenticated ? <>{renderButtons()}</> : ""}</>
+          ) : (
+            ""
+          )}
         </div>
       </div>
       {isAuthenticated && (

@@ -81,6 +81,7 @@ export enum StatisticsActionTypes {
   UPDATE_STATISTICS_SUCCESS = "UPDATE_STATISTICS_SUCCESS",
   UPDATE_STATISTICS_ERROR = "UPDATE_STATISTICS_ERROR",
   SET_IS_UPDATED = "SET_IS_UPDATED",
+  RESET_STAT = "CLEAR_STAT",
 }
 
 interface GetStatisticsAction {
@@ -116,6 +117,10 @@ interface SetIsUpdatedAction {
   payload: boolean;
 }
 
+interface ResetStatAction {
+  type: StatisticsActionTypes.RESET_STAT;
+}
+
 export type StatisticsAction =
   | GetStatisticsAction
   | GetStatisticsSuccessAction
@@ -123,4 +128,5 @@ export type StatisticsAction =
   | UpdateStatisticsAction
   | UpdateStatisticsSuccessAction
   | UpdateStatisticsErrorAction
-  | SetIsUpdatedAction;
+  | SetIsUpdatedAction
+  | ResetStatAction;

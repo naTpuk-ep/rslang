@@ -81,7 +81,8 @@ const userWordsReducer = (
       }
       return {
         ...state,
-        isUpdating: true,
+        isUpdating: false,
+        error: null,
         aggregatedWords: {
           ...state.aggregatedWords,
           totalCount: newTotalCount,
