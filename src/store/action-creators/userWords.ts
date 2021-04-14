@@ -76,7 +76,8 @@ const updateUserWord = (
   wordId: string,
   data: IUserWordOptions,
   id: string,
-  token: string
+  token: string,
+  remove = false
 ) => {
   return async (dispatch: Dispatch<UserWordsAction>) => {
     try {
@@ -99,6 +100,7 @@ const updateUserWord = (
             optional: wordResponse.data.optional,
           },
           id: wordId,
+          remove,
         },
       });
     } catch (e) {
@@ -118,10 +120,6 @@ const changeUserWordsPages = (page: number, count: number): UserWordsAction => {
   };
 };
 
-const clearGameWords = (): UserWordsAction => {
-  return { type: UserWordsActionTypes.CLEAR_GAME_WORDS };
-};
-
 const setIsFetching = (isFetching: boolean): UserWordsAction => {
   return {
     type: UserWordsActionTypes.SET_IS_FETCHING,
@@ -134,6 +132,5 @@ export {
   fetchPages,
   updateUserWord,
   changeUserWordsPages,
-  clearGameWords,
   setIsFetching,
 };

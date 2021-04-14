@@ -29,6 +29,7 @@ const userWordsReducer = (
     case UserWordsActionTypes.FETCH_USER_WORDS:
       return {
         ...state,
+        aggregatedWords: defaultWords,
         isFetching: true,
         error: null,
       };
@@ -66,17 +67,24 @@ const userWordsReducer = (
     case UserWordsActionTypes.UPDATE_USER_WORD:
       return { ...state, isUpdating: true, error: null };
     case UserWordsActionTypes.UPDATE_USER_WORD_SUCCESS: {
-      const changeWords = state.aggregatedWords.words.map((word) =>
+      let changeWords = state.aggregatedWords.words.map((word) =>
         word._id === action.payload.id
           ? { ...word, userWord: action.payload.userWord }
           : word
       );
+      let newTotalCount = state.aggregatedWords.totalCount;
+      if (action.payload.remove) {
+        newTotalCount -= 1;
+        changeWords = changeWords.filter(
+          ({ _id }) => _id !== action.payload.id
+        );
+      }
       return {
         ...state,
         isUpdating: true,
         aggregatedWords: {
           ...state.aggregatedWords,
-          totalCount: changeWords.length,
+          totalCount: newTotalCount,
           words: changeWords,
         },
       };
@@ -93,13 +101,6 @@ const userWordsReducer = (
               : page
           )
           .filter((page) => page.count > 0),
-      };
-    case UserWordsActionTypes.CLEAR_GAME_WORDS:
-      return {
-        ...state,
-        aggregatedWords: defaultWords,
-        isFetching: true,
-        error: null,
       };
     case UserWordsActionTypes.SET_IS_FETCHING:
       return {

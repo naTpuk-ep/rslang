@@ -24,6 +24,7 @@ const gameWordsReducer = (
     case UserWordsActionTypes.FETCH_GAME_WORDS:
       return {
         ...state,
+        gameWords: [],
         error: null,
         isGameWordsFetching: true,
       };
@@ -43,6 +44,7 @@ const gameWordsReducer = (
     case UserWordsActionTypes.FILL_GAME_WORDS:
       return {
         ...state,
+        gameWords: [],
         error: null,
         isGameWordsFetching: true,
       };
@@ -53,7 +55,7 @@ const gameWordsReducer = (
         gameWords: [...action.payload.existWords, ...action.payload.fillWords]
           .slice(0, 20)
           .sort(() => Math.random() - 0.5),
-        error: action.payload,
+        error: null,
       };
     case UserWordsActionTypes.FILL_GAME_WORDS_ERROR:
       return {

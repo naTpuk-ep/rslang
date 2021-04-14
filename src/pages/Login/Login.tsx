@@ -71,6 +71,7 @@ const Login: React.FunctionComponent = () => {
             name="email"
             value={form.email}
             autoFocus
+            autoComplete="email"
             onChange={changeHandler}
             validators={["minStringLength:1"]}
             errorMessages={["Заполните поле"]}
@@ -85,6 +86,7 @@ const Login: React.FunctionComponent = () => {
             label="Пароль"
             type="password"
             id="password"
+            autoComplete="current-password"
             value={form.password}
             onChange={changeHandler}
             validators={["minStringLength:1"]}

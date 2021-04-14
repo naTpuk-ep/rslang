@@ -3,11 +3,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
 import LinearProgress from "@material-ui/core/LinearProgress";
+import { Box } from "@material-ui/core";
+import Alert from "@material-ui/lab/Alert";
 import WordCard from "../WordCard";
 import Paginator from "../Paginator";
 import IUserWordData from "../../types/user-words-types";
 import "./WordList.scss";
-import BookSettings from "../Settings";
+import useSwitchParams from "./useSwitchParams";
+import LinksGames from "../LinksGames";
 
 interface IWordsListProps {
   route: string;
@@ -17,6 +20,9 @@ interface IWordsListProps {
   pagesCount: number;
   isFetching: boolean;
   isPagesFetching: boolean;
+  difficultCategory?: boolean;
+  learnCategory?: boolean;
+  deletedCategory?: boolean;
 }
 
 const WordsList: React.FunctionComponent<IWordsListProps> = (
@@ -30,40 +36,78 @@ const WordsList: React.FunctionComponent<IWordsListProps> = (
     pagesCount,
     isFetching,
     isPagesFetching,
+    difficultCategory,
+    learnCategory,
+    deletedCategory,
   } = props;
 
+  const { filter, wordsPerPage, count } = useSwitchParams(page);
+
   return (
-    <div id="body">
-      <div id="head">
-        <Paginator
-          route={`${route}/${group}`}
-          currentPage={page + 1}
-          pageCount={pagesCount}
-          isPagesFetching={isPagesFetching}
-        />
-      </div>
-      <BookSettings />
-      <div id="content" className="word-list">
-        {isFetching ? (
+    <>
+      <Paginator
+        route={`${route}/${group}`}
+        currentPage={page + 1}
+        pageCount={pagesCount}
+        isPagesFetching={isPagesFetching}
+      />
+      {isFetching ? (
+        <Box mt={2}>
           <LinearProgress />
-        ) : (
-          <>
-            {words.map((word) => {
-              return <WordCard key={word._id} word={word} />;
-            })}
-          </>
-        )}
-      </div>
-      <div id="foot">
-        <Paginator
-          route={`${route}/${group}`}
-          currentPage={page + 1}
-          pageCount={pagesCount}
-          isPagesFetching={isPagesFetching}
-        />
-      </div>
-    </div>
+        </Box>
+      ) : (
+        <>
+          {words.length ? (
+            <>
+              <LinksGames
+                group={group}
+                page={page}
+                filter={filter}
+                wordsPerPage={wordsPerPage}
+                count={count}
+              />
+              <div className="word-list">
+                {words.map((word) => {
+                  return (
+                    <WordCard
+                      key={word._id}
+                      word={word}
+                      difficultCategory={difficultCategory}
+                      learnCategory={learnCategory}
+                      deletedCategory={deletedCategory}
+                    />
+                  );
+                })}
+              </div>
+              <LinksGames
+                group={group}
+                page={page}
+                filter={filter}
+                wordsPerPage={wordsPerPage}
+                count={count}
+              />
+            </>
+          ) : (
+            <Box mt={2}>
+              <Alert severity="warning">В разделе нет слов!</Alert>
+            </Box>
+          )}
+        </>
+      )}
+      <Paginator
+        route={`${route}/${group}`}
+        currentPage={page + 1}
+        pageCount={pagesCount}
+        isPagesFetching={isPagesFetching}
+      />
+    </>
   );
+};
+
+WordsList.defaultProps = {
+  difficultCategory: false,
+  learnCategory: false,
+  deletedCategory: false,
 };
 
 export default WordsList;

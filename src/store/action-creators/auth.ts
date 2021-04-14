@@ -2,12 +2,25 @@
 import axios from "axios";
 import { Dispatch } from "react";
 import { AuthAction, AuthActionTypes } from "../../types/auth-types";
+import {
+  StatisticsAction,
+  StatisticsActionTypes,
+} from "../../types/statistics-types";
 
 const setLoading = (loading: boolean) => {
   return (dispatch: Dispatch<AuthAction>) => {
     dispatch({
       type: AuthActionTypes.SET_LOADING,
       payload: loading,
+    });
+  };
+};
+
+const setIsUpdated = (isUpdated: boolean) => {
+  return (dispatch: Dispatch<StatisticsAction>) => {
+    dispatch({
+      type: StatisticsActionTypes.SET_IS_UPDATED,
+      payload: isUpdated,
     });
   };
 };
@@ -21,8 +34,9 @@ const logout = () => {
 };
 
 const unauthorizedHandler = (e: { response: { status: number } }) => {
-  if (e.response.status === 401) {
+  if (e.response?.status === 401) {
     logout();
+    setIsUpdated(false);
   }
 };
 
@@ -69,7 +83,7 @@ const signUp = (form: { email: string; name: string; password: string }) => {
     } catch (e) {
       unauthorizedHandler(e);
       dispatch({
-        type: AuthActionTypes.SIGN_IN_ERROR,
+        type: AuthActionTypes.SIGN_UP_ERROR,
         payload: "Ошибка регистрации. Проверьте правильность введенных данных",
       });
     }
@@ -109,4 +123,5 @@ export {
   logout,
   unauthorizedHandler,
   setLoading,
+  setIsUpdated,
 };
