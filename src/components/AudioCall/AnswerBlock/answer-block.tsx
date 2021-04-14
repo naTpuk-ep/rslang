@@ -4,6 +4,13 @@ import Spinner from "../../Spinner";
 
 import "./answer-block.scss";
 
+/* interface IAnswerBlock {
+  wordsTranslations: string,
+  onNextWord: () => void,
+  wordTranslate: string,
+  changeAnswerBlock: (flag: boolean) => void,
+  isAnswer: boolean,
+} */
 // eslint-disable-next-line
 const AnswerBlock = (props: any) => {
   const {
@@ -13,6 +20,7 @@ const AnswerBlock = (props: any) => {
     changeAnswerBlock,
     isAnswer,
   } = props;
+  // React.MouseEvent<HTMLButtonElement>
   // eslint-disable-next-line
   const getAnswer = (e: any) => {
     let flag = false;

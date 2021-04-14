@@ -76,28 +76,8 @@ const AudioCallComponent: React.FunctionComponent<any> = ({ data }: any) => {
     setIsAnswer(true);
   };
 
-  // eslint-disable-next-line
-  const fullScreen = (e: any): void => {
-    if (!document.fullscreenElement) {
-      if (e.currentTarget === e.target) {
-        e.nativeEvent.path[1].requestFullscreen();
-      } else {
-        e.nativeEvent.path[2].requestFullscreen();
-      }
-    }
-  };
-
   return (
     <div className="audio-call">
-      <button
-        type="button"
-        className="fullscreen-btn"
-        onClick={(e) => {
-          fullScreen(e);
-        }}
-      >
-        <span className="fullscreen-btn-span">⇲</span>
-      </button>
       <AudioBlock audio={audio} image={image} word={word} isAnswer={isAnswer} />
       <AnswerBlock
         wordsTranslations={wordsTranslations}
