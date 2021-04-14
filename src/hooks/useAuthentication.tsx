@@ -38,11 +38,12 @@ const useAuthentication = () => {
   }, []);
 
   useEffect(() => {
-    if (isAuthenticated) {
-      getStatistics(userId, token);
-    }
     if (isRegistered && isAuthenticated) {
       updateStatisticsAction(statistics, userId, token);
+      return;
+    }
+    if (isAuthenticated) {
+      getStatistics(userId, token);
     }
   }, [isAuthenticated]);
 

@@ -25,6 +25,14 @@ const setIsUpdated = (isUpdated: boolean) => {
   };
 };
 
+const resetStat = () => {
+  return (dispatch: Dispatch<StatisticsAction>) => {
+    dispatch({
+      type: StatisticsActionTypes.RESET_STAT,
+    });
+  };
+};
+
 const logout = () => {
   return (dispatch: Dispatch<AuthAction>) => {
     dispatch({
@@ -37,6 +45,7 @@ const unauthorizedHandler = (e: { response: { status: number } }) => {
   if (e.response?.status === 401) {
     logout();
     setIsUpdated(false);
+    resetStat();
   }
 };
 
@@ -124,4 +133,5 @@ export {
   unauthorizedHandler,
   setLoading,
   setIsUpdated,
+  resetStat,
 };

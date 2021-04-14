@@ -143,7 +143,7 @@ const WordCard: React.FC<IWordsCardProps> = (props: IWordsCardProps) => {
           </Button>
         );
       default:
-        return <></>;
+        return buttons;
     }
   };
 
