@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Countdown from "react-countdown";
 import { nanoid } from "nanoid";
 import "./GameSavannah.scss";
@@ -14,6 +13,8 @@ import heart from "../../assets/heart.png";
 import emptyHeart from "../../assets/empty-heart.png";
 import IUserWordData from "../../types/user-words-types";
 import useUpdateStatistic from "../../hooks/useUpdateStatistic";
+import { STATUS_DELETED } from "../../constants/request-params";
+import useTypedSelector from "../../hooks/useTypeSelector";
 
 interface IGameSavannahParams {
   words: IUserWordData[];
@@ -23,7 +24,8 @@ const GameSavannah: React.FunctionComponent<IGameSavannahParams> = (
   props: IGameSavannahParams
 ) => {
   const { words } = props;
-  const { updateWordInGame, updateGameStatistics } = useUpdateStatistic();
+  const { isAuthenticated } = useTypedSelector((state) => state.auth);
+  const { updateWordInGame } = useUpdateStatistic();
   const [index, setIndex] = useState(0);
   const [guessWord, setGuessWord] = useState(words[0]);
   const [animated, setAnimated] = useState(nanoid());
@@ -35,6 +37,10 @@ const GameSavannah: React.FunctionComponent<IGameSavannahParams> = (
   const [animateCrystal, setAnimateCrystal] = useState(nanoid());
   const [langSwitchState, setLangSwitchState] = React.useState(true);
   const [playMusic, setPlayMusic] = useState(false);
+  const series = useRef(0);
+  const longestSeries = useRef(0);
+  const correctWords = useRef<IUserWordData[]>([]);
+  const mistakes = useRef<IUserWordData[]>([]);
 
   const [gameMusic] = useState(
     new Howl({
@@ -91,21 +97,39 @@ const GameSavannah: React.FunctionComponent<IGameSavannahParams> = (
     e: React.AnimationEvent<HTMLDivElement>
   ) => {
     if (e.animationName === "moveword") {
-      updateWordInGame(guessWord, 1, 0);
+      if (isAuthenticated && guessWord.userWord?.status !== STATUS_DELETED) {
+        updateWordInGame(guessWord, 1, 0);
+      }
       setIndex(index + 1);
       setAttempts(attempts - 1);
+      if (series.current > longestSeries.current) {
+        longestSeries.current = series.current;
+      }
+      series.current = 0;
+      mistakes.current.push(guessWord);
       wrongSound.play();
     }
   };
   const guessClickHandler = (word: IUserWordData) => {
     if (word.wordTranslate === guessWord.wordTranslate) {
-      updateWordInGame(guessWord, 0, 1);
+      if (isAuthenticated && guessWord.userWord?.status !== STATUS_DELETED) {
+        updateWordInGame(guessWord, 0, 1);
+      }
+      series.current += 1;
+      correctWords.current.push(guessWord);
       setIndex(index + 1);
       setCrystalWidth(crystalWidth + 2);
       setAnimateCrystal(nanoid());
       correctSound.play();
     } else {
-      updateWordInGame(guessWord, 1, 0);
+      if (isAuthenticated && guessWord.userWord?.status !== STATUS_DELETED) {
+        updateWordInGame(guessWord, 1, 0);
+      }
+      if (series.current > longestSeries.current) {
+        longestSeries.current = series.current;
+      }
+      series.current = 0;
+      mistakes.current.push(guessWord);
       setIndex(index + 1);
       setAttempts(attempts - 1);
       wrongSound.play();

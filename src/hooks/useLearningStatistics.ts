@@ -3,14 +3,15 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import moment from "moment";
 import { useEffect } from "react";
-import { GamesNames } from "../types/statistics-types";
+import {
+  AllTimeStatistic,
+  GamesNames,
+  IDayStatistics,
+} from "../types/statistics-types";
 import useActions from "./useActions";
 import useTypedSelector from "./useTypeSelector";
 
 const useLearningStatistics = () => {
-  const { statistics, isFetching } = useTypedSelector(
-    (state) => state.statistics
-  );
   const { token, userId } = useTypedSelector((state) => state.auth);
   const { getStatistics } = useActions();
 
@@ -18,11 +19,13 @@ const useLearningStatistics = () => {
     getStatistics(userId, token);
   }, []);
 
-  const gamePercentage = (gameName: GamesNames) => {
+  const gamePercentage = (
+    stat: IDayStatistics | AllTimeStatistic,
+    gameName: GamesNames
+  ) => {
     const percent =
-      (statistics.optional.today[gameName].correct /
-        (statistics.optional.today[gameName].correct +
-          statistics.optional.today[gameName].wrong)) *
+      (stat[gameName].correct /
+        (stat[gameName].correct + stat[gameName].wrong)) *
       100;
     if (Number.isNaN(percent)) {
       return 0;
@@ -30,8 +33,8 @@ const useLearningStatistics = () => {
     return percent.toFixed(2);
   };
 
-  const dayPercentage = () => {
-    const { correctAnswers, wrongAnswers } = statistics.optional.today;
+  const dayPercentage = (today: IDayStatistics) => {
+    const { correctAnswers, wrongAnswers } = today;
 
     const percent = (correctAnswers / (correctAnswers + wrongAnswers)) * 100;
 
@@ -46,7 +49,7 @@ const useLearningStatistics = () => {
     return moment(tickItem).format("DD-MM-YYYY");
   };
 
-  return { gamePercentage, dayPercentage, formatXAxis, statistics, isFetching };
+  return { gamePercentage, dayPercentage, formatXAxis };
 };
 
 export default useLearningStatistics;
