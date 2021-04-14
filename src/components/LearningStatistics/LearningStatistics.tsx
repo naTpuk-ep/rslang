@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { Box, List, ListItem, Paper, Typography } from "@material-ui/core";
 import moment from "moment";
 import { nanoid } from "nanoid";
 import React from "react";
@@ -30,54 +31,90 @@ const LearningStatistics: React.FunctionComponent = () => {
   );
 
   return (
-    <div>
+    <Box mt={2}>
       {isFetching ? (
         ""
       ) : (
         <>
-          <div>Общее количество изучаемых слов: {statistics.learnedWords}</div>
-          <div>
-            Сегодня изучалось слов: {statistics.optional.today.dayLearns}
-          </div>
-          <div>
-            Сегодня изучено слов: {statistics.optional.today.learnedWordsToday}
-          </div>
-          <div>
-            Процент правильных ответов за день:{" "}
-            {dayPercentage(statistics.optional.today)}
-          </div>
-          <div>
-            Саванна: серия правильных ответов:{" "}
-            {statistics.optional.today.savanna.streak}
-          </div>
-          <div>
-            Саванна: процент правильных ответов:{" "}
-            {gamePercentage(statistics.optional.today, GamesNames.Savanna)}
-          </div>
-          <div>
-            Спринт: серия правильных ответов:{" "}
-            {statistics.optional.today.sprint.streak}
-          </div>
-          <div>
-            Спринт: процент правильных ответов:{" "}
-            {gamePercentage(statistics.optional.today, GamesNames.Sprint)}
-          </div>
-          <div>
-            Аудиовызов: серия правильных ответов:{" "}
-            {statistics.optional.today.audioCall.streak}
-          </div>
-          <div>
-            Аудиовызов: процент правильных ответов:{" "}
-            {gamePercentage(statistics.optional.today, GamesNames.AudioCall)}
-          </div>
-          <div>
-            Угадай слово: серия правильных ответов:{" "}
-            {statistics.optional.today.knowWords.streak}
-          </div>
-          <div>
-            Угадай слово: процент правильных ответов:{" "}
-            {gamePercentage(statistics.optional.today, GamesNames.KnowWords)}
-          </div>
+          <Paper>
+            <List dense>
+              <ListItem>
+                <Box mt={1}>
+                  <Typography variant="body1">{`Общее количество изучаемых слов: ${statistics.learnedWords}`}</Typography>
+                </Box>
+              </ListItem>
+              <ListItem>
+                <Box mt={1}>
+                  <Typography variant="body1">{`Сегодня изучалось слов: ${statistics.optional.today.dayLearns}`}</Typography>
+                </Box>
+              </ListItem>
+              <ListItem>
+                <Box mt={1}>
+                  <Typography variant="body1">{`Сегодня изучено слов: ${statistics.optional.today.learnedWordsToday}`}</Typography>
+                </Box>
+              </ListItem>
+              <ListItem>
+                <Box mt={1}>
+                  <Typography variant="body1">{`Процент правильных ответов за день: ${dayPercentage(
+                    statistics.optional.today
+                  )}`}</Typography>
+                </Box>
+              </ListItem>
+              <ListItem>
+                <Box mt={1}>
+                  <Typography variant="body1">{`Саванна: серия правильных ответов: ${statistics.optional.today.savanna.streak}`}</Typography>
+                </Box>
+              </ListItem>
+              <ListItem>
+                <Box mt={1}>
+                  <Typography variant="body1">{`Саванна: процент правильных ответов: ${gamePercentage(
+                    statistics.optional.today,
+                    GamesNames.Savanna
+                  )}`}</Typography>
+                </Box>
+              </ListItem>
+              <ListItem>
+                <Box mt={1}>
+                  <Typography variant="body1">{`Спринт: серия правильных ответов: ${statistics.optional.today.sprint.streak}`}</Typography>
+                </Box>
+              </ListItem>
+              <ListItem>
+                <Box mt={1}>
+                  <Typography variant="body1">{`Спринт: процент правильных ответов: ${gamePercentage(
+                    statistics.optional.today,
+                    GamesNames.Sprint
+                  )}`}</Typography>
+                </Box>
+              </ListItem>
+              <ListItem>
+                <Box mt={1}>
+                  <Typography variant="body1">{`Аудиовызов: серия правильных ответов: ${statistics.optional.today.audioCall.streak}`}</Typography>
+                </Box>
+              </ListItem>
+              <ListItem>
+                <Box mt={1}>
+                  <Typography variant="body1">{`Аудиовызов: процент правильных ответов: ${gamePercentage(
+                    statistics.optional.today,
+                    GamesNames.AudioCall
+                  )}`}</Typography>
+                </Box>
+              </ListItem>
+              <ListItem>
+                <Box mt={1}>
+                  <Typography variant="body1">{`Угадай слово: серия правильных ответов: ${statistics.optional.today.knowWords.streak}`}</Typography>
+                </Box>
+              </ListItem>
+              <ListItem>
+                <Box mt={1}>
+                  <Typography variant="body1">{`Угадай слово: процент правильных ответов: ${gamePercentage(
+                    statistics.optional.today,
+                    GamesNames.KnowWords
+                  )}`}</Typography>
+                </Box>
+              </ListItem>
+            </List>
+          </Paper>
+
           {statistics.optional.allTime.length ? (
             <>
               <BarChart
@@ -159,7 +196,7 @@ const LearningStatistics: React.FunctionComponent = () => {
           )}
         </>
       )}
-    </div>
+    </Box>
   );
 };
 
