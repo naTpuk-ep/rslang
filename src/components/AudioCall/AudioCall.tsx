@@ -25,7 +25,7 @@ const AudioCall: React.FunctionComponent<IAudioCallParams> = ({
   const [word, setWord] = useState("");
   const [isAnswer, setIsAnswer] = useState(false);
   const [isFinish, setIsFinish] = useState(false);
-  const { updateWordInGame /* updateGameStatistics */ } = useUpdateStatistic();
+  const { updateWordInGame } = useUpdateStatistic();
   const { isAuthenticated } = useTypedSelector((state) => state.auth);
 
   const correctWordsArray = useRef<IUserWordData[]>([]);
@@ -71,24 +71,6 @@ const AudioCall: React.FunctionComponent<IAudioCallParams> = ({
       setWordsTranslations(arrayTranslations);
     }
   }, [words, currentIndex, wordTranslate]);
-
-  // const finishGame = () => {
-  //   // setIsFinish(true);
-  //   // Окончание игры вызов модалки maxChainLength - цепочка максимальная,
-  //   // correctWordsArray - верные слова, wrongWordsArray - неверные слова
-  //   /* console.log("Finish Game");
-  //   if(isFinish) {
-  //     // end game
-  //   }
-  //   updateGameStatistics(GameNames.AudioCall, {
-  //     streak: 5,
-  //     wrong: 5,
-  //     correct: 5,
-  //   });
-  //   console.log(maxChainLength);
-  //   console.log(correctWordsArray);
-  //   console.log(wrongWordsArray); */
-  // };
 
   const nextWord = () => {
     setIsAnswer(false);
