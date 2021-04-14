@@ -55,7 +55,7 @@ const gamesData = [
     link: { pathname: SPRINT, state: { from: Locations.Menu } },
   },
   {
-    text: "Своя игра",
+    text: "Угадай слово",
     link: { pathname: OWN_GAME, state: { from: Locations.Menu } },
   },
 ];
