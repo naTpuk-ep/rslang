@@ -19,12 +19,12 @@ import {
 } from "@material-ui/icons";
 import "./Main.scss";
 import { Link } from "react-router-dom";
-import useAuthentication from "../../hooks/useAuthentication";
 import { SIGN_IN } from "../../constants/routes";
 import team from "../../constants/team";
+import useTypedSelector from "../../hooks/useTypeSelector";
 
 const Main: React.FunctionComponent = () => {
-  const { isAuthenticated, loading } = useAuthentication();
+  const { isAuthenticated, loading } = useTypedSelector((state) => state.auth);
 
   return (
     <main className="main-page">
