@@ -1,6 +1,5 @@
 .abilities {
   &__container {
-    height: 300px;
     display: flex;
     flex-direction: column;
   }
@@ -29,12 +28,18 @@
   }
 }
 
+.ability-item {
+  margin-bottom: 10px !important;
+}
+
 .main-page {
   text-align: center;
   &__title {
     color: white;
-    text-shadow: -20px 0px 20px #000000, 0px -20px 20px #000000,
-      20px 0px 20px #000000, 0px 20px 20px #000000;
+    text-shadow: -5px 0px 5px #00000087, 0px -5px 5px #00000087,
+      5px 0px 5px #00000087, 0px 5px 5px #00000087;
+    margin-bottom: 5px;
+
   }
   & h4 {
     margin: 20px 0 0 !important;

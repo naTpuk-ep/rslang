@@ -66,7 +66,7 @@ const Main: React.FunctionComponent = () => {
           alignItems="center"
         >
           <Grid item>
-            <Card raised>
+            <Card className="ability-item" raised>
               <CardContent className="ability-content">
                 <LibraryBooksTwoTone
                   fontSize="large"
@@ -79,7 +79,7 @@ const Main: React.FunctionComponent = () => {
             </Card>
           </Grid>
           <Grid item>
-            <Card raised>
+            <Card className="ability-item" raised>
               <CardContent className="ability-content">
                 <VideogameAssetTwoTone
                   fontSize="large"
@@ -93,7 +93,7 @@ const Main: React.FunctionComponent = () => {
           </Grid>
           <Grid item>
             {" "}
-            <Card raised>
+            <Card className="ability-item" raised>
               <CardContent className="ability-content">
                 <CollectionsBookmarkTwoTone
                   fontSize="large"
@@ -106,7 +106,7 @@ const Main: React.FunctionComponent = () => {
             </Card>
           </Grid>
           <Grid item>
-            <Card raised>
+            <Card className="ability-item" raised>
               <CardContent className="ability-content">
                 <EqualizerTwoTone
                   fontSize="large"
