@@ -107,7 +107,8 @@ const userWordsReducer = (
       return {
         ...state,
         pages: [],
-        isPagesFetching: true,
+        aggregatedWords: defaultWords,
+        error: null,
         isFetching: action.payload,
       };
     default:

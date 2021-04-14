@@ -1,8 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Howl } from "howler";
 import moment from "moment";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   BACKEND_PATH,
   NO_STATUS,
@@ -19,10 +20,15 @@ const useWordCard = (word: IUserWordData) => {
   const { updateLearnedWords } = useUpdateStatistic();
   const { userId, token } = useTypedSelector((state) => state.auth);
 
+  const [playSound, setPlaySound] = useState(false);
+
   const [audioExample] = useState(
     new Howl({
       src: [`${BACKEND_PATH}${word.audioExample}`],
       volume: 0.5,
+      onend: () => {
+        setPlaySound(false);
+      },
     })
   );
   const [audioMeaning] = useState(
@@ -43,6 +49,31 @@ const useWordCard = (word: IUserWordData) => {
       },
     })
   );
+
+  useEffect(() => {
+    if (!playSound) {
+      wordAudio.stop();
+      audioMeaning.stop();
+      audioExample.stop();
+    } else if (
+      !wordAudio.playing() &&
+      !audioMeaning.playing() &&
+      !audioExample.playing()
+    )
+      wordAudio.play();
+  }, [playSound]);
+
+  useEffect(() => {
+    return () => {
+      audioExample.stop();
+      wordAudio.stop();
+      audioMeaning.stop();
+    };
+  }, []);
+
+  const handelMuteButtonClick = () => {
+    setPlaySound(!playSound);
+  };
 
   const changeHardStatusHandler = () => {
     const isLearn = word.userWord?.isLearn;
@@ -139,10 +170,11 @@ const useWordCard = (word: IUserWordData) => {
   };
 
   return {
-    wordAudio,
+    handelMuteButtonClick,
     changeHardStatusHandler,
     changeDeletedStatusHandler,
     changeNoStatusHandler,
+    playSound,
   };
 };
 
