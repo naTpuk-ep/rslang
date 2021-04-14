@@ -1,6 +1,6 @@
 import React from "react";
 
-import "./score.scss";
+import "./Score.scss";
 
 interface IScoreProps {
   score: number;

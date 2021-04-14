@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from "react";
 
-import "./time.scss";
+import "./Time.scss";
 
 interface ITimeProps {
-  // eslint-disable-next-line
-  finishGame: any;
+  finishGame: () => void;
 }
 
-// eslint-disable-next-line
 const Time: React.FunctionComponent<ITimeProps> = (props: ITimeProps) => {
   const { finishGame } = props;
-  const [sec, setSec] = useState(60);
+  const [sec, setSec] = useState(30);
 
   useEffect(() => {
     const time = setTimeout(() => {

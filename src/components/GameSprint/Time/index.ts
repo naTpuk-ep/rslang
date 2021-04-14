@@ -1,3 +1,3 @@
-import Time from "./time";
+import Time from "./Time";
 
 export default Time;

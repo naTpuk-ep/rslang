@@ -1,3 +1,3 @@
-import GameField from "./game-field";
+import GameField from "./GameField";
 
 export default GameField;

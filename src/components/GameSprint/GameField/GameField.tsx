@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FunctionComponent } from "react";
 
 import Card from "@material-ui/core/Card";
 import {
@@ -14,10 +14,18 @@ import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 
-import "./game-field.scss";
+import "./GameField.scss";
+
+interface IGameFieldProps {
+  currentWord: string;
+  levelBonus: number;
+  currentTranslate: string;
+  onAnswerClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  currentChain: number;
+}
 
 // eslint-disable-next-line
-const GameField = (props: any) => {
+const GameField: FunctionComponent<IGameFieldProps> = (props: IGameFieldProps) => {
   const {
     currentWord,
     levelBonus,
@@ -99,7 +107,6 @@ const GameField = (props: any) => {
       break;
   }
 
-  // eslint-disable-next-line
   return (
     <Card className="game-field">
       <CardContent>

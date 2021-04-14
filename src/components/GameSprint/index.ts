@@ -1,3 +1,3 @@
-import GameSprint from "./game-sprint";
+import GameSprint from "./GameSprint";
 
 export default GameSprint;
