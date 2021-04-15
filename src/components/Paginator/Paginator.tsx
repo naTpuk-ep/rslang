@@ -24,9 +24,9 @@ const Paginator: React.FunctionComponent<IPaginatorProps> = (
         <LinearProgress />
       ) : (
         <Pagination
-          variant="outlined"
           shape="rounded"
           size="large"
+          color="secondary"
           page={currentPage}
           count={pageCount}
           renderItem={(item) => (
