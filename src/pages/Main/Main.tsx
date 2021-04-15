@@ -7,8 +7,13 @@ import {
   CardHeader,
   Divider,
   Link as LinkMaterial,
+  ListSubheader,
   Paper,
   Typography,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
 } from "@material-ui/core";
 import React from "react";
 import {
@@ -18,6 +23,7 @@ import {
   CollectionsBookmarkTwoTone,
 } from "@material-ui/icons";
 import "./Main.scss";
+import DoneAllIcon from "@material-ui/icons/DoneAll";
 import { Link } from "react-router-dom";
 import { SIGN_IN } from "../../constants/routes";
 import team from "../../constants/team";
@@ -90,22 +96,44 @@ const Main: React.FunctionComponent = () => {
               <CardHeader
                 avatar={<Avatar src={member.cover} aria-label="recipe" />}
                 title={
-                  <Typography variant="button">
-                    <LinkMaterial href={member.github}>
-                      {member.name}
-                    </LinkMaterial>
-                  </Typography>
+                  <>
+                    <Typography>
+                      <LinkMaterial href={member.github}>
+                        {member.name}
+                      </LinkMaterial>
+                    </Typography>
+                  </>
+                }
+                subheader={
+                  <>
+                    <Typography variant="inherit">{member.role}</Typography>
+                  </>
                 }
               />
               <Divider />
               <CardContent>
-                {member.desc.map((item) => {
-                  return (
-                    <Box mt={1}>
-                      <Typography variant="body1">{item}</Typography>
-                    </Box>
-                  );
-                })}
+                {" "}
+                <List
+                  dense={false}
+                  component="nav"
+                  aria-labelledby="nested-list-subheader"
+                  subheader={
+                    <ListSubheader component="div" id="nested-list-subheader">
+                      Вклад в проект:
+                    </ListSubheader>
+                  }
+                >
+                  {member.desc.map((item) => {
+                    return (
+                      <ListItem>
+                        <ListItemIcon>
+                          <DoneAllIcon />
+                        </ListItemIcon>
+                        <ListItemText primary={item} />
+                      </ListItem>
+                    );
+                  })}
+                </List>
               </CardContent>
             </Card>
           );
