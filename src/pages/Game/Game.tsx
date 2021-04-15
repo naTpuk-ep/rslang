@@ -13,7 +13,6 @@ import StartDialog from "../../components/StartDialog";
 import useGetWordsForGame from "./useGetWordsForGame";
 import useBackTo from "./useBackTo";
 import { MAIN } from "../../constants/routes";
-import { GET_USER_BOOK_PAGE_FILTER } from "../../constants/request-params";
 import "./Game.scss";
 import OwnGame from "./OwnGame";
 import GameSavannah from "../GameSavannah";
@@ -73,7 +72,7 @@ const Game: React.FunctionComponent<IGameProps> = ({ game }: IGameProps) => {
         fetchAggregatedGameWords(
           selectedGroup as number,
           30,
-          JSON.stringify(GET_USER_BOOK_PAGE_FILTER),
+          JSON.stringify({}),
           userId,
           token
         );

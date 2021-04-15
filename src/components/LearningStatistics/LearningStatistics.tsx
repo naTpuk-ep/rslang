@@ -38,6 +38,7 @@ const LearningStatistics: React.FunctionComponent = () => {
     dayPercentage,
     gamePercentage,
     formatXAxis,
+    formatLabel,
   } = useLearningStatistics();
 
   const { statistics, isFetching } = useTypedSelector(
@@ -229,7 +230,7 @@ const LearningStatistics: React.FunctionComponent = () => {
                         tickFormatter={formatXAxis}
                       />
                       <YAxis />
-                      <Tooltip />
+                      <Tooltip labelFormatter={formatLabel} />
                       <Legend />
                       <Bar
                         dataKey="dayLearns"
@@ -254,7 +255,7 @@ const LearningStatistics: React.FunctionComponent = () => {
                         tickFormatter={formatXAxis}
                       />
                       <YAxis />
-                      <Tooltip />
+                      <Tooltip labelFormatter={formatLabel} />
                       <Legend />
                       <Area
                         type="monotone"
