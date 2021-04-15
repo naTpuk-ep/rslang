@@ -1,12 +1,12 @@
 /* eslint-disable react/no-array-index-key */
-import { Backdrop, Grid, Paper, Typography } from "@material-ui/core";
 import React, { FC, useEffect } from "react";
+import { Backdrop, Box, Divider, Paper, Typography } from "@material-ui/core";
 import ModalCard from "./ModalCard";
-import "./FinishGameModal.scss";
 import IUserWordData from "../../types/user-words-types";
 import useUpdateStatistic from "../../hooks/useUpdateStatistic";
 import { GamesNames } from "../../types/statistics-types";
 import useTypedSelector from "../../hooks/useTypeSelector";
+import "./FinishGameModal.scss";
 
 interface IFinishGameModalProps {
   gameName: GamesNames;
@@ -41,44 +41,42 @@ const FinishGameModal: FC<IFinishGameModalProps> = ({
 
   return (
     <Backdrop open>
-      <Paper elevation={3} className="modal-paper">
-        <div className="modal-content finish-modal-content">
-          <Typography variant="h5">{`Общее колличество слов: ${totalWordCount}`}</Typography>
-          <Typography variant="h5">{`Правильные ответы: ${
-            Number.isNaN(correctAnswersPercent) ? 0 : correctAnswersPercent
-          } %`}</Typography>
-          <Typography variant="h5">{`Самая длинная серия: ${longestSeries}`}</Typography>
-          <Grid className="finish-modal-content__title" container spacing={3}>
-            <Grid item xs={6}>
-              <Typography className="finish-modal-words__correct" variant="h4">
-                Знаю&nbsp;&nbsp;&nbsp;&nbsp;
-                <div className="finish-modal-words__summarize">
-                  {correctWords.length}
-                </div>
-              </Typography>
-            </Grid>
-            <Grid item xs={6}>
-              <Typography className="finish-modal-words__mistake" variant="h4">
-                Не знаю&nbsp;&nbsp;&nbsp;&nbsp;
-                <div className="finish-modal-words__summarize">
-                  {mistakes.length}
-                </div>
-              </Typography>
-            </Grid>
-          </Grid>
-          <Grid container spacing={3} className="finish-modal-words">
-            <Grid className="finish-modal-words__correct" item xs={6}>
-              {correctWords.map((word, i) => (
-                <ModalCard key={i} word={word} />
-              ))}
-            </Grid>
-            <Grid className="finish-modal-words__mistake" item xs={6}>
-              {mistakes.map((word, i) => (
-                <ModalCard key={i} word={word} />
-              ))}
-            </Grid>
-          </Grid>
-        </div>
+      <Paper className="game-modal">
+        <Typography variant="body1">{`Общее колличество слов: ${totalWordCount}`}</Typography>
+        <Divider />
+        <Typography variant="body1">{`Правильные ответы: ${
+          Number.isNaN(correctAnswersPercent) ? 0 : correctAnswersPercent
+        } %`}</Typography>
+        <Divider />
+        <Typography variant="body1">{`Самая длинная серия: ${longestSeries}`}</Typography>
+        <Divider />
+        <Box mt={2} className="game-modal__result">
+          <Box>
+            <Typography
+              variant="h6"
+              className="game-modal__result_title correct"
+            >
+              <span>Верно</span>
+              <span>{correctWords.length}</span>
+            </Typography>
+          </Box>
+          <Box>
+            <Typography variant="h6" className="game-modal__result_title wrong">
+              <span>Не верно</span>
+              <span>{mistakes.length}</span>
+            </Typography>
+          </Box>
+          <Box className="game-modal__result_words">
+            {correctWords.map((word, i) => (
+              <ModalCard key={i} correct word={word} />
+            ))}
+          </Box>
+          <Box className="game-modal__result_words">
+            {mistakes.map((word, i) => (
+              <ModalCard key={i} correct={false} word={word} />
+            ))}
+          </Box>
+        </Box>
       </Paper>
     </Backdrop>
   );
