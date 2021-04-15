@@ -1,4 +1,5 @@
 import * as React from "react";
+import { nanoid } from "nanoid";
 import { Box, Link, Typography } from "@material-ui/core";
 import team from "../../constants/team";
 import "./Footer.scss";
@@ -8,7 +9,7 @@ const Footer: React.FunctionComponent = () => {
     <Box className="footer" p={1} mt={2}>
       {team.map((member) => {
         return (
-          <Box key={member.github} ml={1} mr={1}>
+          <Box ml={1} mr={1} key={nanoid()}>
             <Typography variant="button">
               <Link href={member.github}>{member.name}</Link>
             </Typography>
