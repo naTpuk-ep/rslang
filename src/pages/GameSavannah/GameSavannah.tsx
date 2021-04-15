@@ -15,6 +15,8 @@ import IUserWordData from "../../types/user-words-types";
 import useUpdateStatistic from "../../hooks/useUpdateStatistic";
 import { STATUS_DELETED } from "../../constants/request-params";
 import useTypedSelector from "../../hooks/useTypeSelector";
+import FinishGameModal from "../../components/FinishGameModal/FinishGameModal";
+import { GamesNames } from "../../types/statistics-types";
 
 interface IGameSavannahParams {
   words: IUserWordData[];
@@ -157,7 +159,12 @@ const GameSavannah: React.FunctionComponent<IGameSavannahParams> = (
   return (
     <div className="game-container">
       {isFinished ? (
-        ""
+        <FinishGameModal
+          gameName={GamesNames.Savanna}
+          longestSeries={longestSeries.current}
+          correctWords={correctWords.current}
+          mistakes={mistakes.current}
+        />
       ) : (
         <>
           {isStarted ? (

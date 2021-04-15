@@ -9,32 +9,16 @@ import { Redirect, useHistory } from "react-router-dom";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import GameNames from "../../constants/game-names";
 import Locations from "../../constants/locations";
-import IUserWordData from "../../types/user-words-types";
 import StartDialog from "../../components/StartDialog";
 import useGetWordsForGame from "./useGetWordsForGame";
 import useBackTo from "./useBackTo";
 import { MAIN } from "../../constants/routes";
 import { GET_USER_BOOK_PAGE_FILTER } from "../../constants/request-params";
 import "./Game.scss";
+import OwnGame from "./OwnGame";
 import GameSavannah from "../GameSavannah";
 import AudioCall from "../../components/AudioCall";
 import GameSprint from "../../components/GameSprint";
-
-interface ITemplateGameProps {
-  words: IUserWordData[];
-}
-
-const TemplateGame: React.FunctionComponent<ITemplateGameProps> = ({
-  words,
-}: ITemplateGameProps) => {
-  // eslint-disable-next-line no-console
-  console.log(words);
-  return (
-    <div style={{ width: "100%", height: "100%", background: "white" }}>
-      Game
-    </div>
-  );
-};
 
 interface ILocationState {
   from: Locations;
@@ -178,8 +162,8 @@ const Game: React.FunctionComponent<IGameProps> = ({ game }: IGameProps) => {
               <GameSavannah words={finishWords} />
             )}
             {game === GameNames.AudioCall && <AudioCall words={finishWords} />}
+            {game === GameNames.OwnGame && <OwnGame words={finishWords} />}
             {game === GameNames.Sprint && <GameSprint words={finishWords} />}
-            {game === GameNames.OwnGame && <TemplateGame words={finishWords} />}
           </>
         )}
       </FullScreen>
