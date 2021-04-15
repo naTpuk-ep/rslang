@@ -1,0 +1,23 @@
+.game-sprint {
+  width: 100vw;
+  height: 100vh;
+  min-height: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background: no-repeat center url("../../assets/images/sprint-background.jpg");
+  background-size: cover;
+  margin: 0;
+  padding: 0;
+  border: 1px solid black;
+  position: relative;
+}
+
+.game-sprint-panel {
+  display: flex;
+  justify-content: space-around;
+  width: 50%;
+  max-width: 400px;
+  margin-bottom: 10px;
+}

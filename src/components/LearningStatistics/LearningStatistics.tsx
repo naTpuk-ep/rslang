@@ -1,6 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { Box, List, ListItem, Paper, Typography } from "@material-ui/core";
+import {
+  Box,
+  Divider,
+  LinearProgress,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  ListSubheader,
+  Paper,
+} from "@material-ui/core";
+import { LabelImportantTwoTone } from "@material-ui/icons";
+import { Alert } from "@material-ui/lab";
 import moment from "moment";
 import { nanoid } from "nanoid";
 import React from "react";
@@ -14,10 +26,12 @@ import {
   CartesianGrid,
   Area,
   AreaChart,
+  ResponsiveContainer,
 } from "recharts";
 import useLearningStatistics from "../../hooks/useLearningStatistics";
 import useTypedSelector from "../../hooks/useTypeSelector";
-import { GamesNames } from "../../types/statistics-types";
+import { AllTimeStatistic, GamesNames } from "../../types/statistics-types";
+import "./LearningStatistics.scss";
 
 const LearningStatistics: React.FunctionComponent = () => {
   const {
@@ -30,173 +44,242 @@ const LearningStatistics: React.FunctionComponent = () => {
     (state) => state.statistics
   );
 
+  const dayStatisticsData = [
+    {
+      text: "Общее количество изучаемых слов: ",
+      value: statistics.learnedWords,
+    },
+    {
+      text: "Сегодня изучалось слов: ",
+      value: statistics.optional.today.dayLearns,
+    },
+    {
+      text: "Сегодня изучено слов: ",
+      value: statistics.optional.today.learnedWordsToday,
+    },
+    {
+      text: "Процент правильных ответов за день: ",
+      value: dayPercentage(statistics.optional.today),
+    },
+    {
+      text: "Саванна: серия правильных ответов: ",
+      value: statistics.optional.today.savanna.streak,
+    },
+    {
+      text: "Саванна: процент правильных ответов: ",
+      value: gamePercentage(statistics.optional.today, GamesNames.Savanna),
+    },
+    {
+      text: "Спринт: серия правильных ответов: ",
+      value: statistics.optional.today.sprint.streak,
+    },
+    {
+      text: "Спринт: процент правильных ответов: ",
+      value: gamePercentage(statistics.optional.today, GamesNames.Sprint),
+    },
+    {
+      text: "Аудиовызов: серия правильных ответов: ",
+      value: statistics.optional.today.audioCall.streak,
+    },
+    {
+      text: "Аудиовызов: процент правильных ответов: ",
+      value: gamePercentage(statistics.optional.today, GamesNames.AudioCall),
+    },
+    {
+      text: "Угадай слово: серия правильных ответов: ",
+      value: statistics.optional.today.knowWords.streak,
+    },
+    {
+      text: "Угадай слово: процент правильных ответов: ",
+      value: gamePercentage(statistics.optional.today, GamesNames.KnowWords),
+    },
+  ];
+
+  const getDayStatisticsData = (
+    stat: AllTimeStatistic
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ): { text: string; value: any }[] => {
+    return [
+      {
+        text: "В этот день изучалось слов: ",
+        value: stat.dayLearns,
+      },
+      {
+        text: "В этот день изучено слов: ",
+        value: stat.learnedWordsToday,
+      },
+      {
+        text: "Процент правильных ответов за день: ",
+        value: dayPercentage(stat),
+      },
+      {
+        text: "Саванна: серия правильных ответов: ",
+        value: stat.savanna.streak,
+      },
+      {
+        text: "Саванна: процент правильных ответов: ",
+        value: gamePercentage(stat, GamesNames.Savanna),
+      },
+      {
+        text: "Спринт: серия правильных ответов: ",
+        value: stat.sprint.streak,
+      },
+      {
+        text: "Спринт: процент правильных ответов: ",
+        value: gamePercentage(stat, GamesNames.Sprint),
+      },
+      {
+        text: "Аудиовызов: серия правильных ответов: ",
+        value: stat.audioCall.streak,
+      },
+      {
+        text: "Аудиовызов: процент правильных ответов: ",
+        value: gamePercentage(stat, GamesNames.AudioCall),
+      },
+      {
+        text: "Угадай слово: серия правильных ответов: ",
+        value: stat.knowWords.streak,
+      },
+      {
+        text: "Угадай слово: процент правильных ответов: ",
+        value: gamePercentage(stat, GamesNames.KnowWords),
+      },
+    ];
+  };
+
   return (
-    <Box mt={2}>
+    <>
       {isFetching ? (
-        ""
+        <Box mt={2}>
+          <LinearProgress />
+        </Box>
       ) : (
         <>
-          <Paper>
-            <List dense>
-              <ListItem>
-                <Box mt={1}>
-                  <Typography variant="body1">{`Общее количество изучаемых слов: ${statistics.learnedWords}`}</Typography>
-                </Box>
-              </ListItem>
-              <ListItem>
-                <Box mt={1}>
-                  <Typography variant="body1">{`Сегодня изучалось слов: ${statistics.optional.today.dayLearns}`}</Typography>
-                </Box>
-              </ListItem>
-              <ListItem>
-                <Box mt={1}>
-                  <Typography variant="body1">{`Сегодня изучено слов: ${statistics.optional.today.learnedWordsToday}`}</Typography>
-                </Box>
-              </ListItem>
-              <ListItem>
-                <Box mt={1}>
-                  <Typography variant="body1">{`Процент правильных ответов за день: ${dayPercentage(
-                    statistics.optional.today
-                  )}`}</Typography>
-                </Box>
-              </ListItem>
-              <ListItem>
-                <Box mt={1}>
-                  <Typography variant="body1">{`Саванна: серия правильных ответов: ${statistics.optional.today.savanna.streak}`}</Typography>
-                </Box>
-              </ListItem>
-              <ListItem>
-                <Box mt={1}>
-                  <Typography variant="body1">{`Саванна: процент правильных ответов: ${gamePercentage(
-                    statistics.optional.today,
-                    GamesNames.Savanna
-                  )}`}</Typography>
-                </Box>
-              </ListItem>
-              <ListItem>
-                <Box mt={1}>
-                  <Typography variant="body1">{`Спринт: серия правильных ответов: ${statistics.optional.today.sprint.streak}`}</Typography>
-                </Box>
-              </ListItem>
-              <ListItem>
-                <Box mt={1}>
-                  <Typography variant="body1">{`Спринт: процент правильных ответов: ${gamePercentage(
-                    statistics.optional.today,
-                    GamesNames.Sprint
-                  )}`}</Typography>
-                </Box>
-              </ListItem>
-              <ListItem>
-                <Box mt={1}>
-                  <Typography variant="body1">{`Аудиовызов: серия правильных ответов: ${statistics.optional.today.audioCall.streak}`}</Typography>
-                </Box>
-              </ListItem>
-              <ListItem>
-                <Box mt={1}>
-                  <Typography variant="body1">{`Аудиовызов: процент правильных ответов: ${gamePercentage(
-                    statistics.optional.today,
-                    GamesNames.AudioCall
-                  )}`}</Typography>
-                </Box>
-              </ListItem>
-              <ListItem>
-                <Box mt={1}>
-                  <Typography variant="body1">{`Угадай слово: серия правильных ответов: ${statistics.optional.today.knowWords.streak}`}</Typography>
-                </Box>
-              </ListItem>
-              <ListItem>
-                <Box mt={1}>
-                  <Typography variant="body1">{`Угадай слово: процент правильных ответов: ${gamePercentage(
-                    statistics.optional.today,
-                    GamesNames.KnowWords
-                  )}`}</Typography>
-                </Box>
-              </ListItem>
-            </List>
-          </Paper>
+          <Box className="wrapper-statistics" mt={2}>
+            <Paper className="learning-statistics">
+              <List>
+                {dayStatisticsData.map((stat) => {
+                  return (
+                    <ListItem
+                      key={nanoid()}
+                      className="learning-statistics__day-statistics-item"
+                    >
+                      <ListItemIcon>
+                        <LabelImportantTwoTone />
+                      </ListItemIcon>
+                      <ListItemText primary={stat.text} />
+                      <Divider orientation="vertical" />
+                      <ListItemText primary={stat.value} />
+                    </ListItem>
+                  );
+                })}
+              </List>
+            </Paper>
+            {statistics.optional.allTime.length ? (
+              <Paper className="learning-statistics">
+                <List
+                  className="learning-statistics__on-day"
+                  subheader={<li />}
+                >
+                  {statistics.optional.allTime.map((s) => (
+                    <li
+                      key={nanoid()}
+                      className="learning-statistics__on-day_list-section"
+                    >
+                      <ul>
+                        <ListSubheader>
+                          {moment(s.date).format("YYYY-MM-DD")}
+                        </ListSubheader>
+                        {getDayStatisticsData(s).map((item) => (
+                          <ListItem
+                            key={nanoid()}
+                            className="learning-statistics__day-statistics-item"
+                          >
+                            <ListItemIcon>
+                              <LabelImportantTwoTone />
+                            </ListItemIcon>
+                            <ListItemText primary={item.text} />
+                            <Divider orientation="vertical" />
+                            <ListItemText primary={item.value} />
+                          </ListItem>
+                        ))}
+                      </ul>
+                    </li>
+                  ))}
+                </List>
+              </Paper>
+            ) : (
+              <Box mt={2}>
+                <Alert severity="warning">
+                  Данные за период обучения на данный момент отсутствуют!
+                </Alert>
+              </Box>
+            )}
+          </Box>
 
           {statistics.optional.allTime.length ? (
             <>
-              <BarChart
-                width={730}
-                height={250}
-                data={statistics.optional.allTime}
-              >
-                <XAxis dataKey="date" name="Дата" tickFormatter={formatXAxis} />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Bar dataKey="dayLearns" name="Изучено слов" fill="#8884d8" />
-              </BarChart>
-              <AreaChart
-                width={730}
-                height={250}
-                data={statistics.optional.allTime}
-                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-              >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="date" name="Дата" tickFormatter={formatXAxis} />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Area
-                  type="monotone"
-                  dataKey="learnedWords"
-                  name="Изучаемые слова"
-                  fill="#8884d8"
-                  stroke="#8884d8"
-                />
-              </AreaChart>
-              Подробная статистика по дням:
-              {statistics.optional.allTime.map((s) => {
-                return (
-                  <div key={nanoid()}>
-                    <div>{moment(s.date).format("YYYY-MM-DD")}:</div>
-                    <div>В этот день изучалось слов: {s.dayLearns}</div>
-                    <div>В этот день изучено слов: {s.learnedWordsToday}</div>
-                    <div>
-                      Процент правильных ответов за день: {dayPercentage(s)}
-                    </div>
-                    <div>
-                      Саванна: серия правильных ответов: {s.savanna.streak}
-                    </div>
-                    <div>
-                      Саванна: процент правильных ответов:{" "}
-                      {gamePercentage(s, GamesNames.Savanna)}
-                    </div>
-                    <div>
-                      Спринт: серия правильных ответов: {s.sprint.streak}
-                    </div>
-                    <div>
-                      Спринт: процент правильных ответов:{" "}
-                      {gamePercentage(s, GamesNames.Sprint)}
-                    </div>
-                    <div>
-                      Аудиовызов: серия правильных ответов: {s.audioCall.streak}
-                    </div>
-                    <div>
-                      Аудиовызов: процент правильных ответов:{" "}
-                      {gamePercentage(s, GamesNames.AudioCall)}
-                    </div>
-                    <div>
-                      Угадай слово: серия правильных ответов:{" "}
-                      {s.knowWords.streak}
-                    </div>
-                    <div>
-                      Угадай слово: процент правильных ответов:{" "}
-                      {gamePercentage(s, GamesNames.KnowWords)}
-                    </div>
-                  </div>
-                );
-              })}
-              ;
+              <Box mt={2}>
+                <Paper className="learning-statistics__chart">
+                  <ResponsiveContainer>
+                    <BarChart data={statistics.optional.allTime}>
+                      <XAxis
+                        dataKey="date"
+                        name="Дата"
+                        tickFormatter={formatXAxis}
+                      />
+                      <YAxis />
+                      <Tooltip />
+                      <Legend />
+                      <Bar
+                        dataKey="dayLearns"
+                        name="Изучено слов"
+                        fill="#8884d8"
+                      />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </Paper>
+              </Box>
+              <Box mt={2}>
+                <Paper className="learning-statistics__chart">
+                  <ResponsiveContainer>
+                    <AreaChart
+                      data={statistics.optional.allTime}
+                      margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                    >
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis
+                        dataKey="date"
+                        name="Дата"
+                        tickFormatter={formatXAxis}
+                      />
+                      <YAxis />
+                      <Tooltip />
+                      <Legend />
+                      <Area
+                        type="monotone"
+                        dataKey="learnedWords"
+                        name="Изучаемые слова"
+                        fill="#8884d8"
+                        stroke="#8884d8"
+                      />
+                    </AreaChart>
+                  </ResponsiveContainer>
+                </Paper>
+              </Box>
+
+              <Box mt={2} />
             </>
           ) : (
-            "Данные за период обучения на данный момент отсутствуют"
+            <Box mt={2}>
+              <Alert severity="warning">
+                Данные за период обучения на данный момент отсутствуют!
+              </Alert>
+            </Box>
           )}
         </>
       )}
-    </Box>
+    </>
   );
 };
 
