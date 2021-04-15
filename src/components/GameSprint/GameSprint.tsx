@@ -18,6 +18,7 @@ import { STATUS_DELETED } from "../../constants/request-params";
 import useUpdateStatistic from "../../hooks/useUpdateStatistic";
 import FinishGameModal from "../FinishGameModal/FinishGameModal";
 import { GamesNames } from "../../types/statistics-types";
+import useKeyDown from "../../hooks/useKeyDown";
 
 interface IGameSprintParams {
   words: IUserWordData[];
@@ -128,6 +129,13 @@ const GameSprint: FunctionComponent<IGameSprintParams> = ({
       finishGame();
     }
   };
+
+  useKeyDown("ArrowLeft", () => {
+    answerClick({ target: { innerHTML: "Неверно" } });
+  });
+  useKeyDown("ArrowRight", () => {
+    answerClick({ target: { innerHTML: "Верно" } });
+  });
 
   return (
     <div className="game-sprint">
