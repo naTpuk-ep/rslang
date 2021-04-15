@@ -14,10 +14,10 @@ import useGetWordsForGame from "./useGetWordsForGame";
 import useBackTo from "./useBackTo";
 import { MAIN } from "../../constants/routes";
 import "./Game.scss";
-import OwnGame from "./OwnGame";
-import GameSavannah from "../GameSavannah";
-import AudioCall from "../../components/AudioCall";
-import GameSprint from "../../components/GameSprint";
+import OwnGame from "../../games/OwnGame";
+import GameSavannah from "../../games/GameSavannah";
+import AudioCall from "../../games/AudioCall";
+import GameSprint from "../../games/GameSprint";
 
 interface ILocationState {
   from: Locations;
