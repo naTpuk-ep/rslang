@@ -89,7 +89,7 @@ const Game: React.FunctionComponent<IGameProps> = ({ game }: IGameProps) => {
         fetchAggregatedGameWords(
           selectedGroup as number,
           30,
-          JSON.stringify(GET_USER_BOOK_PAGE_FILTER),
+          JSON.stringify({}),
           userId,
           token
         );

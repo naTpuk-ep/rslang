@@ -46,10 +46,14 @@ const useLearningStatistics = () => {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const formatXAxis = (tickItem: any) => {
-    return moment(tickItem).format("DD-MM-YYYY");
+    return moment(tickItem).format("YYYY-MM-DD");
   };
 
-  return { gamePercentage, dayPercentage, formatXAxis };
+  const formatLabel = (label: any) => {
+    return moment(label).format("YYYY-MM-DD");
+  };
+
+  return { gamePercentage, dayPercentage, formatXAxis, formatLabel };
 };
 
 export default useLearningStatistics;
