@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -43,8 +44,6 @@ const useLearningStatistics = () => {
     }
     return percent.toFixed(2);
   };
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const formatXAxis = (tickItem: any) => {
     return moment(tickItem).format("YYYY-MM-DD");
   };
