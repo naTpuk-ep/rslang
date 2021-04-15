@@ -2,6 +2,8 @@ import React, { FunctionComponent, useEffect } from "react";
 import VolumeDownIcon from "@material-ui/icons/VolumeDown";
 import useSound from "use-sound";
 import "./AudioBlock.scss";
+import { BACKEND_PATH } from "../../../constants/request-params";
+import useKeyDown from "../../../hooks/useKeyDown";
 
 interface IAudioProps {
   audio: string;
@@ -16,15 +18,18 @@ const AudioBlock: FunctionComponent<IAudioProps> = ({
   isAnswer = false,
   word = "",
 }: IAudioProps) => {
-  const backendPath = "https://rnovikov-rs-lang-back.herokuapp.com/";
-  const [play] = useSound(`${backendPath}${audio}`);
+  const [play] = useSound(`${BACKEND_PATH}${audio}`);
   useEffect(() => {
     play();
   }, [play]);
 
+  useKeyDown("Space", () => {
+    play();
+  });
+
   const imageElement = (
     <img
-      src={`${backendPath}${image}`}
+      src={`${BACKEND_PATH}${image}`}
       className="audio-block-image"
       alt="answer-img"
     />
