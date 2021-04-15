@@ -8,6 +8,8 @@ import {
   Looks4,
   CheckBox,
   CheckBoxOutlineBlank,
+  ArrowBack,
+  ArrowForward,
 } from "@material-ui/icons";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
@@ -15,6 +17,7 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 
 import "./GameField.scss";
+import { Box, Paper } from "@material-ui/core";
 
 interface IGameFieldProps {
   currentWord: string;
@@ -25,7 +28,9 @@ interface IGameFieldProps {
 }
 
 // eslint-disable-next-line
-const GameField: FunctionComponent<IGameFieldProps> = (props: IGameFieldProps) => {
+const GameField: FunctionComponent<IGameFieldProps> = (
+  props: IGameFieldProps
+) => {
   const {
     currentWord,
     levelBonus,
@@ -125,6 +130,11 @@ const GameField: FunctionComponent<IGameFieldProps> = (props: IGameFieldProps) =
         </Typography>
       </CardContent>
       <CardActions className="game-button-container">
+        <Box>
+          <Paper elevation={2}>
+            <ArrowBack />
+          </Paper>
+        </Box>
         <Button
           variant="contained"
           color="secondary"
@@ -139,6 +149,11 @@ const GameField: FunctionComponent<IGameFieldProps> = (props: IGameFieldProps) =
         >
           Верно
         </Button>
+        <Box ml={1}>
+          <Paper elevation={2}>
+            <ArrowForward />
+          </Paper>
+        </Box>
       </CardActions>
     </Card>
   );
