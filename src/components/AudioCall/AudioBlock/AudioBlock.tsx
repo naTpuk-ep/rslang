@@ -23,9 +23,7 @@ const AudioBlock: FunctionComponent<IAudioProps> = ({
     play();
   }, [play]);
 
-  useKeyDown("Space", () => {
-    play();
-  });
+  useKeyDown("Space", play);
 
   const imageElement = (
     <img
