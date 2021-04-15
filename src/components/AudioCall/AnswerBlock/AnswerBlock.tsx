@@ -2,6 +2,8 @@ import React, { FunctionComponent } from "react";
 import Button from "@material-ui/core/Button";
 
 import "./AnswerBlock.scss";
+import { Box } from "@material-ui/core";
+import useKeyDown from "../../../hooks/useKeyDown";
 
 interface IAnswerBlock {
   wordsTranslations: string[];
@@ -19,11 +21,13 @@ const AnswerBlock: FunctionComponent<IAnswerBlock> = (props: IAnswerBlock) => {
     isAnswer,
   } = props;
 
-  const getAnswer = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const getAnswer = (e: React.MouseEvent<HTMLButtonElement> | null = null) => {
     let flag = false;
-    const value = e.currentTarget.innerText.substr(2);
-    if (value === wordTranslate) {
-      flag = true;
+    if (e) {
+      const value = e.currentTarget.innerText.substr(2);
+      if (value === wordTranslate) {
+        flag = true;
+      }
     }
     changeAnswerBlock(flag);
   };
@@ -46,6 +50,20 @@ const AnswerBlock: FunctionComponent<IAnswerBlock> = (props: IAnswerBlock) => {
     );
   });
 
+  const EnterLabel = (
+    <Box p={2} mt={1}>
+      Or press &quot;ENTER&quot;
+    </Box>
+  );
+
+  useKeyDown("Enter", () => {
+    if (isAnswer) {
+      onNextWord();
+    } else {
+      getAnswer();
+    }
+  });
+
   if (isAnswer) {
     return (
       <div className="answer-block">
@@ -58,6 +76,7 @@ const AnswerBlock: FunctionComponent<IAnswerBlock> = (props: IAnswerBlock) => {
         >
           Слудующее
         </Button>
+        {EnterLabel}
       </div>
     );
   }
@@ -68,10 +87,11 @@ const AnswerBlock: FunctionComponent<IAnswerBlock> = (props: IAnswerBlock) => {
         variant="contained"
         color="primary"
         className="answer-block-button"
-        onClick={(e) => getAnswer(e)}
+        onClick={() => getAnswer()}
       >
         Не знаю
       </Button>
+      {EnterLabel}
     </div>
   );
 };

@@ -1,10 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect } from "react";
 
-const useKeyDown = (
-  key: string,
-  callBack: (event: KeyboardEvent) => void
-): void => {
+const useKeyDown = (key: string, callBack: (e: any) => void): void => {
   useEffect(() => {
     const handler = (event: KeyboardEvent) => {
       if (event.code === key) {
