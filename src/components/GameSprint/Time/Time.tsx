@@ -8,7 +8,7 @@ interface ITimeProps {
 
 const Time: React.FunctionComponent<ITimeProps> = (props: ITimeProps) => {
   const { finishGame } = props;
-  const [sec, setSec] = useState(30);
+  const [sec, setSec] = useState(60);
 
   useEffect(() => {
     const time = setTimeout(() => {

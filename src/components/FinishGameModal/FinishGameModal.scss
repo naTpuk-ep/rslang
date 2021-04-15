@@ -1,0 +1,97 @@
+.modal {
+  display: flex;
+}
+
+.modal-words {
+  overflow-y: scroll;
+}
+
+.finish-modal-content {
+  padding: 20px 0;
+  &__title {
+    margin-top: 5px !important;
+    margin-bottom: 5px !important;
+  }
+}
+
+.finish-modal-words {
+  overflow-y: overlay;
+  max-height: 30vh;
+  margin: 0 !important;
+  width: 100% !important;
+  &__correct > * {
+    background-color: #01f60052 !important;
+  }
+  &__mistake > * {
+    background-color: #f6000052 !important;
+  }
+  &__summarize {
+    display: inline-flex;
+    width: 50px;
+    height: 50px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+  }
+  & h5 {
+    text-align: left;
+    text-transform: capitalize;
+    & span {
+      color: #818181;
+      text-transform: none;
+    }
+  }
+}
+
+.finish-modal-card {
+  &__content {
+    display: flex;
+    align-items: center;
+    padding: 0 !important;
+  }
+  margin: 10px 0;
+}
+
+.modal-paper {
+  height: fit-content;
+  padding: 20px;
+  margin: auto;
+  width: 640px;
+  outline: none;
+}
+
+@media (max-width: 896px) {
+  .finish-modal-words {
+    height: 150px !important;
+    &__summarize {
+      width: 30px !important;
+      height: 30px !important;
+    }
+    & .MuiGrid-item {
+      padding: 5px !important;
+    }
+  }
+
+  .finish-modal-content {
+    & h4 {
+      font-size: 20px !important;
+      display: flex !important;
+    }
+    & h5 {
+      font-size: 20px !important;
+    }
+    & button {
+      padding: 5px !important;
+    }
+  }
+
+  .finish-modal-card__content {
+    & h5 {
+      font-size: 15px !important;
+    }
+  }
+
+  .modal-paper {
+    padding: 0;
+  }
+}
