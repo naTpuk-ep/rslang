@@ -48,6 +48,13 @@ exports[`should render Score component should render Score component 1`] = `
   <WithStyles(ForwardRef(CardActions))
     className="game-button-container"
   >
+    <Styled(MuiBox)>
+      <WithStyles(ForwardRef(Paper))
+        elevation={2}
+      >
+        <Memo(ForwardRef(ArrowBackIcon)) />
+      </WithStyles(ForwardRef(Paper))>
+    </Styled(MuiBox)>
     <WithStyles(ForwardRef(Button))
       color="secondary"
       onClick={[Function]}
@@ -62,6 +69,15 @@ exports[`should render Score component should render Score component 1`] = `
     >
       Верно
     </WithStyles(ForwardRef(Button))>
+    <Styled(MuiBox)
+      ml={1}
+    >
+      <WithStyles(ForwardRef(Paper))
+        elevation={2}
+      >
+        <Memo(ForwardRef(ArrowForwardIcon)) />
+      </WithStyles(ForwardRef(Paper))>
+    </Styled(MuiBox)>
   </WithStyles(ForwardRef(CardActions))>
 </WithStyles(ForwardRef(Card))>
 `;

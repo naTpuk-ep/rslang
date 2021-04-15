@@ -7,7 +7,7 @@ exports[`should render Score component should render Time component 1`] = `
   <h1
     className="time-value"
   >
-    30
+    60
   </h1>
 </div>
 `;
