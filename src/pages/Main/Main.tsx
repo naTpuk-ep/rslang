@@ -25,6 +25,7 @@ import {
 import "./Main.scss";
 import DoneAllIcon from "@material-ui/icons/DoneAll";
 import { Link } from "react-router-dom";
+import { nanoid } from "nanoid";
 import { SIGN_IN } from "../../constants/routes";
 import team from "../../constants/team";
 import useTypedSelector from "../../hooks/useTypeSelector";
@@ -92,7 +93,7 @@ const Main: React.FunctionComponent = () => {
       <Box className="main-page__team-cards" mt={4}>
         {team.map((member) => {
           return (
-            <Card key={member.name} className="main-page__team-cards_card">
+            <Card key={nanoid()} className="main-page__team-cards_card">
               <CardHeader
                 avatar={<Avatar src={member.cover} aria-label="recipe" />}
                 title={
@@ -125,7 +126,7 @@ const Main: React.FunctionComponent = () => {
                 >
                   {member.desc.map((item) => {
                     return (
-                      <ListItem>
+                      <ListItem key={nanoid()}>
                         <ListItemIcon>
                           <DoneAllIcon />
                         </ListItemIcon>
