@@ -15,7 +15,7 @@ import useBackTo from "./useBackTo";
 import { MAIN } from "../../constants/routes";
 import { GET_USER_BOOK_PAGE_FILTER } from "../../constants/request-params";
 import "./Game.scss";
-import OwnGame from "../../games/OwnGame";
+import OwnGame from "./OwnGame";
 import GameSavannah from "../GameSavannah";
 import AudioCall from "../../components/AudioCall";
 import GameSprint from "../../components/GameSprint";
