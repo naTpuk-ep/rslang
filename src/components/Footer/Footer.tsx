@@ -8,7 +8,7 @@ const Footer: React.FunctionComponent = () => {
     <Box className="footer" p={1} mt={2}>
       {team.map((member) => {
         return (
-          <Box ml={1} mr={1}>
+          <Box key={member.github} ml={1} mr={1}>
             <Typography variant="button">
               <Link href={member.github}>{member.name}</Link>
             </Typography>
