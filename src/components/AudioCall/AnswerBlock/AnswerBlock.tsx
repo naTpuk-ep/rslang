@@ -2,6 +2,7 @@ import React, { FunctionComponent } from "react";
 import Button from "@material-ui/core/Button";
 
 import "./AnswerBlock.scss";
+import { Box } from "@material-ui/core";
 import useKeyDown from "../../../hooks/useKeyDown";
 
 interface IAnswerBlock {
@@ -49,6 +50,12 @@ const AnswerBlock: FunctionComponent<IAnswerBlock> = (props: IAnswerBlock) => {
     );
   });
 
+  const EnterLabel = (
+    <Box p={2} mt={1}>
+      Or press &quot;ENTER&quot;
+    </Box>
+  );
+
   useKeyDown("Enter", () => {
     if (isAnswer) {
       onNextWord();
@@ -69,6 +76,7 @@ const AnswerBlock: FunctionComponent<IAnswerBlock> = (props: IAnswerBlock) => {
         >
           Слудующее
         </Button>
+        {EnterLabel}
       </div>
     );
   }
@@ -83,6 +91,7 @@ const AnswerBlock: FunctionComponent<IAnswerBlock> = (props: IAnswerBlock) => {
       >
         Не знаю
       </Button>
+      {EnterLabel}
     </div>
   );
 };
