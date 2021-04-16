@@ -1,6 +1,5 @@
+import { Typography } from "@material-ui/core";
 import React from "react";
-
-import "./Score.scss";
 
 interface IScoreProps {
   score: number;
@@ -8,7 +7,11 @@ interface IScoreProps {
 
 const Score: React.FunctionComponent<IScoreProps> = (props: IScoreProps) => {
   const { score } = props;
-  return <h1 className="game-sprint-score">{`Счёт: ${score}`}</h1>;
+  return (
+    <Typography variant="h5" className="game-sprint-score">
+      {`Счёт: ${score}`}
+    </Typography>
+  );
 };
 
 export default Score;

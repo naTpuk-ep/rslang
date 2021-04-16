@@ -1,23 +1,16 @@
 import React, { FunctionComponent } from "react";
-
-import Card from "@material-ui/core/Card";
 import {
-  LooksOne,
-  LooksTwo,
-  Looks3,
-  Looks4,
-  CheckBox,
-  CheckBoxOutlineBlank,
-  ArrowBack,
-  ArrowForward,
+  LooksOneTwoTone as LooksOne,
+  LooksTwoTwoTone as LooksTwo,
+  Looks3TwoTone as Looks3,
+  Looks4TwoTone as Looks4,
+  CheckBoxTwoTone as CheckBox,
+  CheckBoxOutlineBlankTwoTone as CheckBoxOutlineBlank,
 } from "@material-ui/icons";
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-
 import "./GameField.scss";
-import { Box, Paper } from "@material-ui/core";
+import { Box, Divider, Paper } from "@material-ui/core";
 
 interface IGameFieldProps {
   currentWord: string;
@@ -42,31 +35,31 @@ const GameField: FunctionComponent<IGameFieldProps> = (
   let chain;
   switch (levelBonus) {
     case 1:
-      level = <LooksOne />;
+      level = <LooksOne fontSize="large" />;
       break;
     case 2:
-      level = <LooksTwo />;
+      level = <LooksTwo fontSize="large" />;
       break;
     case 3:
-      level = <Looks3 />;
+      level = <Looks3 fontSize="large" />;
       break;
     case 4:
-      level = <Looks4 />;
+      level = <Looks4 fontSize="large" />;
       break;
     default:
-      level = <LooksOne />;
+      level = <LooksOne fontSize="large" />;
       break;
   }
 
   const emptyCheckBox = (
     <span>
-      <CheckBoxOutlineBlank />
+      <CheckBoxOutlineBlank fontSize="large" />
     </span>
   );
 
   const checkBox = (
     <span>
-      <CheckBox />
+      <CheckBox fontSize="large" />
     </span>
   );
 
@@ -113,49 +106,49 @@ const GameField: FunctionComponent<IGameFieldProps> = (
   }
 
   return (
-    <Card className="game-field">
-      <CardContent>
-        <div className="game-status">
-          {levelBonus === 4 ? checkBox : chain}
-          <p>{`+ ${2 ** (levelBonus - 1) * 10} очков за слово`}</p>
-        </div>
-        <Typography gutterBottom variant="h5" component="h2">
-          {level}
-        </Typography>
-        <Typography gutterBottom variant="h5" component="h2">
-          {currentWord}
-        </Typography>
-        <Typography gutterBottom variant="h5" component="h2">
-          {currentTranslate}
-        </Typography>
-      </CardContent>
-      <CardActions className="game-button-container">
-        <Box>
-          <Paper elevation={2}>
-            <ArrowBack />
-          </Paper>
+    <Box mt={2}>
+      <Paper elevation={3} className="game-field">
+        <Box mt={1} mb={1}>
+          <div className="game-status">
+            {levelBonus === 4 ? checkBox : chain}
+            <Typography variant="body2" component="p">{`+ ${
+              2 ** (levelBonus - 1) * 10
+            } очков за слово`}</Typography>
+          </div>
+          <Typography variant="h5" component="p">
+            {level}
+          </Typography>
         </Box>
-        <Button
-          variant="contained"
-          color="secondary"
-          onClick={(e) => onAnswerClick(e)}
-        >
-          Неверно
-        </Button>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={(e) => onAnswerClick(e)}
-        >
-          Верно
-        </Button>
-        <Box ml={1}>
-          <Paper elevation={2}>
-            <ArrowForward />
-          </Paper>
+        <Divider />
+        <Box mt={1} mb={1}>
+          <Typography variant="h5" component="p">
+            {currentWord}
+          </Typography>
+          <Typography variant="h5" component="p">
+            {currentTranslate}
+          </Typography>
         </Box>
-      </CardActions>
-    </Card>
+        <Divider />
+        <Box className="game-button-container">
+          <Button
+            size="large"
+            variant="contained"
+            color="secondary"
+            onClick={(e) => onAnswerClick(e)}
+          >
+            Неверно
+          </Button>
+          <Button
+            size="large"
+            variant="contained"
+            color="primary"
+            onClick={(e) => onAnswerClick(e)}
+          >
+            Верно
+          </Button>
+        </Box>
+      </Paper>
+    </Box>
   );
 };
 
