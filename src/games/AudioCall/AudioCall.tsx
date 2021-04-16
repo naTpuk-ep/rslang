@@ -7,7 +7,7 @@ import useTypedSelector from "../../hooks/useTypeSelector";
 
 import "./AudioCall.scss";
 import { STATUS_DELETED } from "../../constants/request-params";
-import FinishGameModal from "../../components/FinishGameModal/FinishGameModal";
+import FinishGameModal from "../../components/FinishGameModal";
 import { GamesNames } from "../../types/statistics-types";
 
 interface IAudioCallParams {

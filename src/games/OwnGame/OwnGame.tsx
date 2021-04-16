@@ -13,7 +13,7 @@ import React, {
   useState,
 } from "react";
 import useSound from "use-sound";
-import FinishGameModal from "../../components/FinishGameModal/FinishGameModal";
+import FinishGameModal from "../../components/FinishGameModal";
 import { STATUS_DELETED } from "../../constants/request-params";
 import useKeyDown from "../../hooks/useKeyDown";
 import useTypedSelector from "../../hooks/useTypeSelector";

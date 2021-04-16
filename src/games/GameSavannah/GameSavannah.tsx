@@ -22,7 +22,7 @@ import IUserWordData from "../../types/user-words-types";
 import useUpdateStatistic from "../../hooks/useUpdateStatistic";
 import { STATUS_DELETED } from "../../constants/request-params";
 import useTypedSelector from "../../hooks/useTypeSelector";
-import FinishGameModal from "../../components/FinishGameModal/FinishGameModal";
+import FinishGameModal from "../../components/FinishGameModal";
 import { GamesNames } from "../../types/statistics-types";
 
 interface IGameSavannahParams {

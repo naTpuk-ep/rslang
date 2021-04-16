@@ -7,15 +7,14 @@ import "./Score.scss";
 
 const Score: FC = () => {
   const { score } = useTypedSelector((state) => state.score);
-  const { loading } = useTypedSelector((state) => state.auth);
-  const scorePerLevel = useMemo(() => 300, []);
-
+  const { loading, isAuthenticated } = useTypedSelector((state) => state.auth);
+  const scorePerLevel = useMemo(() => 500, []);
   const scoreData = {
     levelPercent: ((score % scorePerLevel) * 100) / scorePerLevel,
     level: Math.floor(score / scorePerLevel),
   };
 
-  return (
+  return isAuthenticated ? (
     <div className="level">
       {loading ? (
         <LinearProgress color="secondary" />
@@ -34,7 +33,7 @@ const Score: FC = () => {
         </>
       )}
     </div>
-  );
+  ) : null;
 };
 
 export default Score;
