@@ -1,8 +1,10 @@
+/* eslint-disable react/jsx-curly-brace-presence */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable no-nested-ternary */
-import { Button, Typography } from "@material-ui/core";
+import { Box, Button, Typography } from "@material-ui/core";
 import { Check, Close } from "@material-ui/icons";
+import { Alert } from "@material-ui/lab";
 import React, {
   ChangeEvent,
   FC,
@@ -237,11 +239,13 @@ const OwnGame: FC<IOwnGameProps> = (props: IOwnGameProps) => {
                 type="button"
                 onClick={skipHandler}
               >
-                Skip
+                Пропустить
               </Button>
-              <Typography variant="h6" component="h6">
-                &nbsp;&nbsp;&nbsp; or press &quot;space&quot;
-              </Typography>
+              <Box ml={2}>
+                <Alert variant="filled" severity="info">
+                  {`Или нажмите "ПРОБЕЛ"`}
+                </Alert>
+              </Box>
             </div>
           </div>
           <div className="own-game__words">

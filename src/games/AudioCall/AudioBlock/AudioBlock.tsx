@@ -1,8 +1,10 @@
+/* eslint-disable react/jsx-curly-brace-presence */
 import React, { FunctionComponent, useEffect } from "react";
 import VolumeDownIcon from "@material-ui/icons/VolumeDown";
 import useSound from "use-sound";
 import "./AudioBlock.scss";
-import { Box } from "@material-ui/core";
+import { Avatar, Box, Fab, Typography } from "@material-ui/core";
+import { Alert } from "@material-ui/lab";
 import { BACKEND_PATH } from "../../../constants/request-params";
 import useKeyDown from "../../../hooks/useKeyDown";
 
@@ -27,16 +29,19 @@ const AudioBlock: FunctionComponent<IAudioProps> = ({
   useKeyDown("Space", play);
 
   const imageElement = (
-    <img
-      src={`${BACKEND_PATH}${image}`}
+    <Avatar
+      alt="answer-image"
       className="audio-block-image"
-      alt="answer-img"
+      src={`${BACKEND_PATH}${image}`}
     />
   );
 
   const SpaceLabel = (
-    <Box p={2} mt={1}>
-      Press &quot;SPACE&quot; to play the word
+    <Box mt={2}>
+      <Alert
+        variant="filled"
+        severity="info"
+      >{`Нажмите "ПРОБЕЛ", чтобы воспроизвести слово`}</Alert>
     </Box>
   );
 
@@ -44,25 +49,27 @@ const AudioBlock: FunctionComponent<IAudioProps> = ({
     return (
       <>
         {imageElement}
-        <div className="audio-block-container">
-          <button
-            type="button"
+        <Box mt={2} className="audio-block-container">
+          <Fab
+            color="secondary"
             className="audio-block-answer"
             onClick={() => play()}
           >
             <VolumeDownIcon className="audio-block-icon" />
-          </button>
-          <span className="audio-block-word">{word}</span>
-        </div>
+          </Fab>
+          <Typography variant="h5" className="audio-block-word">
+            {word}
+          </Typography>
+        </Box>
         {SpaceLabel}
       </>
     );
   }
   return (
     <>
-      <button type="button" className="audio-block" onClick={() => play()}>
+      <Fab color="secondary" className="audio-block" onClick={() => play()}>
         <VolumeDownIcon className="audio-block-icon" />
-      </button>
+      </Fab>
       {SpaceLabel}
     </>
   );

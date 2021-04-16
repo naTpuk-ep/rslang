@@ -108,7 +108,7 @@ const AudioCall: React.FunctionComponent<IAudioCallParams> = ({
   };
 
   return (
-    <div className="audio-call">
+    <>
       {isFinish ? (
         <FinishGameModal
           gamingScore={
@@ -120,7 +120,7 @@ const AudioCall: React.FunctionComponent<IAudioCallParams> = ({
           mistakes={wrongWordsArray.current}
         />
       ) : (
-        <>
+        <div className="audio-call">
           <AudioBlock
             audio={audio}
             image={image}
@@ -134,9 +134,9 @@ const AudioCall: React.FunctionComponent<IAudioCallParams> = ({
             onNextWord={() => nextWord()}
             isAnswer={isAnswer}
           />
-        </>
+        </div>
       )}
-    </div>
+    </>
   );
 };
 

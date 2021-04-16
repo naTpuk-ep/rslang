@@ -1,9 +1,11 @@
 import React, { FC, useMemo } from "react";
-import { Progress } from "react-sweet-progress";
 import { Box, LinearProgress } from "@material-ui/core";
 import useTypedSelector from "../../hooks/useTypeSelector";
 import "react-sweet-progress/lib/style.css";
 import "./Score.scss";
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { Progress } = require("react-sweet-progress");
 
 const Score: FC = () => {
   const { score } = useTypedSelector((state) => state.score);

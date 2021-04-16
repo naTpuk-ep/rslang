@@ -1,17 +1,22 @@
 .game-status {
-  width: 100%;
-  border-bottom: 1px solid black;
+  width: 100%;  
 }
 
 .game-button-container {
+  margin-top: 1rem;
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 4px !important;
+  justify-content: center;  
+
+  & button {
+    margin: 0 1rem;
+    width: 8rem;
+    font-weight: bold;
+  }
 }
 
 .game-field{
-  width: 55%;
-  max-width: 400px;
+  padding: 1rem;
+  width: 30rem;  
   text-align: center;
 }
