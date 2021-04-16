@@ -133,6 +133,7 @@ const GameSprint: FunctionComponent<IGameSprintParams> = ({
     <div className="game-sprint">
       {!isPlay ? (
         <FinishGameModal
+          gamingScore={score / 10 + maxChainLength.current}
           gameName={GamesNames.Sprint}
           longestSeries={maxChainLength.current}
           correctWords={correctWordsArray.current}

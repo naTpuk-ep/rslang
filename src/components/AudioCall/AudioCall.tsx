@@ -111,6 +111,9 @@ const AudioCall: React.FunctionComponent<IAudioCallParams> = ({
     <div className="audio-call">
       {isFinish ? (
         <FinishGameModal
+          gamingScore={
+            correctWordsArray.current.length * 2 + maxChainLength.current
+          }
           gameName={GamesNames.AudioCall}
           longestSeries={maxChainLength.current}
           correctWords={correctWordsArray.current}

@@ -36,12 +36,14 @@ import Statistics from "../pages/Statistics";
 import "fontsource-roboto";
 import "./App.scss";
 import Footer from "../components/Footer";
+import Score from "../components/Score";
 
 const App: React.FunctionComponent = () => {
   const { isAuthenticated, loading } = useAuthentication();
 
   return (
     <>
+      <Score />
       <Header />
       <Container className="main">
         <Switch>

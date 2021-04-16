@@ -160,6 +160,7 @@ const GameSavannah: React.FunctionComponent<IGameSavannahParams> = (
     <div className="game-container">
       {isFinished ? (
         <FinishGameModal
+          gamingScore={correctWords.current.length * 2 + longestSeries.current}
           gameName={GamesNames.Savanna}
           longestSeries={longestSeries.current}
           correctWords={correctWords.current}
