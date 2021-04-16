@@ -1,8 +1,9 @@
 /* eslint-disable react/jsx-curly-brace-presence */
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useState } from "react";
 import Button from "@material-ui/core/Button";
 import { Box, Fab } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
+import { Howl } from "howler";
 import useKeyDown from "../../../hooks/useKeyDown";
 import "./AnswerBlock.scss";
 
@@ -23,13 +24,32 @@ const AnswerBlock: FunctionComponent<IAnswerBlock> = (props: IAnswerBlock) => {
     isAnswer,
   } = props;
 
+  const [wrongSound] = useState(
+    new Howl({
+      src: ["static/audio/wrong.wav"],
+      volume: 0.3,
+    })
+  );
+  const [correctSound] = useState(
+    new Howl({
+      src: ["static/audio/correct.mp3"],
+      volume: 0.3,
+    })
+  );
+
   const getAnswer = (e: React.MouseEvent<HTMLButtonElement> | null = null) => {
     let flag = false;
     if (e) {
-      const value = e.currentTarget.innerText.substr(2);
+      const value = e.currentTarget.innerText.substr(2).toLocaleLowerCase();
       if (value === wordTranslate) {
         flag = true;
       }
+    }
+
+    if (flag) {
+      correctSound.play();
+    } else {
+      wrongSound.play();
     }
     changeAnswerBlock(flag);
   };
