@@ -76,6 +76,9 @@ const GameSavannah: React.FunctionComponent<IGameSavannahParams> = (
       if (index >= words.length) {
         setIsFinished(true);
         gameMusic.stop();
+        if (series.current > longestSeries.current) {
+          longestSeries.current = series.current;
+        }
         return;
       }
       setGuessWord(words[index]);
@@ -92,6 +95,8 @@ const GameSavannah: React.FunctionComponent<IGameSavannahParams> = (
   useEffect(() => {
     return () => {
       gameMusic.stop();
+      wrongSound.stop();
+      correctSound.stop();
     };
   }, []);
 
