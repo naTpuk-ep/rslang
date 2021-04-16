@@ -24,6 +24,7 @@ import {
 } from "@material-ui/icons";
 import "./Main.scss";
 import DoneAllIcon from "@material-ui/icons/DoneAll";
+import ReactPlayer from "react-player";
 import { Link } from "react-router-dom";
 import { nanoid } from "nanoid";
 import { SIGN_IN } from "../../constants/routes";
@@ -85,7 +86,15 @@ const Main: React.FunctionComponent = () => {
         </Typography>
       </Box>
       <Box mt={4}>
-        <Paper>{/* video */}</Paper>
+        <Paper className="main-page__video">
+          <ReactPlayer
+            url="vhttps://www.youtube.com/watch?v=Evp7AVlSaNQ&feature=youtu.be"
+            width="100%"
+            height="100%"
+            controls
+            className="react-player"
+          />
+        </Paper>
       </Box>
       <Box mt={8}>
         <Typography variant="h4" component="h3">

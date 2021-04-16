@@ -2,6 +2,14 @@
   display: flex;
   flex-direction: column;
 
+  &__video {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30rem;
+    overflow: hidden;
+  }
+
   &__info-cards {
     display: flex;
     justify-content: space-evenly;
