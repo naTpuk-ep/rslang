@@ -33,7 +33,12 @@ const team = [
     github: "https://github.com/naTpuk-ep",
     name: "Yauheni Piatrou",
     role: "Developer",
-    desc: ["Главная страница", 'Игра "Угадай слово"', "Финальное окно игры"],
+    desc: [
+      "Главная страница",
+      'Игра "Угадай слово"',
+      "Игровая статистика",
+      "Игровые уровни",
+    ],
   },
   {
     cover: "https://avatars.githubusercontent.com/u/36677235?v=4",
