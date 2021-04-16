@@ -41,7 +41,7 @@ const OwnGame: FC<IOwnGameProps> = (props: IOwnGameProps) => {
     IUserWordData | undefined | null
   >(null);
   const [inputValue, setInputValue] = useState("");
-  const numberOfSeconds = useMemo(() => 5, []);
+  const numberOfSeconds = useMemo(() => 90, []);
   const [timer, setTimer] = useState<number>(numberOfSeconds);
   const [isFinish, setIsFinish] = useState(false);
   const numberOfCorrectAnswers = useRef(0);
