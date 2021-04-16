@@ -13,7 +13,7 @@ import React, {
   useState,
 } from "react";
 import useSound from "use-sound";
-import FinishGameModal from "../../components/FinishGameModal/FinishGameModal";
+import FinishGameModal from "../../components/FinishGameModal";
 import { STATUS_DELETED } from "../../constants/request-params";
 import useKeyDown from "../../hooks/useKeyDown";
 import useTypedSelector from "../../hooks/useTypeSelector";
@@ -39,7 +39,7 @@ const OwnGame: FC<IOwnGameProps> = (props: IOwnGameProps) => {
     IUserWordData | undefined | null
   >(null);
   const [inputValue, setInputValue] = useState("");
-  const numberOfSeconds = useMemo(() => 90, []);
+  const numberOfSeconds = useMemo(() => 5, []);
   const [timer, setTimer] = useState<number>(numberOfSeconds);
   const [isFinish, setIsFinish] = useState(false);
   const numberOfCorrectAnswers = useRef(0);
@@ -180,6 +180,7 @@ const OwnGame: FC<IOwnGameProps> = (props: IOwnGameProps) => {
       <div className="own-game__background" />
       {isFinish ? (
         <FinishGameModal
+          gamingScore={correctWords.current.length * 5 + longestSeries.current}
           gameName={GamesNames.KnowWords}
           longestSeries={longestSeries.current}
           correctWords={correctWords.current}

@@ -28,6 +28,7 @@ const useAuthentication = () => {
     (state) => state.statistics
   );
   const { updateStatisticState } = useUpdateStatistic();
+  const { updateScore, fetchScore } = useActions();
 
   useEffect(() => {
     if (userId && refreshToken && token && name) {
@@ -40,10 +41,12 @@ const useAuthentication = () => {
   useEffect(() => {
     if (isRegistered && isAuthenticated) {
       updateStatisticsAction(statistics, userId, token);
+      updateScore(userId, token, 0);
       return;
     }
     if (isAuthenticated) {
       getStatistics(userId, token);
+      fetchScore(userId, token);
     }
   }, [isAuthenticated]);
 

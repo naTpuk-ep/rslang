@@ -9,6 +9,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import { MAIN } from "../../constants/routes";
 import Menu from "../Menu";
 import UserBar from "../UserBar/UserBar";
+import Score from "../Score";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -64,6 +65,7 @@ const Header: React.FunctionComponent = () => {
                 RSLang
               </Typography>
             </LinkContainer>
+            <Score />
             <UserBar />
           </Toolbar>
         </AppBar>
