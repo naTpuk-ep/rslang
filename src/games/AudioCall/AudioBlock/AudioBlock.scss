@@ -1,0 +1,41 @@
+.audio-block {   
+  width: 120px !important;
+  height: 120px !important;  
+}
+
+.audio-block-icon{
+  width: 70% !important;
+  height: 70% !important;
+}
+
+.audio-block-image{
+  width: 120px !important;
+  height: 120px !important;
+}
+
+.audio-block-word{  
+  font-weight: bold !important;
+}
+
+.audio-block-answer {
+  margin-right: 1rem !important;
+}
+
+.audio-block-container{  
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.audio-block-answer {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  border: 2px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(61, 7, 189, 0.3);
+  margin-right: 5px;
+}
+

@@ -5,7 +5,7 @@ import React, {
   useState,
   useRef,
 } from "react";
-
+import { Box, Paper } from "@material-ui/core";
 import { Howl } from "howler";
 import GameField from "./GameField";
 import Score from "./Score";
@@ -16,7 +16,7 @@ import "./GameSprint.scss";
 import IUserWordData from "../../types/user-words-types";
 import { STATUS_DELETED } from "../../constants/request-params";
 import useUpdateStatistic from "../../hooks/useUpdateStatistic";
-import FinishGameModal from "../FinishGameModal/FinishGameModal";
+import FinishGameModal from "../../components/FinishGameModal";
 import { GamesNames } from "../../types/statistics-types";
 import useKeyDown from "../../hooks/useKeyDown";
 
@@ -138,20 +138,25 @@ const GameSprint: FunctionComponent<IGameSprintParams> = ({
   });
 
   return (
-    <div className="game-sprint">
+    <>
       {!isPlay ? (
         <FinishGameModal
+          gamingScore={score / 10 + maxChainLength.current}
           gameName={GamesNames.Sprint}
           longestSeries={maxChainLength.current}
           correctWords={correctWordsArray.current}
           mistakes={wrongWordsArray.current}
         />
       ) : (
-        <>
-          <div className="game-sprint-panel">
-            <Score score={score} />
-            <Time finishGame={finishGame} />
-          </div>
+        <div className="game-sprint">
+          <Box className="game-sprint-panel">
+            <Paper className="game-sprint-panel-score" elevation={3}>
+              <Score score={score} />
+            </Paper>
+            <Paper className="game-sprint-panel-timer" elevation={3}>
+              <Time finishGame={finishGame} />
+            </Paper>
+          </Box>
           <GameField
             currentWord={currentWord}
             currentTranslate={currentTranslate}
@@ -161,9 +166,9 @@ const GameSprint: FunctionComponent<IGameSprintParams> = ({
             levelBonus={levelBonus}
             currentChain={currentChain}
           />
-        </>
+        </div>
       )}
-    </div>
+    </>
   );
 };
 

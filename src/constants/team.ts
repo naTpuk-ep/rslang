@@ -17,7 +17,7 @@ const team = [
     cover: "https://avatars.githubusercontent.com/u/32163526?v=4",
     github: "https://github.com/RamanNovikau",
     name: "Raman Novikau",
-    role: "Разработчик",
+    role: "Developer",
     desc: [
       "Бэкенд",
       "Авторизация",
@@ -32,14 +32,19 @@ const team = [
       "https://avatars.githubusercontent.com/u/63358804?s=400&u=bc1e3a8963159051621459fedc782e35d493bdf0&v=4",
     github: "https://github.com/naTpuk-ep",
     name: "Yauheni Piatrou",
-    role: "Разработчик",
-    desc: ["Главная страница", 'Игра "Угадай слово"', "Финальное окно игры"],
+    role: "Developer",
+    desc: [
+      "Главная страница",
+      'Игра "Угадай слово"',
+      "Игровая статистика",
+      "Игровой уровень",
+    ],
   },
   {
     cover: "https://avatars.githubusercontent.com/u/36677235?v=4",
     github: "https://github.com/zhenyamarinovich",
     name: "Zhenya Marinovich",
-    role: "Разработчик",
+    role: "Developer",
     desc: ['Игра "Спринт"', 'Игра "Аудио-вызов"', "Юнит-тесты"],
   },
 ];

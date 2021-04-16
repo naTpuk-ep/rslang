@@ -1,9 +1,10 @@
+/* eslint-disable react/jsx-curly-brace-presence */
 import React, { FunctionComponent } from "react";
 import Button from "@material-ui/core/Button";
-
-import "./AnswerBlock.scss";
-import { Box } from "@material-ui/core";
+import { Box, Fab } from "@material-ui/core";
+import { Alert } from "@material-ui/lab";
 import useKeyDown from "../../../hooks/useKeyDown";
+import "./AnswerBlock.scss";
 
 interface IAnswerBlock {
   wordsTranslations: string[];
@@ -12,6 +13,7 @@ interface IAnswerBlock {
   changeAnswerBlock: (flag: boolean) => void;
   isAnswer: boolean;
 }
+
 const AnswerBlock: FunctionComponent<IAnswerBlock> = (props: IAnswerBlock) => {
   const {
     wordsTranslations = [],
@@ -39,20 +41,24 @@ const AnswerBlock: FunctionComponent<IAnswerBlock> = (props: IAnswerBlock) => {
       correctWord = "correctWord";
     }
     return (
-      <li key={randomKey} className={`answer-list-item ${correctWord}`}>
-        <span
-          aria-hidden="true"
-          onClick={(e: React.MouseEvent<HTMLButtonElement>) => getAnswer(e)}
-        >
-          {index + 1}.{word}
-        </span>
-      </li>
+      <Fab
+        key={randomKey}
+        variant="extended"
+        aria-hidden="true"
+        className="answer-list-item"
+        color={correctWord ? "primary" : "default"}
+        onClick={(e: React.MouseEvent<HTMLButtonElement>) => getAnswer(e)}
+      >
+        {`${index + 1} ${word}`}
+      </Fab>
     );
   });
 
   const EnterLabel = (
-    <Box p={2} mt={1}>
-      Or press &quot;ENTER&quot;
+    <Box mt={2}>
+      <Alert variant="filled" severity="info">
+        {`Или нажмите "ENTER"`}
+      </Alert>
     </Box>
   );
 
@@ -67,7 +73,7 @@ const AnswerBlock: FunctionComponent<IAnswerBlock> = (props: IAnswerBlock) => {
   if (isAnswer) {
     return (
       <div className="answer-block">
-        <ol className="answer-block-list list-answer">{listItems}</ol>
+        <div className="answer-block-list list-answer">{listItems}</div>
         <Button
           variant="contained"
           color="primary"
@@ -82,7 +88,7 @@ const AnswerBlock: FunctionComponent<IAnswerBlock> = (props: IAnswerBlock) => {
   }
   return (
     <div className="answer-block">
-      <ol className="answer-block-list">{listItems}</ol>
+      <div className="answer-block-list">{listItems}</div>
       <Button
         variant="contained"
         color="primary"

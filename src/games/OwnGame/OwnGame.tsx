@@ -1,8 +1,10 @@
+/* eslint-disable react/jsx-curly-brace-presence */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable no-nested-ternary */
-import { Button, Typography } from "@material-ui/core";
+import { Box, Button, Typography } from "@material-ui/core";
 import { Check, Close } from "@material-ui/icons";
+import { Alert } from "@material-ui/lab";
 import React, {
   ChangeEvent,
   FC,
@@ -13,13 +15,13 @@ import React, {
   useState,
 } from "react";
 import useSound from "use-sound";
-import FinishGameModal from "../../../components/FinishGameModal/FinishGameModal";
-import { STATUS_DELETED } from "../../../constants/request-params";
-import useKeyDown from "../../../hooks/useKeyDown";
-import useTypedSelector from "../../../hooks/useTypeSelector";
-import useUpdateStatistic from "../../../hooks/useUpdateStatistic";
-import { GamesNames } from "../../../types/statistics-types";
-import IUserWordData from "../../../types/user-words-types";
+import FinishGameModal from "../../components/FinishGameModal";
+import { STATUS_DELETED } from "../../constants/request-params";
+import useKeyDown from "../../hooks/useKeyDown";
+import useTypedSelector from "../../hooks/useTypeSelector";
+import useUpdateStatistic from "../../hooks/useUpdateStatistic";
+import { GamesNames } from "../../types/statistics-types";
+import IUserWordData from "../../types/user-words-types";
 import Game from "./Game";
 import "./OwnGame.scss";
 
@@ -39,7 +41,7 @@ const OwnGame: FC<IOwnGameProps> = (props: IOwnGameProps) => {
     IUserWordData | undefined | null
   >(null);
   const [inputValue, setInputValue] = useState("");
-  const numberOfSeconds = useMemo(() => 90, []);
+  const numberOfSeconds = useMemo(() => 5, []);
   const [timer, setTimer] = useState<number>(numberOfSeconds);
   const [isFinish, setIsFinish] = useState(false);
   const numberOfCorrectAnswers = useRef(0);
@@ -180,6 +182,7 @@ const OwnGame: FC<IOwnGameProps> = (props: IOwnGameProps) => {
       <div className="own-game__background" />
       {isFinish ? (
         <FinishGameModal
+          gamingScore={correctWords.current.length * 5 + longestSeries.current}
           gameName={GamesNames.KnowWords}
           longestSeries={longestSeries.current}
           correctWords={correctWords.current}
@@ -236,11 +239,13 @@ const OwnGame: FC<IOwnGameProps> = (props: IOwnGameProps) => {
                 type="button"
                 onClick={skipHandler}
               >
-                Skip
+                Пропустить
               </Button>
-              <Typography variant="h6" component="h6">
-                &nbsp;&nbsp;&nbsp; or press &quot;space&quot;
-              </Typography>
+              <Box ml={2}>
+                <Alert variant="filled" severity="info">
+                  {`Или нажмите "ПРОБЕЛ"`}
+                </Alert>
+              </Box>
             </div>
           </div>
           <div className="own-game__words">

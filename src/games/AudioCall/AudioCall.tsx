@@ -7,7 +7,7 @@ import useTypedSelector from "../../hooks/useTypeSelector";
 
 import "./AudioCall.scss";
 import { STATUS_DELETED } from "../../constants/request-params";
-import FinishGameModal from "../FinishGameModal/FinishGameModal";
+import FinishGameModal from "../../components/FinishGameModal";
 import { GamesNames } from "../../types/statistics-types";
 
 interface IAudioCallParams {
@@ -108,16 +108,19 @@ const AudioCall: React.FunctionComponent<IAudioCallParams> = ({
   };
 
   return (
-    <div className="audio-call">
+    <>
       {isFinish ? (
         <FinishGameModal
+          gamingScore={
+            correctWordsArray.current.length * 2 + maxChainLength.current
+          }
           gameName={GamesNames.AudioCall}
           longestSeries={maxChainLength.current}
           correctWords={correctWordsArray.current}
           mistakes={wrongWordsArray.current}
         />
       ) : (
-        <>
+        <div className="audio-call">
           <AudioBlock
             audio={audio}
             image={image}
@@ -131,9 +134,9 @@ const AudioCall: React.FunctionComponent<IAudioCallParams> = ({
             onNextWord={() => nextWord()}
             isAnswer={isAnswer}
           />
-        </>
+        </div>
       )}
-    </div>
+    </>
   );
 };
 

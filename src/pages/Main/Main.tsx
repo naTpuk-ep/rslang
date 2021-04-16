@@ -60,7 +60,9 @@ const Main: React.FunctionComponent = () => {
         <Paper className="main-page__info-cards_card">
           <VideogameAssetTwoTone fontSize="large" />
           <Divider orientation="vertical" flexItem />
-          <Typography variant="body1">Повторяй слова играя в игры</Typography>
+          <Typography variant="body1">
+            Прокачивай свой уровень играя в игры
+          </Typography>
         </Paper>
         <Paper className="main-page__info-cards_card">
           <CollectionsBookmarkTwoTone fontSize="large" />

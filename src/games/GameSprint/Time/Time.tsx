@@ -1,6 +1,5 @@
+import { Typography } from "@material-ui/core";
 import React, { useState, useEffect } from "react";
-
-import "./Time.scss";
 
 interface ITimeProps {
   finishGame: () => void;
@@ -8,7 +7,7 @@ interface ITimeProps {
 
 const Time: React.FunctionComponent<ITimeProps> = (props: ITimeProps) => {
   const { finishGame } = props;
-  const [sec, setSec] = useState(60);
+  const [sec, setSec] = useState(90);
 
   useEffect(() => {
     const time = setTimeout(() => {
@@ -24,9 +23,9 @@ const Time: React.FunctionComponent<ITimeProps> = (props: ITimeProps) => {
   }, [sec, finishGame]);
 
   return (
-    <div className="time-container">
-      <h1 className="time-value">{sec}</h1>
-    </div>
+    <Typography variant="h5" className="time-container">
+      {sec}
+    </Typography>
   );
 };
 
