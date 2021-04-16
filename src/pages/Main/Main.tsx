@@ -88,7 +88,7 @@ const Main: React.FunctionComponent = () => {
       <Box mt={4}>
         <Paper className="main-page__video">
           <ReactPlayer
-            url="vhttps://www.youtube.com/watch?v=Evp7AVlSaNQ&feature=youtu.be"
+            url="https://www.youtube.com/watch?v=9_iF3jxo7P4"
             width="100%"
             height="100%"
             controls
