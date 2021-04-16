@@ -1,6 +1,13 @@
 .audio-block {   
+  margin-bottom: 72px !important;
   width: 120px !important;
   height: 120px !important;  
+  animation: show 0.5s forwards;
+}
+
+@keyframes show {
+  0%   {transform: scale(0); opacity: 0;}  
+  100% {transform: scale(1); opacity: 1;}
 }
 
 .audio-block-icon{
@@ -11,6 +18,7 @@
 .audio-block-image{
   width: 120px !important;
   height: 120px !important;
+  animation: show 0.5s forwards;
 }
 
 .audio-block-word{  
@@ -25,6 +33,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  animation: show 0.5s forwards;
 }
 
 .audio-block-answer {
