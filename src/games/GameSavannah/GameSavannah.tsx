@@ -5,7 +5,14 @@ import { nanoid } from "nanoid";
 import "./GameSavannah.scss";
 import { GlobalHotKeys } from "react-hotkeys";
 import { Howl } from "howler";
-import { Typography, Grid, Switch, IconButton } from "@material-ui/core";
+import {
+  Typography,
+  Grid,
+  Switch,
+  IconButton,
+  Paper,
+  Fab,
+} from "@material-ui/core";
 import VolumeOffIcon from "@material-ui/icons/VolumeOff";
 import VolumeUpIcon from "@material-ui/icons/VolumeUp";
 import crystal from "../../assets/savannah-crystal.png";
@@ -172,7 +179,7 @@ const GameSavannah: React.FunctionComponent<IGameSavannahParams> = (
             <>
               {" "}
               <div className="game-info-container">
-                <div className="hearts">
+                <Paper className="hearts">
                   {[...Array(attempts)].map(() => {
                     return (
                       <img
@@ -193,8 +200,8 @@ const GameSavannah: React.FunctionComponent<IGameSavannahParams> = (
                       />
                     );
                   })}
-                </div>
-                <div className="game-settings">
+                </Paper>
+                <Paper className="game-settings">
                   <Typography component="div">
                     <Grid
                       component="label"
@@ -225,7 +232,7 @@ const GameSavannah: React.FunctionComponent<IGameSavannahParams> = (
                       )}
                     </IconButton>
                   </Typography>
-                </div>
+                </Paper>
               </div>
               <div
                 key={animated}
@@ -250,8 +257,8 @@ const GameSavannah: React.FunctionComponent<IGameSavannahParams> = (
                           },
                         }}
                       />
-                      <button
-                        type="button"
+                      <Fab
+                        variant="extended"
                         className="game-container--buttons-button"
                         onClick={(e) => {
                           guessClickHandler(option);
@@ -261,7 +268,7 @@ const GameSavannah: React.FunctionComponent<IGameSavannahParams> = (
                         {`${id + 1} ${
                           !langSwitchState ? option.word : option.wordTranslate
                         }`}
-                      </button>
+                      </Fab>
                     </div>
                   );
                 })}

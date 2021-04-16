@@ -13,13 +13,13 @@ import React, {
   useState,
 } from "react";
 import useSound from "use-sound";
-import FinishGameModal from "../../../components/FinishGameModal/FinishGameModal";
-import { STATUS_DELETED } from "../../../constants/request-params";
-import useKeyDown from "../../../hooks/useKeyDown";
-import useTypedSelector from "../../../hooks/useTypeSelector";
-import useUpdateStatistic from "../../../hooks/useUpdateStatistic";
-import { GamesNames } from "../../../types/statistics-types";
-import IUserWordData from "../../../types/user-words-types";
+import FinishGameModal from "../../components/FinishGameModal/FinishGameModal";
+import { STATUS_DELETED } from "../../constants/request-params";
+import useKeyDown from "../../hooks/useKeyDown";
+import useTypedSelector from "../../hooks/useTypeSelector";
+import useUpdateStatistic from "../../hooks/useUpdateStatistic";
+import { GamesNames } from "../../types/statistics-types";
+import IUserWordData from "../../types/user-words-types";
 import Game from "./Game";
 import "./OwnGame.scss";
 
