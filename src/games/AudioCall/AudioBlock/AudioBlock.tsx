@@ -2,6 +2,9 @@ import React, { FunctionComponent, useEffect } from "react";
 import VolumeDownIcon from "@material-ui/icons/VolumeDown";
 import useSound from "use-sound";
 import "./AudioBlock.scss";
+import { Box } from "@material-ui/core";
+import { BACKEND_PATH } from "../../../constants/request-params";
+import useKeyDown from "../../../hooks/useKeyDown";
 
 interface IAudioProps {
   audio: string;
@@ -16,19 +19,27 @@ const AudioBlock: FunctionComponent<IAudioProps> = ({
   isAnswer = false,
   word = "",
 }: IAudioProps) => {
-  const backendPath = "https://rnovikov-rs-lang-back.herokuapp.com/";
-  const [play] = useSound(`${backendPath}${audio}`);
+  const [play] = useSound(`${BACKEND_PATH}${audio}`);
   useEffect(() => {
     play();
   }, [play]);
 
+  useKeyDown("Space", play);
+
   const imageElement = (
     <img
-      src={`${backendPath}${image}`}
+      src={`${BACKEND_PATH}${image}`}
       className="audio-block-image"
       alt="answer-img"
     />
   );
+
+  const SpaceLabel = (
+    <Box p={2} mt={1}>
+      Press &quot;SPACE&quot; to play the word
+    </Box>
+  );
+
   if (isAnswer) {
     return (
       <>
@@ -43,13 +54,17 @@ const AudioBlock: FunctionComponent<IAudioProps> = ({
           </button>
           <span className="audio-block-word">{word}</span>
         </div>
+        {SpaceLabel}
       </>
     );
   }
   return (
-    <button type="button" className="audio-block" onClick={() => play()}>
-      <VolumeDownIcon className="audio-block-icon" />
-    </button>
+    <>
+      <button type="button" className="audio-block" onClick={() => play()}>
+        <VolumeDownIcon className="audio-block-icon" />
+      </button>
+      {SpaceLabel}
+    </>
   );
 };
 

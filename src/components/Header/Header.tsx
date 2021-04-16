@@ -55,8 +55,9 @@ const Header: React.FunctionComponent = () => {
               className={classes.menuButton}
               color="inherit"
               aria-label="menu"
+              onClick={toggleDrawer(true)}
             >
-              <MenuIcon onClick={toggleDrawer(true)} />
+              <MenuIcon />
             </IconButton>
             <LinkContainer to={MAIN}>
               <Typography variant="h6" className={classes.title}>
