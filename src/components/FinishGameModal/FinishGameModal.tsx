@@ -6,6 +6,7 @@ import IUserWordData from "../../types/user-words-types";
 import useUpdateStatistic from "../../hooks/useUpdateStatistic";
 import { GamesNames } from "../../types/statistics-types";
 import useTypedSelector from "../../hooks/useTypeSelector";
+import useActions from "../../hooks/useActions";
 import "./FinishGameModal.scss";
 
 interface IFinishGameModalProps {
@@ -13,6 +14,7 @@ interface IFinishGameModalProps {
   longestSeries: number;
   correctWords: IUserWordData[];
   mistakes: IUserWordData[];
+  gamingScore: number;
 }
 
 const FinishGameModal: FC<IFinishGameModalProps> = ({
@@ -20,13 +22,18 @@ const FinishGameModal: FC<IFinishGameModalProps> = ({
   longestSeries,
   correctWords,
   mistakes,
+  gamingScore,
 }: IFinishGameModalProps) => {
   const totalWordCount = correctWords.length + mistakes.length;
   const correctAnswersPercent = Math.round(
     (100 * correctWords.length) / totalWordCount
   );
   const { updateGameStatistics } = useUpdateStatistic();
-  const { isAuthenticated } = useTypedSelector((state) => state.auth);
+  const { isAuthenticated, userId, token } = useTypedSelector(
+    (state) => state.auth
+  );
+  const { updateScore } = useActions();
+  // console.log(score);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -35,6 +42,7 @@ const FinishGameModal: FC<IFinishGameModalProps> = ({
         wrong: mistakes.length,
         correct: correctWords.length,
       });
+      updateScore(userId, token, gamingScore);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated]);

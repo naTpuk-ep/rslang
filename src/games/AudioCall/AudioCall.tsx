@@ -7,7 +7,7 @@ import useTypedSelector from "../../hooks/useTypeSelector";
 
 import "./AudioCall.scss";
 import { STATUS_DELETED } from "../../constants/request-params";
-import FinishGameModal from "../../components/FinishGameModal/FinishGameModal";
+import FinishGameModal from "../../components/FinishGameModal";
 import { GamesNames } from "../../types/statistics-types";
 
 interface IAudioCallParams {
@@ -111,6 +111,9 @@ const AudioCall: React.FunctionComponent<IAudioCallParams> = ({
     <>
       {isFinish ? (
         <FinishGameModal
+          gamingScore={
+            correctWordsArray.current.length * 2 + maxChainLength.current
+          }
           gameName={GamesNames.AudioCall}
           longestSeries={maxChainLength.current}
           correctWords={correctWordsArray.current}
