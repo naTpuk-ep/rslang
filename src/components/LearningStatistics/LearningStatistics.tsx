@@ -10,6 +10,7 @@ import {
   ListItemText,
   ListSubheader,
   Paper,
+  Typography,
 } from "@material-ui/core";
 import { LabelImportantTwoTone } from "@material-ui/icons";
 import { Alert } from "@material-ui/lab";
@@ -38,6 +39,7 @@ const LearningStatistics: React.FunctionComponent = () => {
     dayPercentage,
     gamePercentage,
     formatXAxis,
+    formatLabel,
   } = useLearningStatistics();
 
   const { statistics, isFetching } = useTypedSelector(
@@ -157,6 +159,12 @@ const LearningStatistics: React.FunctionComponent = () => {
         <>
           <Box className="wrapper-statistics" mt={2}>
             <Paper className="learning-statistics">
+              <Box m={1}>
+                <Typography variant="h6" component="h3">
+                  Статистика за сегодня
+                </Typography>
+              </Box>
+              <Divider />
               <List>
                 {dayStatisticsData.map((stat) => {
                   return (
@@ -177,6 +185,12 @@ const LearningStatistics: React.FunctionComponent = () => {
             </Paper>
             {statistics.optional.allTime.length ? (
               <Paper className="learning-statistics">
+                <Box m={1}>
+                  <Typography variant="h6" component="h3">
+                    Подробная статистика за все дни обучения
+                  </Typography>
+                </Box>
+                <Divider />
                 <List
                   className="learning-statistics__on-day"
                   subheader={<li />}
@@ -220,51 +234,72 @@ const LearningStatistics: React.FunctionComponent = () => {
           {statistics.optional.allTime.length ? (
             <>
               <Box mt={2}>
-                <Paper className="learning-statistics__chart">
-                  <ResponsiveContainer>
-                    <BarChart data={statistics.optional.allTime}>
-                      <XAxis
-                        dataKey="date"
-                        name="Дата"
-                        tickFormatter={formatXAxis}
-                      />
-                      <YAxis />
-                      <Tooltip />
-                      <Legend />
-                      <Bar
-                        dataKey="dayLearns"
-                        name="Изучено слов"
-                        fill="#8884d8"
-                      />
-                    </BarChart>
-                  </ResponsiveContainer>
+                <Paper>
+                  <Box p={1}>
+                    <Box p={1}>
+                      <Typography variant="h6" component="h3">
+                        Количество изученных слов за каждый день изучения
+                      </Typography>
+                    </Box>
+                    <Divider />
+                    <Box className="learning-statistics__chart">
+                      <ResponsiveContainer>
+                        <BarChart data={statistics.optional.allTime}>
+                          <XAxis
+                            dataKey="date"
+                            name="Дата"
+                            tickFormatter={formatXAxis}
+                          />
+                          <YAxis />
+                          <Tooltip labelFormatter={formatLabel} />
+                          <Legend />
+                          <Bar
+                            dataKey="dayLearns"
+                            name="Изучено слов"
+                            fill="#8884d8"
+                          />
+                        </BarChart>
+                      </ResponsiveContainer>
+                    </Box>
+                  </Box>
                 </Paper>
               </Box>
               <Box mt={2}>
-                <Paper className="learning-statistics__chart">
-                  <ResponsiveContainer>
-                    <AreaChart
-                      data={statistics.optional.allTime}
-                      margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-                    >
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis
-                        dataKey="date"
-                        name="Дата"
-                        tickFormatter={formatXAxis}
-                      />
-                      <YAxis />
-                      <Tooltip />
-                      <Legend />
-                      <Area
-                        type="monotone"
-                        dataKey="learnedWords"
-                        name="Изучаемые слова"
-                        fill="#8884d8"
-                        stroke="#8884d8"
-                      />
-                    </AreaChart>
-                  </ResponsiveContainer>
+                <Paper>
+                  <Box p={1}>
+                    <Box p={1}>
+                      <Typography variant="h6" component="h3">
+                        Увеличение общего количества изученных слов за весь
+                        период изучения по дням
+                      </Typography>
+                    </Box>
+                    <Divider />
+                    <Box className="learning-statistics__chart">
+                      <ResponsiveContainer>
+                        <AreaChart
+                          data={statistics.optional.allTime}
+                          margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                        >
+                          <CartesianGrid strokeDasharray="3 3" />
+                          <XAxis
+                            dataKey="date"
+                            name="Дата"
+                            tickFormatter={formatXAxis}
+                          />
+                          <YAxis />
+                          <Tooltip labelFormatter={formatLabel} />
+                          <Legend />
+                          <Area
+                            type="monotone"
+                            dataKey="learnedWords"
+                            name="Изучаемые слова"
+                            fill="#8884d8"
+                            stroke="#8884d8"
+                          />
+                        </AreaChart>
+                      </ResponsiveContainer>
+                    </Box>
+                  </Box>
                 </Paper>
               </Box>
 
