@@ -6,7 +6,6 @@
   &__words {
     padding: 120px 2vw;
     width: 20%;
-    border-left: 1px solid #ffffff4f;
     overflow-y: auto;
     &::-webkit-scrollbar {
       width: 0;
@@ -96,8 +95,8 @@
 
 .btn-container {
   display: flex;
-  margin-top: 5vw;
-  color: gray;
+  margin-top: 5vw;  
+  font-weight: bold !important;
 }
 
 @keyframes signal {
@@ -120,12 +119,10 @@
   .own-game {
     flex-direction: column;
     &__content {
-      margin-bottom: 50px;
-      border-bottom: 1px solid;
+      margin-bottom: 50px;      
     }
     &__words {
-      margin: 0 auto;
-      border-left: none;
+      margin: 0 auto;      
       padding-top: 0;
       width: fit-content;
     }
