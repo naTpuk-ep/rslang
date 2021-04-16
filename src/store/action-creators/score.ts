@@ -30,22 +30,27 @@ export const fetchScore = (id: string, token: string) => {
 
 export const updateScore = (id: string, token: string, updateWith: number) => {
   return async (dispatch: Dispatch<any>) => {
-    const response = await axios.put(
-      `${BACKEND_PATH}users/${id}/statistics/score`,
-      {
-        score: updateWith,
-      },
-      {
-        headers: {
-          authorization: `Bearer ${token}`,
+    try {
+      const response = await axios.put(
+        `${BACKEND_PATH}users/${id}/statistics/score`,
+        {
+          score: updateWith,
         },
-      }
-    );
-    dispatch({
-      type: "UPDATE_SCORE",
-      payload: {
-        score: response.data.score,
-      },
-    });
+        {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      dispatch({
+        type: "UPDATE_SCORE",
+        payload: {
+          score: response.data.score,
+        },
+      });
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.warn(e.message);
+    }
   };
 };
