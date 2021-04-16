@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useMemo } from "react";
+import React, { FC, useMemo } from "react";
 import { Progress } from "react-sweet-progress";
 import { Box, LinearProgress } from "@material-ui/core";
 import useTypedSelector from "../../hooks/useTypeSelector";
