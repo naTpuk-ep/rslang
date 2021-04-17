@@ -17,7 +17,8 @@ export default class Game {
   }
 
   nextWord(): IUserWordData {
-    this.currentWord = this.wordsList[(this.index += 1)];
+    this.currentWord = this.wordsList[this.index];
+    this.index += 1;
     return this.currentWord;
   }
 

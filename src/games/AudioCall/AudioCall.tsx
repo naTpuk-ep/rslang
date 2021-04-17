@@ -34,6 +34,8 @@ const AudioCall: React.FunctionComponent<IAudioCallParams> = ({
   const maxChainLength = useRef(0);
 
   useEffect(() => {
+    if (words.length < 5) return;
+
     if (words[currentIndex]) {
       let imageStr = "";
       let wordTranslateStr = "";
@@ -109,7 +111,7 @@ const AudioCall: React.FunctionComponent<IAudioCallParams> = ({
 
   return (
     <>
-      {isFinish ? (
+      {isFinish || words.length < 5 ? (
         <FinishGameModal
           gamingScore={
             correctWordsArray.current.length * 2 + maxChainLength.current

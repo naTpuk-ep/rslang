@@ -10,9 +10,11 @@
   background-size: auto;  
 
   & > .fullscreen-enabled {
-    background: white;
+    background-image: url("../../assets/main.jpg");  
+    background-attachment: fixed;
+    background-size: auto;  
   }
-
+   
   &__button-close {
     z-index: 1;
     position: fixed !important;
