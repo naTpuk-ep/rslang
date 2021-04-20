@@ -1,7 +1,5 @@
 # [RSLang](https://github.com/rolling-scopes-school/tasks/blob/master/tasks/react/react-rslang.md)
----
 ## Libraries, frameworks, technologies that were involved in the development process
----
 ### Main
 * [Create React App](https://create-react-app.dev/docs/getting-started/) is an officially supported way to create single-page React applications. It offers a modern build setup with no configuration.
 * [React](https://ru.reactjs.org/docs/getting-started.html) is a JavaScript library for building user interfaces.
