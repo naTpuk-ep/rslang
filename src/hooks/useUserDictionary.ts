@@ -53,6 +53,12 @@ const useUserDictionary = (
     if (page + 1 < Math.ceil(totalCount / 20) && length < 20) {
       aggregateUserWords(group, page, filter, userId, token);
     }
+    getUnitStatisticsAction(
+      group,
+      userId,
+      token,
+      JSON.stringify(GET_USER_LEARN_WORDS_FILTER)
+    );
   }, [aggregatedWords.words.length]);
 
   useEffect(() => {
