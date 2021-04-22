@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { useHistory } from "react-router-dom";
 import {
@@ -11,6 +12,7 @@ import {
   GET_USER_HARD_WORDS_FILTER,
   GET_USER_LEARN_WORDS_FILTER,
 } from "../../constants/request-params";
+import useTypedSelector from "../../hooks/useTypeSelector";
 
 const useSwitchParams = (page: number) => {
   const {
@@ -20,19 +22,25 @@ const useSwitchParams = (page: number) => {
   let filter = "";
   let wordsPerPage = 0;
   let count = 0;
+  const { pages } = useTypedSelector((state) => state.userWords);
 
   if (pathname.includes(BOOK)) {
+    let bookPage = page;
+    if (pages[bookPage]) {
+      bookPage = pages[bookPage]._id;
+    }
     filter = JSON.stringify({
       $or: [
         {
           $and: [
-            { "userWord.status": { $ne: "deleted" }, page: { $lt: page } },
+            { "userWord.status": { $ne: "deleted" }, page: { $lt: bookPage } },
           ],
         },
-        { $and: [{ userWord: null, page: { $lt: page } }] },
+        { $and: [{ userWord: null, page: { $lt: bookPage } }] },
       ],
     });
     wordsPerPage = 20;
+    count = 20;
   } else if (pathname.includes(STUDIED_WORDS)) {
     filter = JSON.stringify(GET_USER_LEARN_WORDS_FILTER);
     wordsPerPage = page === 0 ? 1 : page * 20;
