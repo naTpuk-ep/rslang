@@ -14,9 +14,10 @@ interface IAudioCallParams {
   words: IUserWordData[];
 }
 
-const AudioCall: React.FunctionComponent<IAudioCallParams> = ({
-  words,
-}: IAudioCallParams) => {
+const AudioCall: React.FunctionComponent<IAudioCallParams> = (
+  props: IAudioCallParams
+) => {
+  const { words } = props;
   const [currentIndex, setCurrentIndex] = useState(0);
   const [wordsTranslations, setWordsTranslations] = useState([""]);
   const [image, setImage] = useState("");
@@ -34,8 +35,6 @@ const AudioCall: React.FunctionComponent<IAudioCallParams> = ({
   const maxChainLength = useRef(0);
 
   useEffect(() => {
-    if (words.length < 5) return;
-
     if (words[currentIndex]) {
       let imageStr = "";
       let wordTranslateStr = "";
@@ -49,23 +48,16 @@ const AudioCall: React.FunctionComponent<IAudioCallParams> = ({
       setAudio(words[currentIndex].audio);
       setWordTranslate(wordTranslateStr);
       setWord(wordStr);
-      const generateRandom = (min: number, max: number): number => {
-        const num = Math.floor(Math.random() * (max - min + 1)) + min;
-        return num;
-      };
       const arrayTranslations: string[] = [];
       if (words) {
-        for (let i = 0; i < 4; i += 1) {
-          const wordIndex =
-            words[generateRandom(0, words.length - 1)].wordTranslate;
-          if (
-            arrayTranslations.indexOf(wordIndex) === -1 &&
-            wordIndex !== wordTranslate
-          ) {
-            arrayTranslations.push(wordIndex);
-          } else {
-            i -= 1;
-          }
+        const optionWords = [
+          ...words.slice(0, currentIndex),
+          ...words.slice(currentIndex + 1),
+        ]
+          .sort(() => Math.random() - 0.5)
+          .slice(0, 3);
+        for (let i = 0; i < optionWords.length; i += 1) {
+          arrayTranslations.push(optionWords[i].wordTranslate);
         }
       }
       arrayTranslations.push(wordTranslate);
@@ -111,7 +103,7 @@ const AudioCall: React.FunctionComponent<IAudioCallParams> = ({
 
   return (
     <>
-      {isFinish || words.length < 5 ? (
+      {isFinish ? (
         <FinishGameModal
           gamingScore={
             correctWordsArray.current.length * 2 + maxChainLength.current
