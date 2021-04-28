@@ -1,3 +1,11 @@
+Deploy: https://rslang-team-36-dmitryastpenko.netlify.app/#/  
+  
+Backend: https://github.com/RamanNovikau/react-rslang-be  
+  
+Deploy API: https://rnovikov-rs-lang-back.herokuapp.com/words  
+  
+Video: https://www.youtube.com/watch?v=9_iF3jxo7P4  
+  
 # [RSLang](https://github.com/rolling-scopes-school/tasks/blob/master/tasks/react/react-rslang.md)
 
 ## Libraries, frameworks, technologies that were involved in the development process
